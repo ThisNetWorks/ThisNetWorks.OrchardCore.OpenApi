@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSwag.AspNetCore" Version="13.5.0" />
+    <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-13293" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc1-13293" />
+    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.0.0-rc1-13293" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13293" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ThisNetWorks.OrchardCore.OpenApi.Abstractions\ThisNetWorks.OrchardCore.OpenApi.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

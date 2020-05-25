@@ -1,0 +1,22 @@
+@model dynamic
+@{ 
+    var contentItem = Model.ContentItem as OrchardCore.ContentManagement.ContentItem;
+    var dto = contentItem.ToDto<ArticleItemDto>();
+}
+    <zone name="Header">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="page-heading">
+                        @*<h1>{{ Model.ContentItem.DisplayText }}</h1>*@
+                        @*<h1>@dto.DisplayText</h1>*@
+
+                        @*<span class="subheading">{{ Model.ContentItem.Content.Article.Subtitle.Text }}</span>*@
+                        <span class="subheading">@dto.Article.Subtitle.Text</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </zone>
+@Html.Raw(dto.HtmlBodyPart.Html)
