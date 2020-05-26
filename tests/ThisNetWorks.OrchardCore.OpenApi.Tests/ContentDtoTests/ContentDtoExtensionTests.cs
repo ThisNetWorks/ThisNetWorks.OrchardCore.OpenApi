@@ -1,4 +1,5 @@
-﻿using OrchardCore.ContentManagement;
+﻿using Newtonsoft.Json.Linq;
+using OrchardCore.ContentManagement;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,6 +31,22 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ContentDtoExtensionTests
             dto.Bar.Email.Text = "test@foo.com";
 
             contentItem.FromDto(dto);
+
+            var email = contentItem.Content.Bar.Email.Text.ToString();
+
+            Assert.Equal("test@foo.com", email);
+        }
+
+        [Fact]
+        public void MergedBarItem2()
+        {
+            var contentItem = BarItemDtoHelper.CreateBarItem();
+
+            var dto = contentItem.ToDto<BarItemDto>();
+            dto.Bar.Email.Text = "test@foo.com";
+
+            var dtoJ = JObject.FromObject(dto);
+            contentItem.Merge(dtoJ);
 
             var email = contentItem.Content.Bar.Email.Text.ToString();
 

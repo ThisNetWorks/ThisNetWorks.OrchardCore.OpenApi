@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
@@ -38,6 +39,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
         {
             _contentDefinitionManager ??= _httpContextAccessor.HttpContext.RequestServices.GetRequiredService<IContentDefinitionManager>();
 
+            var apiDescriptionGroupCollectionProvider = _httpContextAccessor.HttpContext.RequestServices.GetService<IApiDescriptionGroupCollectionProvider>();
+
+            var apiDescriptionGroups = apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
+
+            var version = apiDescriptionGroups.Version;
             var fieldDtoSchema = context.SchemaGenerator.Generate(typeof(ContentFieldDto), context.SchemaResolver);
 
             var ctds = _contentDefinitionManager.ListTypeDefinitions();
