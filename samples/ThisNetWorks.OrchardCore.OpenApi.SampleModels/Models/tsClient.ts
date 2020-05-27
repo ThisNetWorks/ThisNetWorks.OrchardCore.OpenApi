@@ -463,6 +463,8 @@ export interface IContentItem extends IContentElement {
 
 export abstract class ContentElementDto implements IContentElementDto {
 
+    [key: string]: any; 
+
     constructor(data?: IContentElementDto) {
         if (data) {
             for (var property in data) {
@@ -473,6 +475,12 @@ export abstract class ContentElementDto implements IContentElementDto {
     }
 
     init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+        }
     }
 
     static fromJS(data: any): ContentElementDto {
@@ -482,21 +490,39 @@ export abstract class ContentElementDto implements IContentElementDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
         return data; 
     }
 }
 
 export interface IContentElementDto {
+
+    [key: string]: any; 
 }
 
-export class ContentFieldDto extends ContentElementDto implements IContentFieldDto {
+export class ContentFieldDto implements IContentFieldDto {
+
+    [key: string]: any; 
 
     constructor(data?: IContentFieldDto) {
-        super(data);
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
 
     init(_data?: any) {
-        super.init(_data);
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+        }
     }
 
     static fromJS(data: any): ContentFieldDto {
@@ -508,12 +534,17 @@ export class ContentFieldDto extends ContentElementDto implements IContentFieldD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
         return data; 
     }
 }
 
-export interface IContentFieldDto extends IContentElementDto {
+export interface IContentFieldDto {
+
+    [key: string]: any; 
 }
 
 export class TextFieldDto extends ContentFieldDto implements ITextFieldDto {
@@ -736,14 +767,26 @@ export interface ITaxonomyFieldDto extends IContentFieldDto {
     termContentItemIds?: string[] | undefined;
 }
 
-export class ContentPartDto extends ContentElementDto implements IContentPartDto {
+export class ContentPartDto implements IContentPartDto {
+
+    [key: string]: any; 
 
     constructor(data?: IContentPartDto) {
-        super(data);
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
 
     init(_data?: any) {
-        super.init(_data);
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+        }
     }
 
     static fromJS(data: any): ContentPartDto {
@@ -755,12 +798,17 @@ export class ContentPartDto extends ContentElementDto implements IContentPartDto
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
         return data; 
     }
 }
 
-export interface IContentPartDto extends IContentElementDto {
+export interface IContentPartDto {
+
+    [key: string]: any; 
 }
 
 export class LiquidPartDto extends ContentPartDto implements ILiquidPartDto {
@@ -1317,14 +1365,50 @@ export interface IContentMenuItemPartDto extends IContentPartDto {
     name?: string | undefined;
 }
 
-export class ContentItemDto extends ContentElementDto implements IContentItemDto {
+export class ContentItemDto implements IContentItemDto {
+    id?: number;
+    contentItemId?: string | undefined;
+    contentItemVersionId?: string | undefined;
+    contentType?: string | undefined;
+    published?: boolean;
+    latest?: boolean;
+    modifiedUtc?: Date | undefined;
+    publishedUtc?: Date | undefined;
+    createdUtc?: Date | undefined;
+    owner?: string | undefined;
+    author?: string | undefined;
+    displayText?: string | undefined;
+
+    [key: string]: any; 
 
     constructor(data?: IContentItemDto) {
-        super(data);
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
 
     init(_data?: any) {
-        super.init(_data);
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.id = _data["id"];
+            this.contentItemId = _data["contentItemId"];
+            this.contentItemVersionId = _data["contentItemVersionId"];
+            this.contentType = _data["contentType"];
+            this.published = _data["published"];
+            this.latest = _data["latest"];
+            this.modifiedUtc = _data["modifiedUtc"] ? new Date(_data["modifiedUtc"].toString()) : <any>undefined;
+            this.publishedUtc = _data["publishedUtc"] ? new Date(_data["publishedUtc"].toString()) : <any>undefined;
+            this.createdUtc = _data["createdUtc"] ? new Date(_data["createdUtc"].toString()) : <any>undefined;
+            this.owner = _data["owner"];
+            this.author = _data["author"];
+            this.displayText = _data["displayText"];
+        }
     }
 
     static fromJS(data: any): ContentItemDto {
@@ -1336,12 +1420,41 @@ export class ContentItemDto extends ContentElementDto implements IContentItemDto
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["id"] = this.id;
+        data["contentItemId"] = this.contentItemId;
+        data["contentItemVersionId"] = this.contentItemVersionId;
+        data["contentType"] = this.contentType;
+        data["published"] = this.published;
+        data["latest"] = this.latest;
+        data["modifiedUtc"] = this.modifiedUtc ? this.modifiedUtc.toISOString() : <any>undefined;
+        data["publishedUtc"] = this.publishedUtc ? this.publishedUtc.toISOString() : <any>undefined;
+        data["createdUtc"] = this.createdUtc ? this.createdUtc.toISOString() : <any>undefined;
+        data["owner"] = this.owner;
+        data["author"] = this.author;
+        data["displayText"] = this.displayText;
         return data; 
     }
 }
 
-export interface IContentItemDto extends IContentElementDto {
+export interface IContentItemDto {
+    id?: number;
+    contentItemId?: string | undefined;
+    contentItemVersionId?: string | undefined;
+    contentType?: string | undefined;
+    published?: boolean;
+    latest?: boolean;
+    modifiedUtc?: Date | undefined;
+    publishedUtc?: Date | undefined;
+    createdUtc?: Date | undefined;
+    owner?: string | undefined;
+    author?: string | undefined;
+    displayText?: string | undefined;
+
+    [key: string]: any; 
 }
 
 export class MenuItemDto extends ContentItemDto implements IMenuItemDto {

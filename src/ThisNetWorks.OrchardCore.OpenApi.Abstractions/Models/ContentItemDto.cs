@@ -8,9 +8,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Models
     // Which might be useful if this is being passed between services, and needs to be converted back to a content item.
     // Worht thinking about.
     public class ContentItemDto : ContentElementDto
-    {        /// <summary>
-             /// The primary key in the database.
-             /// </summary>
+    {        
+        /// <summary>
+        /// The primary key in the database.
+        /// </summary>
         public int Id { get; set; }
 
         /// <summary>

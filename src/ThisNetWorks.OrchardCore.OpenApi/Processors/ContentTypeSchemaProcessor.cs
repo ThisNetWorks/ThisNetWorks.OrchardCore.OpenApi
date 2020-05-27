@@ -39,12 +39,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
         {
             _contentDefinitionManager ??= _httpContextAccessor.HttpContext.RequestServices.GetRequiredService<IContentDefinitionManager>();
 
-            var apiDescriptionGroupCollectionProvider = _httpContextAccessor.HttpContext.RequestServices.GetService<IApiDescriptionGroupCollectionProvider>();
-
-            var apiDescriptionGroups = apiDescriptionGroupCollectionProvider.ApiDescriptionGroups;
-
-            var version = apiDescriptionGroups.Version;
+            var contentElementDtoSchema = context.SchemaGenerator.Generate(typeof(ContentElementDto), context.SchemaResolver);
+            contentElementDtoSchema.AllowAdditionalProperties = true;
             var fieldDtoSchema = context.SchemaGenerator.Generate(typeof(ContentFieldDto), context.SchemaResolver);
+            fieldDtoSchema.AllowAdditionalProperties = true;
 
             var ctds = _contentDefinitionManager.ListTypeDefinitions();
             var allFieldDefinitions = ctds
@@ -68,6 +66,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 }
 
                 var fieldSchema = context.SchemaGenerator.Generate(contentFieldOption.Type, context.SchemaResolver);
+                fieldSchema.AllOf.ElementAt(1).AllowAdditionalProperties = true;
                 // remove first AllOf and reinsert the fieldDtoSchema as the ref.
                 InsertDtoReferenceSchema(fieldSchema, fieldDtoSchema);
 
@@ -82,6 +81,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
             // And somewhere we will have to allow for additional properties, so they are serialized.
 
             var partDtoSchema = context.SchemaGenerator.Generate(typeof(ContentPartDto), context.SchemaResolver);
+            partDtoSchema.AllowAdditionalProperties = true;
             var allPartDefinitions = _contentDefinitionManager.ListPartDefinitions();
             var typedPartDefinitions = _contentOptions.ContentPartOptionsLookup;
             foreach (var partDefinition in allPartDefinitions)
@@ -91,6 +91,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 {
                     var partSchema = context.SchemaGenerator.Generate(contentPartOption.Type, context.SchemaResolver);
 
+                    partSchema.AllOf.ElementAt(1).AllowAdditionalProperties = true;
                     // remove first AllOf and reinsert the partDtoSchema as the ref.
                     InsertDtoReferenceSchema(partSchema, partDtoSchema);
 
@@ -131,6 +132,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
             // Content Types
 
             var typeDtoSchema = context.SchemaGenerator.Generate(typeof(ContentItemDto), context.SchemaResolver);
+            typeDtoSchema.AllowAdditionalProperties = true;
             foreach (var ctd in ctds)
             {
                 if (_openApiOptions.ExcludedTypes.Any(x => string.Equals(x, ctd.Name)))
@@ -140,13 +142,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 var typeReferenceSchema = new JsonSchema
                 {
                     Type = JsonObjectType.Object,
-                    Reference = typeDtoSchema.ActualSchema
+                    Reference = typeDtoSchema.ActualSchema,
+                    AllowAdditionalProperties = true
                 };
 
                 var typeSchema = new JsonSchema
                 {
                     Type = JsonObjectType.Object,
-                    AllowAdditionalProperties = false
+                    AllowAdditionalProperties = true
                 };
 
                 typeSchema.AllOf.Add(typeReferenceSchema);
@@ -158,13 +161,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                     var partSchema = new JsonSchema
                     {
                         Type = JsonObjectType.Object,
-                        AllowAdditionalProperties = false,
-                        //Reference = partDtoSchema.ActualSchema // TODO check this
+                        AllowAdditionalProperties = true
                     };
                     var partReferenceSchema = new JsonSchema
                     {
                         Type = JsonObjectType.Object,
-                        AllowAdditionalProperties = false,
+                        AllowAdditionalProperties = true,
                         Reference = partDtoSchema.ActualSchema
                     };
                     partSchema.AllOf.Add(partReferenceSchema);
@@ -253,15 +255,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 Type = JsonObjectType.Object,
                 Reference = dtoSchema.ActualSchema
             };
-            // In case of underlying library changes.
-            if (schema.AllOf is ObservableCollection<JsonSchema> allOf)
-            {
-                allOf.Insert(0, referenceSchema);
-            }
-            else
-            {
-                schema.AllOf.Add(referenceSchema);
-            }
+            schema.AllOf.Add(referenceSchema);
         }
     }
 }
