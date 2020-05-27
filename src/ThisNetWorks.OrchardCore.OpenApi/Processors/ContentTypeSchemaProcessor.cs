@@ -77,13 +77,31 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
             // Process Parts
             // Note we have to use the content definition manager here
             // because parts may be created dynamically.
-            // But we will also have to include definitions for code only parts, like metadata
-            // And somewhere we will have to allow for additional properties, so they are serialized.
+            // We also include definitions for code only parts, like ContainedPart
 
             var partDtoSchema = context.SchemaGenerator.Generate(typeof(ContentPartDto), context.SchemaResolver);
             partDtoSchema.AllowAdditionalProperties = true;
             var allPartDefinitions = _contentDefinitionManager.ListPartDefinitions();
-            var typedPartDefinitions = _contentOptions.ContentPartOptionsLookup;
+
+            // Register code only parts first.
+            foreach (var registeredPartOption in _contentOptions.ContentPartOptions)
+            {
+                // Is also registered in the part definitions.
+                if (allPartDefinitions.Any(x => x.Name == registeredPartOption.Type.Name))
+                {
+                    continue;
+                }
+                // Has no fields as it is code only
+                var partSchema = context.SchemaGenerator.Generate(registeredPartOption.Type, context.SchemaResolver);
+
+                partSchema.AllOf.ElementAt(1).AllowAdditionalProperties = true;
+                // remove first AllOf and reinsert the partDtoSchema as the ref.
+                InsertDtoReferenceSchema(partSchema, partDtoSchema);
+                // Change schema regisitration name to 'ContainedPartDto'
+                AlterSchemaDefinition(context, registeredPartOption.Type.Name, _openApiOptions.SchemaNameExtension);
+            }
+
+            // Then register parts defined in the part definitions.
             foreach (var partDefinition in allPartDefinitions)
             {
                 // check to see if it is a hard typed part.
@@ -123,14 +141,52 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                     AlterSchemaDefinition(context, contentPartOption.Type.Name, _openApiOptions.SchemaNameExtension);
 
                 }
-                // TODO account for dynamic parts.
-                // TODO account for code only parts (and additional properties).
-                // wait till we have some testing code in place to see how the additional properties
-                // will serialize.
+                else // This builds dynamic parts.
+                {
+                    // We need to skip registrations for type definition parts.
+                    if (ctds.Any(x => x.Name == partDefinition.Name))
+                    {
+                        continue;
+                    }
+                    var partReferenceSchema = new JsonSchema
+                    {
+                        Type = JsonObjectType.Object,
+                        Reference = partDtoSchema.ActualSchema,
+                        AllowAdditionalProperties = true
+                    };
+                    var partSchema = new JsonSchema
+                    {
+                        Type = JsonObjectType.Object,
+                        AllowAdditionalProperties = true
+                    };
+
+                    partSchema.AllOf.Add(partReferenceSchema);
+                    foreach (var field in partDefinition.Fields)
+                    {
+                        // Lookup field definition.
+                        if (context.Document.Definitions.TryGetValue(field.FieldDefinition.Name + _openApiOptions.SchemaNameExtension, out var fieldSchema))
+                        {
+                            // Add field as property.
+                            var propertySchema = new JsonSchemaProperty
+                            {
+                                Type = JsonObjectType.Object,
+                                IsNullableRaw = true
+                            };
+
+                            propertySchema.OneOf.Add(new JsonSchema
+                            {
+                                Type = JsonObjectType.Object,
+                                Reference = fieldSchema.ActualSchema
+                            });
+                            partSchema.Properties[field.Name.ToCamelCase()] = propertySchema;
+                        }
+                    }
+
+                    context.Document.Definitions[partDefinition.Name + _openApiOptions.SchemaNameExtension] = partSchema;
+                }
             }
 
             // Content Types
-
             var typeDtoSchema = context.SchemaGenerator.Generate(typeof(ContentItemDto), context.SchemaResolver);
             typeDtoSchema.AllowAdditionalProperties = true;
             foreach (var ctd in ctds)
@@ -170,6 +226,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                         Reference = partDtoSchema.ActualSchema
                     };
                     partSchema.AllOf.Add(partReferenceSchema);
+                    // TODO move to method
                     foreach (var field in typeFieldPartDefinition.PartDefinition.Fields)
                     {
                         // Lookup field definition.
@@ -232,7 +289,6 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                         typeSchema.Properties[partDefinition.Name.ToCamelCase()] = propertySchema;
                     }
                 }
-
 
                 context.Document.Definitions[ctd.Name + _openApiOptions.SchemaTypeNameExtension + _openApiOptions.SchemaNameExtension] = typeSchema;
             }

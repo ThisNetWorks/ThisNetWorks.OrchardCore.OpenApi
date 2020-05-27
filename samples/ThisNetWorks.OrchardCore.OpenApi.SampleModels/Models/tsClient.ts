@@ -811,6 +811,315 @@ export interface IContentPartDto {
     [key: string]: any; 
 }
 
+export class WidgetMetadataDto extends ContentPartDto implements IWidgetMetadataDto {
+    renderTitle?: boolean;
+    position?: string | undefined;
+
+    constructor(data?: IWidgetMetadataDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.renderTitle = _data["renderTitle"];
+            this.position = _data["position"];
+        }
+    }
+
+    static fromJS(data: any): WidgetMetadataDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WidgetMetadataDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["renderTitle"] = this.renderTitle;
+        data["position"] = this.position;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IWidgetMetadataDto extends IContentPartDto {
+    renderTitle?: boolean;
+    position?: string | undefined;
+}
+
+export class ContentPart extends ContentElement implements IContentPart {
+
+    constructor(data?: IContentPart) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): ContentPart {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentPart();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentPart extends IContentElement {
+}
+
+export class FlowMetadataDto extends ContentPartDto implements IFlowMetadataDto {
+    alignment?: FlowAlignment;
+    size?: number;
+
+    constructor(data?: IFlowMetadataDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.alignment = _data["alignment"];
+            this.size = _data["size"];
+        }
+    }
+
+    static fromJS(data: any): FlowMetadataDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FlowMetadataDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["alignment"] = this.alignment;
+        data["size"] = this.size;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IFlowMetadataDto extends IContentPartDto {
+    alignment?: FlowAlignment;
+    size?: number;
+}
+
+export enum FlowAlignment {
+    Left = 0,
+    Center = 1,
+    Right = 2,
+    Justify = 3,
+}
+
+export class LayerMetadataDto extends ContentPartDto implements ILayerMetadataDto {
+    renderTitle?: boolean;
+    position?: number;
+    zone?: string | undefined;
+    layer?: string | undefined;
+
+    constructor(data?: ILayerMetadataDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.renderTitle = _data["renderTitle"];
+            this.position = _data["position"];
+            this.zone = _data["zone"];
+            this.layer = _data["layer"];
+        }
+    }
+
+    static fromJS(data: any): LayerMetadataDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LayerMetadataDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["renderTitle"] = this.renderTitle;
+        data["position"] = this.position;
+        data["zone"] = this.zone;
+        data["layer"] = this.layer;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ILayerMetadataDto extends IContentPartDto {
+    renderTitle?: boolean;
+    position?: number;
+    zone?: string | undefined;
+    layer?: string | undefined;
+}
+
+export class ContainedPartDto extends ContentPartDto implements IContainedPartDto {
+    listContentItemId?: string | undefined;
+    order?: number;
+
+    constructor(data?: IContainedPartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.listContentItemId = _data["listContentItemId"];
+            this.order = _data["order"];
+        }
+    }
+
+    static fromJS(data: any): ContainedPartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContainedPartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["listContentItemId"] = this.listContentItemId;
+        data["order"] = this.order;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContainedPartDto extends IContentPartDto {
+    listContentItemId?: string | undefined;
+    order?: number;
+}
+
+export class MenuItemsListPartDto extends ContentPartDto implements IMenuItemsListPartDto {
+    menuItems?: ContentItem[] | undefined;
+
+    constructor(data?: IMenuItemsListPartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["menuItems"])) {
+                this.menuItems = [] as any;
+                for (let item of _data["menuItems"])
+                    this.menuItems!.push(ContentItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): MenuItemsListPartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MenuItemsListPartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.menuItems)) {
+            data["menuItems"] = [];
+            for (let item of this.menuItems)
+                data["menuItems"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IMenuItemsListPartDto extends IContentPartDto {
+    menuItems?: ContentItem[] | undefined;
+}
+
+export class TaxonomyPartDto extends ContentPartDto implements ITaxonomyPartDto {
+    termContentType?: string | undefined;
+    terms?: ContentItem[] | undefined;
+
+    constructor(data?: ITaxonomyPartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.termContentType = _data["termContentType"];
+            if (Array.isArray(_data["terms"])) {
+                this.terms = [] as any;
+                for (let item of _data["terms"])
+                    this.terms!.push(ContentItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): TaxonomyPartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaxonomyPartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["termContentType"] = this.termContentType;
+        if (Array.isArray(this.terms)) {
+            data["terms"] = [];
+            for (let item of this.terms)
+                data["terms"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITaxonomyPartDto extends IContentPartDto {
+    termContentType?: string | undefined;
+    terms?: ContentItem[] | undefined;
+}
+
+export class TermPartDto extends ContentPartDto implements ITermPartDto {
+    taxonomyContentItemId?: string | undefined;
+
+    constructor(data?: ITermPartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.taxonomyContentItemId = _data["taxonomyContentItemId"];
+        }
+    }
+
+    static fromJS(data: any): TermPartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TermPartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["taxonomyContentItemId"] = this.taxonomyContentItemId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITermPartDto extends IContentPartDto {
+    taxonomyContentItemId?: string | undefined;
+}
+
 export class LiquidPartDto extends ContentPartDto implements ILiquidPartDto {
     liquid?: string | undefined;
 
@@ -842,33 +1151,6 @@ export class LiquidPartDto extends ContentPartDto implements ILiquidPartDto {
 
 export interface ILiquidPartDto extends IContentPartDto {
     liquid?: string | undefined;
-}
-
-export class ContentPart extends ContentElement implements IContentPart {
-
-    constructor(data?: IContentPart) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): ContentPart {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentPart();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IContentPart extends IContentElement {
 }
 
 export class CommonPartDto extends ContentPartDto implements ICommonPartDto {
@@ -1291,6 +1573,33 @@ export class MenuPartDto extends ContentPartDto implements IMenuPartDto {
 export interface IMenuPartDto extends IContentPartDto {
 }
 
+export class MenuItemPartDto extends ContentPartDto implements IMenuItemPartDto {
+
+    constructor(data?: IMenuItemPartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): MenuItemPartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MenuItemPartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IMenuItemPartDto extends IContentPartDto {
+}
+
 export class LinkMenuItemPartDto extends ContentPartDto implements ILinkMenuItemPartDto {
     name?: string | undefined;
     url?: string | undefined;
@@ -1363,6 +1672,39 @@ export class ContentMenuItemPartDto extends ContentPartDto implements IContentMe
 export interface IContentMenuItemPartDto extends IContentPartDto {
     selectedContentItem?: ContentPickerFieldDto | undefined;
     name?: string | undefined;
+}
+
+export class FooPartDto extends ContentPartDto implements IFooPartDto {
+    fooField?: TextFieldDto | undefined;
+
+    constructor(data?: IFooPartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fooField = _data["fooField"] ? TextFieldDto.fromJS(_data["fooField"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): FooPartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FooPartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fooField"] = this.fooField ? this.fooField.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IFooPartDto extends IContentPartDto {
+    fooField?: TextFieldDto | undefined;
 }
 
 export class ContentItemDto implements IContentItemDto {
@@ -1461,6 +1803,7 @@ export class MenuItemDto extends ContentItemDto implements IMenuItemDto {
     titlePart?: TitlePartDto | undefined;
     aliasPart?: AliasPartDto | undefined;
     menuPart?: MenuPartDto | undefined;
+    menuItemsListPart?: MenuItemsListPartDto | undefined;
 
     constructor(data?: IMenuItemDto) {
         super(data);
@@ -1472,6 +1815,7 @@ export class MenuItemDto extends ContentItemDto implements IMenuItemDto {
             this.titlePart = _data["titlePart"] ? TitlePartDto.fromJS(_data["titlePart"]) : <any>undefined;
             this.aliasPart = _data["aliasPart"] ? AliasPartDto.fromJS(_data["aliasPart"]) : <any>undefined;
             this.menuPart = _data["menuPart"] ? MenuPartDto.fromJS(_data["menuPart"]) : <any>undefined;
+            this.menuItemsListPart = _data["menuItemsListPart"] ? MenuItemsListPartDto.fromJS(_data["menuItemsListPart"]) : <any>undefined;
         }
     }
 
@@ -1487,6 +1831,7 @@ export class MenuItemDto extends ContentItemDto implements IMenuItemDto {
         data["titlePart"] = this.titlePart ? this.titlePart.toJSON() : <any>undefined;
         data["aliasPart"] = this.aliasPart ? this.aliasPart.toJSON() : <any>undefined;
         data["menuPart"] = this.menuPart ? this.menuPart.toJSON() : <any>undefined;
+        data["menuItemsListPart"] = this.menuItemsListPart ? this.menuItemsListPart.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -1496,6 +1841,7 @@ export interface IMenuItemDto extends IContentItemDto {
     titlePart?: TitlePartDto | undefined;
     aliasPart?: AliasPartDto | undefined;
     menuPart?: MenuPartDto | undefined;
+    menuItemsListPart?: MenuItemsListPartDto | undefined;
 }
 
 export class LinkMenuItemDto extends ContentPartDto implements ILinkMenuItemDto {
@@ -1630,6 +1976,7 @@ export class TaxonomyItemDto extends ContentItemDto implements ITaxonomyItemDto 
     titlePart?: TitlePartDto | undefined;
     aliasPart?: AliasPartDto | undefined;
     autoroutePart?: AutoroutePartDto | undefined;
+    taxonomyPart?: TaxonomyPartDto | undefined;
 
     constructor(data?: ITaxonomyItemDto) {
         super(data);
@@ -1641,6 +1988,7 @@ export class TaxonomyItemDto extends ContentItemDto implements ITaxonomyItemDto 
             this.titlePart = _data["titlePart"] ? TitlePartDto.fromJS(_data["titlePart"]) : <any>undefined;
             this.aliasPart = _data["aliasPart"] ? AliasPartDto.fromJS(_data["aliasPart"]) : <any>undefined;
             this.autoroutePart = _data["autoroutePart"] ? AutoroutePartDto.fromJS(_data["autoroutePart"]) : <any>undefined;
+            this.taxonomyPart = _data["taxonomyPart"] ? TaxonomyPartDto.fromJS(_data["taxonomyPart"]) : <any>undefined;
         }
     }
 
@@ -1656,6 +2004,7 @@ export class TaxonomyItemDto extends ContentItemDto implements ITaxonomyItemDto 
         data["titlePart"] = this.titlePart ? this.titlePart.toJSON() : <any>undefined;
         data["aliasPart"] = this.aliasPart ? this.aliasPart.toJSON() : <any>undefined;
         data["autoroutePart"] = this.autoroutePart ? this.autoroutePart.toJSON() : <any>undefined;
+        data["taxonomyPart"] = this.taxonomyPart ? this.taxonomyPart.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -1665,6 +2014,7 @@ export interface ITaxonomyItemDto extends IContentItemDto {
     titlePart?: TitlePartDto | undefined;
     aliasPart?: AliasPartDto | undefined;
     autoroutePart?: AutoroutePartDto | undefined;
+    taxonomyPart?: TaxonomyPartDto | undefined;
 }
 
 export class ArticleDto extends ContentPartDto implements IArticleDto {
