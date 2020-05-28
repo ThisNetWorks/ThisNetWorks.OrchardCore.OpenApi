@@ -10,7 +10,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Sample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOrchardCms()
-                .AddTenantFeatures("ThisNetWorks.OrchardCore.OpenApi");
+                .AddTenantFeatures("ThisNetWorks.OrchardCore.OpenApi")
+                .AddTenantFeatures("ThisNetWorks.OrchardCore.OpenApi.SampleModule");
         }
         
         public void Configure(IApplicationBuilder app, IHostEnvironment env)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
@@ -9,7 +8,8 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Mvc.Utilities;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using ThisNetWorks.OrchardCore.OpenApi.Extensions;
 using ThisNetWorks.OrchardCore.OpenApi.Models;
@@ -40,9 +40,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
             _contentDefinitionManager ??= _httpContextAccessor.HttpContext.RequestServices.GetRequiredService<IContentDefinitionManager>();
 
             var contentElementDtoSchema = context.SchemaGenerator.Generate(typeof(ContentElementDto), context.SchemaResolver);
-            contentElementDtoSchema.AllowAdditionalProperties = true;
+            // Due to issue with NJsonSchema we force set additional properties here to false
+            // because it is defined on the base class.
+            // cf. https://github.com/RicoSuter/NSwag/issues/2818
+            contentElementDtoSchema.AllowAdditionalProperties = false;
             var fieldDtoSchema = context.SchemaGenerator.Generate(typeof(ContentFieldDto), context.SchemaResolver);
-            fieldDtoSchema.AllowAdditionalProperties = true;
+            fieldDtoSchema.AllowAdditionalProperties = false;
 
             var ctds = _contentDefinitionManager.ListTypeDefinitions();
             var allFieldDefinitions = ctds
@@ -66,7 +69,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 }
 
                 var fieldSchema = context.SchemaGenerator.Generate(contentFieldOption.Type, context.SchemaResolver);
-                fieldSchema.AllOf.ElementAt(1).AllowAdditionalProperties = true;
+                fieldSchema.AllOf.ElementAt(1).AllowAdditionalProperties = false;
                 // remove first AllOf and reinsert the fieldDtoSchema as the ref.
                 InsertDtoReferenceSchema(fieldSchema, fieldDtoSchema);
 
@@ -78,9 +81,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
             // Note we have to use the content definition manager here
             // because parts may be created dynamically.
             // We also include definitions for code only parts, like ContainedPart
+            var contentItemSchema = context.SchemaResolver.GetSchema(typeof(ContentItem), false);
+            // This should end up being ignored, because we remove it from the nswag.config
+            var contentItemDtoSchema = context.SchemaGenerator.Generate(typeof(ContentItemDto), context.SchemaResolver);
+            contentItemDtoSchema.AllowAdditionalProperties = false;
+            //var contentItemDtoSchema = context.Document.Definitions["ContentItemDto"];
 
             var partDtoSchema = context.SchemaGenerator.Generate(typeof(ContentPartDto), context.SchemaResolver);
-            partDtoSchema.AllowAdditionalProperties = true;
+            partDtoSchema.AllowAdditionalProperties = false;
             var allPartDefinitions = _contentDefinitionManager.ListPartDefinitions();
 
             // Register code only parts first.
@@ -94,9 +102,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 // Has no fields as it is code only
                 var partSchema = context.SchemaGenerator.Generate(registeredPartOption.Type, context.SchemaResolver);
 
-                partSchema.AllOf.ElementAt(1).AllowAdditionalProperties = true;
+                partSchema.AllOf.ElementAt(1).AllowAdditionalProperties = false;
                 // remove first AllOf and reinsert the partDtoSchema as the ref.
                 InsertDtoReferenceSchema(partSchema, partDtoSchema);
+
+                AlterArrayPropertiesToContentItemDtoSchema(partSchema.Properties, contentItemSchema, contentItemDtoSchema);
                 // Change schema regisitration name to 'ContainedPartDto'
                 AlterSchemaDefinition(context, registeredPartOption.Type.Name, _openApiOptions.SchemaNameExtension);
             }
@@ -109,7 +119,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 {
                     var partSchema = context.SchemaGenerator.Generate(contentPartOption.Type, context.SchemaResolver);
 
-                    partSchema.AllOf.ElementAt(1).AllowAdditionalProperties = true;
+                    partSchema.AllOf.ElementAt(1).AllowAdditionalProperties = false;
                     // remove first AllOf and reinsert the partDtoSchema as the ref.
                     InsertDtoReferenceSchema(partSchema, partDtoSchema);
 
@@ -137,6 +147,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                         }
                     }
 
+                    foreach (var allOfSchema in partSchema.AllOf)
+                    {
+                        AlterArrayPropertiesToContentItemDtoSchema(allOfSchema.Properties, contentItemSchema, contentItemDtoSchema);
+                    }
                     // Change schema regisitration name to 'HtmlPartDto'
                     AlterSchemaDefinition(context, contentPartOption.Type.Name, _openApiOptions.SchemaNameExtension);
 
@@ -152,12 +166,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                     {
                         Type = JsonObjectType.Object,
                         Reference = partDtoSchema.ActualSchema,
-                        AllowAdditionalProperties = true
+                        AllowAdditionalProperties = false
                     };
                     var partSchema = new JsonSchema
                     {
                         Type = JsonObjectType.Object,
-                        AllowAdditionalProperties = true
+                        AllowAdditionalProperties = false
                     };
 
                     partSchema.AllOf.Add(partReferenceSchema);
@@ -188,7 +202,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
 
             // Content Types
             var typeDtoSchema = context.SchemaGenerator.Generate(typeof(ContentItemDto), context.SchemaResolver);
-            typeDtoSchema.AllowAdditionalProperties = true;
+            typeDtoSchema.AllowAdditionalProperties = false;
             foreach (var ctd in ctds)
             {
                 if (_openApiOptions.ExcludedTypes.Any(x => string.Equals(x, ctd.Name)))
@@ -199,13 +213,13 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 {
                     Type = JsonObjectType.Object,
                     Reference = typeDtoSchema.ActualSchema,
-                    AllowAdditionalProperties = true
+                    AllowAdditionalProperties = false
                 };
 
                 var typeSchema = new JsonSchema
                 {
                     Type = JsonObjectType.Object,
-                    AllowAdditionalProperties = true
+                    AllowAdditionalProperties = false
                 };
 
                 typeSchema.AllOf.Add(typeReferenceSchema);
@@ -217,12 +231,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                     var partSchema = new JsonSchema
                     {
                         Type = JsonObjectType.Object,
-                        AllowAdditionalProperties = true
+                        AllowAdditionalProperties = false
                     };
                     var partReferenceSchema = new JsonSchema
                     {
                         Type = JsonObjectType.Object,
-                        AllowAdditionalProperties = true,
+                        AllowAdditionalProperties = false,
                         Reference = partDtoSchema.ActualSchema
                     };
                     partSchema.AllOf.Add(partReferenceSchema);
@@ -291,6 +305,36 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 }
 
                 context.Document.Definitions[ctd.Name + _openApiOptions.SchemaTypeNameExtension + _openApiOptions.SchemaNameExtension] = typeSchema;
+            }
+        }
+
+        private static void AlterArrayPropertiesToContentItemDtoSchema(
+            IDictionary<string, JsonSchemaProperty> properties,
+            JsonSchema contentItemSchema,
+            JsonSchema contentItemDtoSchema)
+        {
+            if (properties == null)
+            {
+                return;
+            }
+
+            foreach (var property in properties)
+            {
+                if (property.Value.Type == JsonObjectType.Array && property.Value.Item.Reference == contentItemSchema)
+                {
+                    property.Value.Item.Reference = contentItemDtoSchema;
+                }
+                if (property.Value.Type == JsonObjectType.Object && 
+                    property.Value.AdditionalPropertiesSchema != null &&
+                    property.Value.AdditionalPropertiesSchema.Type == JsonObjectType.Array &&
+                    property.Value.AdditionalPropertiesSchema.Item.Reference == contentItemSchema
+                    )
+                {
+                    property.Value.AdditionalPropertiesSchema.Item.Reference = contentItemDtoSchema;
+                       
+                }
+
+                AlterArrayPropertiesToContentItemDtoSchema(property.Value.Properties, contentItemSchema, contentItemDtoSchema);
             }
         }
 

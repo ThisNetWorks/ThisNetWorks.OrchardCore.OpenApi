@@ -22,7 +22,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ExtendedPartialTests
                 {
                     Markdown = "markdown"
                 },
-                ContainedPart = new ContainedPart
+                ContainedPart = new ContainedPartDto
                 {
                     ListContentItemId = "blogid"
                 }
@@ -52,15 +52,6 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ExtendedPartialTests
         [Newtonsoft.Json.JsonProperty("category", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public TaxonomyFieldDto Category { get; set; }
 
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
-
 
     }
 
@@ -79,16 +70,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ExtendedPartialTests
         [Newtonsoft.Json.JsonProperty("markdownBodyPart", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MarkdownBodyPartDto MarkdownBodyPart { get; set; }
 
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
-
-        public ContainedPart ContainedPart { get; set; }
+        public ContainedPartDto ContainedPart { get; set; }
 
     }
 }

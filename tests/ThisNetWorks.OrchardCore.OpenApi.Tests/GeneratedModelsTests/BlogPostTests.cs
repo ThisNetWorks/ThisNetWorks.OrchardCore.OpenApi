@@ -29,7 +29,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
             var postDto = post.ToDto<BlogPostItemDto>();
             Assert.Equal("markdown", postDto.MarkdownBodyPart.Markdown);
 
-            var containedPart = (postDto.AdditionalProperties["ContainedPart"] as JObject).ToObject<ContainedPart>();
+            var containedPart = (postDto.AdditionalProperties["containedPart"] as JObject).ToObject<ContainedPart>();
             Assert.Equal("blogid", containedPart.ListContentItemId);
         }
 
@@ -39,14 +39,15 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
             var blogPost = BlogPostItemHelper.CreateBlogItem();
             var blogPostItemDto = blogPost.ToDto<BlogPostItemDto>();
 
-            var newContainedPart = new ContainedPart
+            var newContainedPart = new ContainedPartDto
             {
                 ListContentItemId = "newid"
             };
             var jContainedPart = JObject.FromObject(newContainedPart);
             // This should change to 'containedPart' when we resolve 'code' content types.
             // i.e. types that are not list and are generally welded on.
-            blogPostItemDto.AdditionalProperties["ContainedPart"] = jContainedPart;
+            // TODO camelcase this in the converter?
+            blogPostItemDto.AdditionalProperties["containedPart"] = jContainedPart;
 
             blogPost.FromDto(blogPostItemDto);
 
@@ -68,14 +69,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
                 }
             };
 
-            var newContainedPart = new ContainedPart
+            var newContainedPart = new ContainedPartDto
             {
                 ListContentItemId = "blogid"
             };
             var jContainedPart = JObject.FromObject(newContainedPart);
             // This should change to 'containedPart' when we resolve 'code' content types.
             // i.e. types that are not list and are generally welded on.
-            blogPostItemDto.AdditionalProperties["ContainedPart"] = jContainedPart;
+            blogPostItemDto.AdditionalProperties["containedPart"] = jContainedPart;
 
             blogPost.FromDto(blogPostItemDto);
 

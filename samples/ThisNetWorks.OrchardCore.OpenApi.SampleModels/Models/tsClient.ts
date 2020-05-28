@@ -463,8 +463,6 @@ export interface IContentItem extends IContentElement {
 
 export abstract class ContentElementDto implements IContentElementDto {
 
-    [key: string]: any; 
-
     constructor(data?: IContentElementDto) {
         if (data) {
             for (var property in data) {
@@ -475,12 +473,6 @@ export abstract class ContentElementDto implements IContentElementDto {
     }
 
     init(_data?: any) {
-        if (_data) {
-            for (var property in _data) {
-                if (_data.hasOwnProperty(property))
-                    this[property] = _data[property];
-            }
-        }
     }
 
     static fromJS(data: any): ContentElementDto {
@@ -490,39 +482,21 @@ export abstract class ContentElementDto implements IContentElementDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
         return data; 
     }
 }
 
 export interface IContentElementDto {
-
-    [key: string]: any; 
 }
 
-export class ContentFieldDto implements IContentFieldDto {
-
-    [key: string]: any; 
+export class ContentFieldDto extends ContentElementDto implements IContentFieldDto {
 
     constructor(data?: IContentFieldDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
+        super(data);
     }
 
     init(_data?: any) {
-        if (_data) {
-            for (var property in _data) {
-                if (_data.hasOwnProperty(property))
-                    this[property] = _data[property];
-            }
-        }
+        super.init(_data);
     }
 
     static fromJS(data: any): ContentFieldDto {
@@ -534,17 +508,12 @@ export class ContentFieldDto implements IContentFieldDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
+        super.toJSON(data);
         return data; 
     }
 }
 
-export interface IContentFieldDto {
-
-    [key: string]: any; 
+export interface IContentFieldDto extends IContentElementDto {
 }
 
 export class TextFieldDto extends ContentFieldDto implements ITextFieldDto {
@@ -767,26 +736,91 @@ export interface ITaxonomyFieldDto extends IContentFieldDto {
     termContentItemIds?: string[] | undefined;
 }
 
-export class ContentPartDto implements IContentPartDto {
+export class ContentItemDto extends ContentElementDto implements IContentItemDto {
+    id?: number;
+    contentItemId?: string | undefined;
+    contentItemVersionId?: string | undefined;
+    contentType?: string | undefined;
+    published?: boolean;
+    latest?: boolean;
+    modifiedUtc?: Date | undefined;
+    publishedUtc?: Date | undefined;
+    createdUtc?: Date | undefined;
+    owner?: string | undefined;
+    author?: string | undefined;
+    displayText?: string | undefined;
 
-    [key: string]: any; 
-
-    constructor(data?: IContentPartDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
+    constructor(data?: IContentItemDto) {
+        super(data);
     }
 
     init(_data?: any) {
+        super.init(_data);
         if (_data) {
-            for (var property in _data) {
-                if (_data.hasOwnProperty(property))
-                    this[property] = _data[property];
-            }
+            this.id = _data["id"];
+            this.contentItemId = _data["contentItemId"];
+            this.contentItemVersionId = _data["contentItemVersionId"];
+            this.contentType = _data["contentType"];
+            this.published = _data["published"];
+            this.latest = _data["latest"];
+            this.modifiedUtc = _data["modifiedUtc"] ? new Date(_data["modifiedUtc"].toString()) : <any>undefined;
+            this.publishedUtc = _data["publishedUtc"] ? new Date(_data["publishedUtc"].toString()) : <any>undefined;
+            this.createdUtc = _data["createdUtc"] ? new Date(_data["createdUtc"].toString()) : <any>undefined;
+            this.owner = _data["owner"];
+            this.author = _data["author"];
+            this.displayText = _data["displayText"];
         }
+    }
+
+    static fromJS(data: any): ContentItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contentItemId"] = this.contentItemId;
+        data["contentItemVersionId"] = this.contentItemVersionId;
+        data["contentType"] = this.contentType;
+        data["published"] = this.published;
+        data["latest"] = this.latest;
+        data["modifiedUtc"] = this.modifiedUtc ? this.modifiedUtc.toISOString() : <any>undefined;
+        data["publishedUtc"] = this.publishedUtc ? this.publishedUtc.toISOString() : <any>undefined;
+        data["createdUtc"] = this.createdUtc ? this.createdUtc.toISOString() : <any>undefined;
+        data["owner"] = this.owner;
+        data["author"] = this.author;
+        data["displayText"] = this.displayText;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentItemDto extends IContentElementDto {
+    id?: number;
+    contentItemId?: string | undefined;
+    contentItemVersionId?: string | undefined;
+    contentType?: string | undefined;
+    published?: boolean;
+    latest?: boolean;
+    modifiedUtc?: Date | undefined;
+    publishedUtc?: Date | undefined;
+    createdUtc?: Date | undefined;
+    owner?: string | undefined;
+    author?: string | undefined;
+    displayText?: string | undefined;
+}
+
+export class ContentPartDto extends ContentElementDto implements IContentPartDto {
+
+    constructor(data?: IContentPartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
     }
 
     static fromJS(data: any): ContentPartDto {
@@ -798,17 +832,12 @@ export class ContentPartDto implements IContentPartDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
+        super.toJSON(data);
         return data; 
     }
 }
 
-export interface IContentPartDto {
-
-    [key: string]: any; 
+export interface IContentPartDto extends IContentElementDto {
 }
 
 export class WidgetMetadataDto extends ContentPartDto implements IWidgetMetadataDto {
@@ -1290,7 +1319,7 @@ export interface IPreviewPartDto extends IContentPartDto {
 }
 
 export class WidgetsListPartDto extends ContentPartDto implements IWidgetsListPartDto {
-    widgets?: { [key: string]: ContentItem[]; } | undefined;
+    widgets?: { [key: string]: ContentItemDto[]; } | undefined;
 
     constructor(data?: IWidgetsListPartDto) {
         super(data);
@@ -1303,7 +1332,7 @@ export class WidgetsListPartDto extends ContentPartDto implements IWidgetsListPa
                 this.widgets = {} as any;
                 for (let key in _data["widgets"]) {
                     if (_data["widgets"].hasOwnProperty(key))
-                        this.widgets![key] = _data["widgets"][key] ? _data["widgets"][key].map((i: any) => ContentItem.fromJS(i)) : [];
+                        this.widgets![key] = _data["widgets"][key] ? _data["widgets"][key].map((i: any) => ContentItemDto.fromJS(i)) : [];
                 }
             }
         }
@@ -1331,11 +1360,11 @@ export class WidgetsListPartDto extends ContentPartDto implements IWidgetsListPa
 }
 
 export interface IWidgetsListPartDto extends IContentPartDto {
-    widgets?: { [key: string]: ContentItem[]; } | undefined;
+    widgets?: { [key: string]: ContentItemDto[]; } | undefined;
 }
 
 export class FlowPartDto extends ContentPartDto implements IFlowPartDto {
-    widgets?: ContentItem[] | undefined;
+    widgets?: ContentItemDto[] | undefined;
 
     constructor(data?: IFlowPartDto) {
         super(data);
@@ -1347,7 +1376,7 @@ export class FlowPartDto extends ContentPartDto implements IFlowPartDto {
             if (Array.isArray(_data["widgets"])) {
                 this.widgets = [] as any;
                 for (let item of _data["widgets"])
-                    this.widgets!.push(ContentItem.fromJS(item));
+                    this.widgets!.push(ContentItemDto.fromJS(item));
             }
         }
     }
@@ -1372,11 +1401,11 @@ export class FlowPartDto extends ContentPartDto implements IFlowPartDto {
 }
 
 export interface IFlowPartDto extends IContentPartDto {
-    widgets?: ContentItem[] | undefined;
+    widgets?: ContentItemDto[] | undefined;
 }
 
 export class BagPartDto extends ContentPartDto implements IBagPartDto {
-    contentItems?: ContentItem[] | undefined;
+    contentItems?: ContentItemDto[] | undefined;
 
     constructor(data?: IBagPartDto) {
         super(data);
@@ -1388,7 +1417,7 @@ export class BagPartDto extends ContentPartDto implements IBagPartDto {
             if (Array.isArray(_data["contentItems"])) {
                 this.contentItems = [] as any;
                 for (let item of _data["contentItems"])
-                    this.contentItems!.push(ContentItem.fromJS(item));
+                    this.contentItems!.push(ContentItemDto.fromJS(item));
             }
         }
     }
@@ -1413,11 +1442,11 @@ export class BagPartDto extends ContentPartDto implements IBagPartDto {
 }
 
 export interface IBagPartDto extends IContentPartDto {
-    contentItems?: ContentItem[] | undefined;
+    contentItems?: ContentItemDto[] | undefined;
 }
 
 export class HtmlBodyPartDto extends ContentPartDto implements IHtmlBodyPartDto {
-    myHtmlPartTextField?: TextFieldDto | undefined;
+    fooField?: TextFieldDto | undefined;
     html?: string | undefined;
 
     constructor(data?: IHtmlBodyPartDto) {
@@ -1427,7 +1456,7 @@ export class HtmlBodyPartDto extends ContentPartDto implements IHtmlBodyPartDto 
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.myHtmlPartTextField = _data["myHtmlPartTextField"] ? TextFieldDto.fromJS(_data["myHtmlPartTextField"]) : <any>undefined;
+            this.fooField = _data["fooField"] ? TextFieldDto.fromJS(_data["fooField"]) : <any>undefined;
             this.html = _data["html"];
         }
     }
@@ -1441,7 +1470,7 @@ export class HtmlBodyPartDto extends ContentPartDto implements IHtmlBodyPartDto 
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["myHtmlPartTextField"] = this.myHtmlPartTextField ? this.myHtmlPartTextField.toJSON() : <any>undefined;
+        data["fooField"] = this.fooField ? this.fooField.toJSON() : <any>undefined;
         data["html"] = this.html;
         super.toJSON(data);
         return data; 
@@ -1449,7 +1478,7 @@ export class HtmlBodyPartDto extends ContentPartDto implements IHtmlBodyPartDto 
 }
 
 export interface IHtmlBodyPartDto extends IContentPartDto {
-    myHtmlPartTextField?: TextFieldDto | undefined;
+    fooField?: TextFieldDto | undefined;
     html?: string | undefined;
 }
 
@@ -1707,96 +1736,37 @@ export interface IFooPartDto extends IContentPartDto {
     fooField?: TextFieldDto | undefined;
 }
 
-export class ContentItemDto implements IContentItemDto {
-    id?: number;
-    contentItemId?: string | undefined;
-    contentItemVersionId?: string | undefined;
-    contentType?: string | undefined;
-    published?: boolean;
-    latest?: boolean;
-    modifiedUtc?: Date | undefined;
-    publishedUtc?: Date | undefined;
-    createdUtc?: Date | undefined;
-    owner?: string | undefined;
-    author?: string | undefined;
-    displayText?: string | undefined;
+export class SamplePartDto extends ContentPartDto implements ISamplePartDto {
+    show?: boolean;
 
-    [key: string]: any; 
-
-    constructor(data?: IContentItemDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
+    constructor(data?: ISamplePartDto) {
+        super(data);
     }
 
     init(_data?: any) {
+        super.init(_data);
         if (_data) {
-            for (var property in _data) {
-                if (_data.hasOwnProperty(property))
-                    this[property] = _data[property];
-            }
-            this.id = _data["id"];
-            this.contentItemId = _data["contentItemId"];
-            this.contentItemVersionId = _data["contentItemVersionId"];
-            this.contentType = _data["contentType"];
-            this.published = _data["published"];
-            this.latest = _data["latest"];
-            this.modifiedUtc = _data["modifiedUtc"] ? new Date(_data["modifiedUtc"].toString()) : <any>undefined;
-            this.publishedUtc = _data["publishedUtc"] ? new Date(_data["publishedUtc"].toString()) : <any>undefined;
-            this.createdUtc = _data["createdUtc"] ? new Date(_data["createdUtc"].toString()) : <any>undefined;
-            this.owner = _data["owner"];
-            this.author = _data["author"];
-            this.displayText = _data["displayText"];
+            this.show = _data["show"];
         }
     }
 
-    static fromJS(data: any): ContentItemDto {
+    static fromJS(data: any): SamplePartDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ContentItemDto();
+        let result = new SamplePartDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        data["id"] = this.id;
-        data["contentItemId"] = this.contentItemId;
-        data["contentItemVersionId"] = this.contentItemVersionId;
-        data["contentType"] = this.contentType;
-        data["published"] = this.published;
-        data["latest"] = this.latest;
-        data["modifiedUtc"] = this.modifiedUtc ? this.modifiedUtc.toISOString() : <any>undefined;
-        data["publishedUtc"] = this.publishedUtc ? this.publishedUtc.toISOString() : <any>undefined;
-        data["createdUtc"] = this.createdUtc ? this.createdUtc.toISOString() : <any>undefined;
-        data["owner"] = this.owner;
-        data["author"] = this.author;
-        data["displayText"] = this.displayText;
+        data["show"] = this.show;
+        super.toJSON(data);
         return data; 
     }
 }
 
-export interface IContentItemDto {
-    id?: number;
-    contentItemId?: string | undefined;
-    contentItemVersionId?: string | undefined;
-    contentType?: string | undefined;
-    published?: boolean;
-    latest?: boolean;
-    modifiedUtc?: Date | undefined;
-    publishedUtc?: Date | undefined;
-    createdUtc?: Date | undefined;
-    owner?: string | undefined;
-    author?: string | undefined;
-    displayText?: string | undefined;
-
-    [key: string]: any; 
+export interface ISamplePartDto extends IContentPartDto {
+    show?: boolean;
 }
 
 export class MenuItemDto extends ContentItemDto implements IMenuItemDto {
@@ -2951,6 +2921,173 @@ export interface ICategoryItemDto extends IContentItemDto {
     category?: CategoryDto | undefined;
     titlePart?: TitlePartDto | undefined;
     autoroutePart?: AutoroutePartDto | undefined;
+}
+
+export class SampleBarItemDto extends ContentItemDto implements ISampleBarItemDto {
+    htmlBodyPart?: HtmlBodyPartDto | undefined;
+
+    constructor(data?: ISampleBarItemDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.htmlBodyPart = _data["htmlBodyPart"] ? HtmlBodyPartDto.fromJS(_data["htmlBodyPart"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SampleBarItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SampleBarItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["htmlBodyPart"] = this.htmlBodyPart ? this.htmlBodyPart.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISampleBarItemDto extends IContentItemDto {
+    htmlBodyPart?: HtmlBodyPartDto | undefined;
+}
+
+export class SampleFooItemDto extends ContentItemDto implements ISampleFooItemDto {
+    markdownBodyPart?: MarkdownBodyPartDto | undefined;
+
+    constructor(data?: ISampleFooItemDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.markdownBodyPart = _data["markdownBodyPart"] ? MarkdownBodyPartDto.fromJS(_data["markdownBodyPart"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SampleFooItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SampleFooItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["markdownBodyPart"] = this.markdownBodyPart ? this.markdownBodyPart.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISampleFooItemDto extends IContentItemDto {
+    markdownBodyPart?: MarkdownBodyPartDto | undefined;
+}
+
+export class SampleBagItemDto extends ContentItemDto implements ISampleBagItemDto {
+    samples?: BagPartDto | undefined;
+
+    constructor(data?: ISampleBagItemDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.samples = _data["samples"] ? BagPartDto.fromJS(_data["samples"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SampleBagItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SampleBagItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["samples"] = this.samples ? this.samples.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISampleBagItemDto extends IContentItemDto {
+    samples?: BagPartDto | undefined;
+}
+
+export class DeanMessingDto extends ContentPartDto implements IDeanMessingDto {
+
+    constructor(data?: IDeanMessingDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): DeanMessingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DeanMessingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDeanMessingDto extends IContentPartDto {
+}
+
+export class DeanMessingItemDto extends ContentItemDto implements IDeanMessingItemDto {
+    deanMessing?: DeanMessingDto | undefined;
+    samples?: BagPartDto | undefined;
+    bagNumber2?: BagPartDto | undefined;
+
+    constructor(data?: IDeanMessingItemDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.deanMessing = _data["deanMessing"] ? DeanMessingDto.fromJS(_data["deanMessing"]) : <any>undefined;
+            this.samples = _data["samples"] ? BagPartDto.fromJS(_data["samples"]) : <any>undefined;
+            this.bagNumber2 = _data["bagNumber2"] ? BagPartDto.fromJS(_data["bagNumber2"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): DeanMessingItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DeanMessingItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["deanMessing"] = this.deanMessing ? this.deanMessing.toJSON() : <any>undefined;
+        data["samples"] = this.samples ? this.samples.toJSON() : <any>undefined;
+        data["bagNumber2"] = this.bagNumber2 ? this.bagNumber2.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDeanMessingItemDto extends IContentItemDto {
+    deanMessing?: DeanMessingDto | undefined;
+    samples?: BagPartDto | undefined;
+    bagNumber2?: BagPartDto | undefined;
 }
 
 export interface FileResponse {
