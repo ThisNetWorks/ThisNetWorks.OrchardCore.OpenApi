@@ -50,7 +50,7 @@ namespace OrchardCore.ContentManagement
             return deserialized;
         }
 
-        //TODO a from
+        //TODO a from ?
         public static TDto ToDto<TDto>(this ContentElementDto contentDto)
             where TDto : ContentElementDto
         {
@@ -60,22 +60,37 @@ namespace OrchardCore.ContentManagement
             return deserialized;
         }
 
-        public static IEnumerable<TDto> OfDtoType<TDto>(this IEnumerable<ContentItemDto> contentDtos)
+        public static IList<TDto> OfDtoType<TDto>(this IList<ContentItemDto> contentDtos)
             where TDto : ContentElementDto
         {
             return contentDtos.OfDtoType<TDto>("ItemDto");
         }
 
-        public static IEnumerable<TDto> OfDtoType<TDto>(this IEnumerable<ContentItemDto> contentDtos, string schemaItemExtension)
+        public static IList<TDto> OfDtoType<TDto>(this IList<ContentItemDto> contentDtos, string schemaItemExtension)
             where TDto : ContentElementDto
         {
-            foreach (var contentDto in contentDtos)
+            var originalDtos = contentDtos.ToArray();
+            var results = new List<TDto>();
+            int i = 0;
+            foreach (var contentDto in originalDtos)
             {
-                if (contentDto.ContentType == typeof(TDto).Name.Replace(schemaItemExtension, ""))
+                if (contentDto is TDto)
                 {
-                    yield return contentDto.ToDto<TDto>();
+                    results.Add(contentDto as TDto);
                 }
+                else
+                {
+                    if (contentDto.ContentType == typeof(TDto).Name.Replace(schemaItemExtension, ""))
+                    {
+                        var typedContentDto = contentDto.ToDto<TDto>();
+                        contentDtos[i] = typedContentDto as ContentItemDto;
+                        results.Add(typedContentDto);
+                    }
+                }
+                i++;
             }
+
+            return results;
         }
 
         // TODO we don't have a merge for elements.
