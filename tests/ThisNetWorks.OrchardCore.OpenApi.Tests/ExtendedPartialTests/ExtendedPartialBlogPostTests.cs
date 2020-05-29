@@ -1,7 +1,9 @@
 ﻿using OrchardCore.ContentManagement;
 using OrchardCore.Lists.Models;
+using System.Threading.Tasks;
 using ThisNetWorks.OrchardCore.OpenApi.Models;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModels;
+using ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager;
 using Xunit;
 using ContentItem = OrchardCore.ContentManagement.ContentItem;
 
@@ -11,10 +13,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ExtendedPartialTests
     public class ExtendedPartialBlogPostTests
     {
         [Fact]
-        public void ShouldCreateBlogPostFromExtendedDto()
+        public async Task ShouldCreateBlogPostFromExtendedDto()
         {
-            // Never do this. Always use ContentManager.NewAsync();
-            var blogPost = new ContentItem();
+            var blogPost = await TestContentManager.ContentManager.NewAsync("BlogPost");
             var blogPostItemDto = new BlogPostItemDto
             {
                 DisplayText = "Foo",

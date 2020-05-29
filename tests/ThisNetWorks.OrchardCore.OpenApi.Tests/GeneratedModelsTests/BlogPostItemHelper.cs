@@ -1,23 +1,18 @@
 ﻿using OrchardCore.ContentManagement;
 using OrchardCore.Lists.Models;
 using OrchardCore.Markdown.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
 {
     public static class BlogPostItemHelper
     {
-        public static ContentItem CreateBlogItem()
+        public static async Task<ContentItem> CreateBlogItem()
         {
-            var contentItem = new ContentItem
-            {
-                ContentType = "BlogPost",
-                ContentItemId = "blobpostid",
-                ContentItemVersionId = "blogpostversionid",
-                DisplayText = "foo"
-            };
+            var contentItem = await TestContentManager.ContentManager.NewAsync("BlogPost");
+            contentItem.DisplayText = "foo";
+
             // This is just a creator
             contentItem.Alter<MarkdownBodyPart>(x => x.Markdown = "markdown");
             contentItem.Weld<ContainedPart>();

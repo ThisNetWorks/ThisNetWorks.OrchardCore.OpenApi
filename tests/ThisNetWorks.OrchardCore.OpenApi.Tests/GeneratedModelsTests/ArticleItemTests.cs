@@ -1,5 +1,7 @@
 ﻿using OrchardCore.ContentManagement;
+using System.Threading.Tasks;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModels;
+using ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager;
 using Xunit;
 using ContentItem = OrchardCore.ContentManagement.ContentItem;
 
@@ -9,9 +11,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
     public class ArticleItemTests
     {
         [Fact]
-        public void ShouldCreateArticle()
+        public async Task ShouldCreateArticle()
         {
-            var articleItem = ArticleItemHelper.CreateArticleItem();
+            var articleItem = await ArticleItemHelper.CreateArticleItem();
 
             var subtitle = articleItem.Content.Article.Subtitle.Text.ToString();
             var html = articleItem.Content.HtmlBodyPart.Html.ToString();
@@ -21,9 +23,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         }
 
         [Fact]
-        public void ShouldConvertArticleToDto()
+        public async Task ShouldConvertArticleToDto()
         {
-            var articleItem = ArticleItemHelper.CreateArticleItem();
+            var articleItem = await ArticleItemHelper.CreateArticleItem();
             var articleItemDto = articleItem.ToDto<ArticleItemDto>();
             Assert.Equal("foo", articleItemDto.DisplayText);
             Assert.Equal("subtitle", articleItemDto.Article.Subtitle.Text);
@@ -31,9 +33,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         }
 
         [Fact]
-        public void ShouldAlterArticleFromDto()
+        public async Task ShouldAlterArticleFromDto()
         {
-            var articleItem = ArticleItemHelper.CreateArticleItem();
+            var articleItem = await ArticleItemHelper.CreateArticleItem();
             var articleItemDto = articleItem.ToDto<ArticleItemDto>();
 
             articleItemDto.DisplayText = "Foo";
@@ -50,10 +52,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         }
 
         [Fact]
-        public void ShouldCreateArticleFromDto()
+        public async Task ShouldCreateArticleFromDto()
         {
-            // Never do this. Always use ContentManager.NewAsync();
-            var articleItem = new ContentItem();
+            var articleItem = await TestContentManager.ContentManager.NewAsync("Article");
             var articleItemDto = new ArticleItemDto
             {
                 DisplayText = "Foo",

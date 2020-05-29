@@ -5,33 +5,25 @@ using OrchardCore.Markdown.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
 {
     public static class BagItemHelper
     {
-        public static ContentItem CreateBagItem()
+        public static async Task<ContentItem> CreateBagItem()
         {
-            var fooItem = new ContentItem
-            {
-                ContentType = "SampleFoo"
-            };
+            var fooItem = await TestContentManager.ContentManager.NewAsync("SampleFoo");
 
             fooItem.Alter<MarkdownBodyPart>(x => x.Markdown = "markdown");
 
-            var barItem = new ContentItem
-            {
-                ContentType = "SampleBar"
-            };
+            var barItem = await TestContentManager.ContentManager.NewAsync("SampleBar");
             barItem.Alter<HtmlBodyPart>(x => x.Html = "html");
 
-            var contentItem = new ContentItem
-            {
-                ContentType = "SampleBag",
-                ContentItemId = "bagid",
-                ContentItemVersionId = "bagversionid",
-                DisplayText = "bag"
-            };
+            var contentItem = await TestContentManager.ContentManager.NewAsync("SampleBag");
+            contentItem.DisplayText = "bag";
+
             // This is just a creator
             contentItem.Alter<BagPart>("Samples", x =>
             {

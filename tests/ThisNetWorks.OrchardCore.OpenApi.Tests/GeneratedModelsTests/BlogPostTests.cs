@@ -4,7 +4,9 @@ using OrchardCore.Lists.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModels;
+using ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager;
 using Xunit;
 using ContentItem = OrchardCore.ContentManagement.ContentItem;
 
@@ -13,9 +15,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
     public class BlogPostTests
     {
         [Fact]
-        public void ShouldCreateBlogPost()
+        public async Task ShouldCreateBlogPost()
         {
-            var post = BlogPostItemHelper.CreateBlogItem();
+            var post = await BlogPostItemHelper.CreateBlogItem();
             var markdown = post.Content.MarkdownBodyPart.Markdown.ToString() as string;
             var listContentItemId = post.Content.ContainedPart.ListContentItemId.ToString() as string;
             Assert.Equal("markdown", markdown);
@@ -23,9 +25,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         }
 
         [Fact]
-        public void ShouldConvertBlogPostToDto()
+        public async Task ShouldConvertBlogPostToDto()
         {
-            var post = BlogPostItemHelper.CreateBlogItem();
+            var post = await BlogPostItemHelper.CreateBlogItem();
             var postDto = post.ToDto<BlogPostItemDto>();
             Assert.Equal("markdown", postDto.MarkdownBodyPart.Markdown);
 
@@ -34,9 +36,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         }
 
         [Fact]
-        public void ShouldAlterBlogPostFromDto()
+        public async Task ShouldAlterBlogPostFromDto()
         {
-            var blogPost = BlogPostItemHelper.CreateBlogItem();
+            var blogPost = await BlogPostItemHelper.CreateBlogItem();
             var blogPostItemDto = blogPost.ToDto<BlogPostItemDto>();
 
             var newContainedPart = new ContainedPartDto
@@ -56,10 +58,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         }
 
         [Fact]
-        public void ShouldCreateBlogPostFromDto()
+        public async Task ShouldCreateBlogPostFromDto()
         {
-            // Never do this. Always use ContentManager.NewAsync();
-            var blogPost = new ContentItem();
+            // Always use ContentManager.NewAsync() if inside site code
+            // When using Content Api NewAsync() or BuildNewVersion() should be called.
+            var blogPost = await TestContentManager.ContentManager.NewAsync("BlogPost");
             var blogPostItemDto = new BlogPostItemDto
             {
                 DisplayText = "Foo",

@@ -1,20 +1,18 @@
 ﻿using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.Html.Models;
+using System.Threading.Tasks;
+using ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
 {
     public static class ArticleItemHelper
     {
-        public static ContentItem CreateArticleItem()
+        public static async Task<ContentItem> CreateArticleItem()
         {
-            var contentItem = new ContentItem
-            {
-                ContentType = "Article",
-                ContentItemId = "articleid",
-                ContentItemVersionId = "articleversionid",
-                DisplayText = "foo"
-            };
+            var contentItem = await TestContentManager.ContentManager.NewAsync("Article");
+            contentItem.DisplayText = "foo";
+    
             // This is just a creator
             contentItem.Alter<ContentPart>("Article", x =>
             {
