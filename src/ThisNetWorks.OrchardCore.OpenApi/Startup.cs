@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Serialization;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors;
 using OrchardCore.Modules;
@@ -24,10 +25,15 @@ namespace ThisNetWorks.OrchardCore.OpenApi
                 //o.PathsToRemove.Add("content");
             });
 
-            services.AddSingleton<IDocumentProcessor, ControllerSchemaProcessor>();
             services.AddSingleton<IDocumentProcessor, ContentTypeSchemaProcessor>();
+            services.AddSingleton<IDocumentProcessor, AlterExistingControllersSchemaProcessor>();
+            services.AddSingleton<IDocumentProcessor, RestContentControllerSchemaProcessor>();
             services.AddOpenApiDocument(config =>
             {
+                config.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver()
+                };
                 //config.DocumentProcessors.Add(new Processor());
                 //config.SchemaProcessors.Add(new SchemaProcessor());
                 //config.

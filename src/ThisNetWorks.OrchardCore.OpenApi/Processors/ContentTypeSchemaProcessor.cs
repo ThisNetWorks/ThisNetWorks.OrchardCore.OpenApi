@@ -144,7 +144,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                                 Type = JsonObjectType.Object,
                                 Reference = fieldSchema.ActualSchema
                             });
-                            partSchema.Properties[field.Name.ToCamelCase()] = propertySchema;
+                            partSchema.Properties[field.Name] = propertySchema;
                         }
                     }
 
@@ -193,7 +193,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                                 Type = JsonObjectType.Object,
                                 Reference = fieldSchema.ActualSchema
                             });
-                            partSchema.Properties[field.Name.ToCamelCase()] = propertySchema;
+                            partSchema.Properties[field.Name] = propertySchema;
                         }
                     }
 
@@ -206,10 +206,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
             typeDtoSchema.AllowAdditionalProperties = false;
             typeDtoSchema.ActualTypeSchema.DiscriminatorObject = new OpenApiDiscriminator
             {
-                PropertyName = "contentType",
+                //PropertyName = "discriminator",
+                PropertyName = "ContentType",
                 // TODO a custom one of these might help create types automatically.
                 // Particularly useful for Flow.ContentItems etc.
-                JsonInheritanceConverter = new JsonInheritanceConverter("contentType")
+                JsonInheritanceConverter = new JsonInheritanceConverter("ContentType")
             }; 
 
             foreach (var ctd in ctds)
@@ -267,7 +268,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                                 Type = JsonObjectType.Object,
                                 Reference = fieldSchema.ActualSchema
                             });
-                            partSchema.Properties[field.Name.ToCamelCase()] = propertySchema;
+                            partSchema.Properties[field.Name] = propertySchema;
                         }
                     }
 
@@ -286,7 +287,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                         Type = JsonObjectType.Object,
                         Reference = partSchema.ActualSchema
                     });
-                    typeSchema.Properties[typeFieldPartDefinition.Name.ToCamelCase()] = typePropertySchema;
+                    typeSchema.Properties[typeFieldPartDefinition.Name] = typePropertySchema;
                 }
 
                 // Add all other parts
@@ -309,7 +310,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                             Type = JsonObjectType.Object,
                             Reference = typePartSchema.ActualSchema
                         });
-                        typeSchema.Properties[partDefinition.Name.ToCamelCase()] = propertySchema;
+                        typeSchema.Properties[partDefinition.Name] = propertySchema;
                     }
                 }
 

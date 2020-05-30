@@ -31,7 +31,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
             var postDto = post.ToDto<BlogPostItemDto>();
             Assert.Equal("markdown", postDto.MarkdownBodyPart.Markdown);
 
-            var containedPart = (postDto.AdditionalProperties["containedPart"] as JObject).ToObject<ContainedPart>();
+            var containedPart = (postDto.AdditionalProperties["ContainedPart"] as JObject).ToObject<ContainedPart>();
             Assert.Equal("blogid", containedPart.ListContentItemId);
         }
 
@@ -49,7 +49,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
             // This should change to 'containedPart' when we resolve 'code' content types.
             // i.e. types that are not list and are generally welded on.
             // TODO camelcase this in the converter?
-            blogPostItemDto.AdditionalProperties["containedPart"] = jContainedPart;
+            blogPostItemDto.AdditionalProperties["ContainedPart"] = jContainedPart;
 
             blogPost.FromDto(blogPostItemDto);
 
@@ -79,7 +79,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
             var jContainedPart = JObject.FromObject(newContainedPart);
             // This should change to 'containedPart' when we resolve 'code' content types.
             // i.e. types that are not list and are generally welded on.
-            blogPostItemDto.AdditionalProperties["containedPart"] = jContainedPart;
+            blogPostItemDto.AdditionalProperties["ContainedPart"] = jContainedPart;
 
             blogPost.FromDto(blogPostItemDto);
 

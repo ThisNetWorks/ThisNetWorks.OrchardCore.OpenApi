@@ -38,7 +38,7 @@ namespace OrchardCore.ContentManagement
         {
             MergeArrayHandling = MergeArrayHandling.Replace,
             // TODO don't need this is we are pascal casing names first.
-            PropertyNameComparison = StringComparison.OrdinalIgnoreCase
+            //PropertyNameComparison = StringComparison.OrdinalIgnoreCase
         };
 
         public static TDto ToDto<TDto>(this ContentElement content)
@@ -46,7 +46,7 @@ namespace OrchardCore.ContentManagement
         {
             var serialized = JObject.FromObject(content);
             var deserialized = serialized.ToObject(typeof(TDto)) as TDto;
-            deserialized.AdditionalPropertiesToCamelCase();
+            //deserialized.AdditionalPropertiesToCamelCase();
             return deserialized;
         }
 
@@ -56,7 +56,7 @@ namespace OrchardCore.ContentManagement
         {
             var serialized = JObject.FromObject(contentDto);
             var deserialized = serialized.ToObject(typeof(TDto)) as TDto;
-            deserialized.AdditionalPropertiesToCamelCase();
+            //deserialized.AdditionalPropertiesToCamelCase();
             return deserialized;
         }
 
@@ -102,9 +102,7 @@ namespace OrchardCore.ContentManagement
                 throw new ArgumentNullException();
             }
 
-            // TODO there must be a better way to do this.
             var jObject = JObject.FromObject(dto);
-            jObject = jObject.ToPascalCase();
             if (jsonMergeSettings == null)
             {
                 return contentItem.Merge(jObject, JsonMergeSettings);

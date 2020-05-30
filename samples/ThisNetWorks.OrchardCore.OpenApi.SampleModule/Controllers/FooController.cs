@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModels.Models;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models;
 using CreateFooDto = ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models.CreateFooDto;
+using GetFooDto = ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models.GetFooDto;
 using UpdateFooDto = ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models.UpdateFooDto;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Controllers
@@ -24,6 +25,16 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Controllers
         public FooController(IContentManager contentManager)
         {
             _contentManager = contentManager;
+        }
+
+        [HttpGet]
+        //TODO get an exception here when using an itemdto.
+        public ActionResult<GetFooDto> Get()
+        {
+            return Ok(new GetFooDto
+            {
+                Text = "foo"
+            });
         }
 
         [HttpPost]

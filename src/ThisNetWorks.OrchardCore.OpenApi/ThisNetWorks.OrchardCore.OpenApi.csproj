@@ -14,6 +14,8 @@
     <PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc1-13293" />
     <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.0.0-rc1-13293" />
     <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13293" />
+    <PackageReference Include="OrchardCore.Contents.Core" Version="1.0.0-rc1-13293" />
+    <PackageReference Include="OrchardCore.Infrastructure" Version="1.0.0-rc1-13293" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,7 +9,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\ThisNetWorks.OrchardCore.OpenApi.Abstractions\ThisNetWorks.OrchardCore.OpenApi.Abstractions.csproj" />
-  </ItemGroup>
 </Project>
