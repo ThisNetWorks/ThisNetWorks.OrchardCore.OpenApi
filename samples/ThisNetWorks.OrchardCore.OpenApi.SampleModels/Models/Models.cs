@@ -121,6 +121,18 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModels
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class CommonPartDto : ContentPartDto
+    {
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class ContentPart : ContentElement
+    {
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class WidgetMetadataDto : ContentPartDto
     {
         [Newtonsoft.Json.JsonProperty("renderTitle", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -129,12 +141,6 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModels
         [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Position { get; set; }
     
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class ContentPart : ContentElement
-    {
     
     }
     
@@ -224,17 +230,20 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModels
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class LiquidPartDto : ContentPartDto
+    public partial class SamplePartDto : ContentPartDto
     {
-        [Newtonsoft.Json.JsonProperty("liquid", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Liquid { get; set; }
+        [Newtonsoft.Json.JsonProperty("show", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Show { get; set; }
     
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class CommonPartDto : ContentPartDto
+    public partial class LiquidPartDto : ContentPartDto
     {
+        [Newtonsoft.Json.JsonProperty("liquid", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Liquid { get; set; }
+    
     
     }
     
@@ -369,24 +378,6 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModels
     
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class FooPartDto : ContentPartDto
-    {
-        [Newtonsoft.Json.JsonProperty("fooField", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TextFieldDto FooField { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class SamplePartDto : ContentPartDto
-    {
-        [Newtonsoft.Json.JsonProperty("show", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Show { get; set; }
     
     
     }
@@ -764,7 +755,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModels
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class SampleBarItemDto : ContentItemDto
+    public partial class BarItemDto : ContentItemDto
     {
         [Newtonsoft.Json.JsonProperty("htmlBodyPart", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public HtmlBodyPartDto HtmlBodyPart { get; set; }
@@ -773,7 +764,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModels
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class SampleFooItemDto : ContentItemDto
+    public partial class FooItemDto : ContentItemDto
     {
         [Newtonsoft.Json.JsonProperty("markdownBodyPart", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MarkdownBodyPartDto MarkdownBodyPart { get; set; }
@@ -782,31 +773,28 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModels
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class SampleBagItemDto : ContentItemDto
+    public partial class BagItemDto : ContentItemDto
     {
-        [Newtonsoft.Json.JsonProperty("samples", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public BagPartDto Samples { get; set; }
+        [Newtonsoft.Json.JsonProperty("items", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public BagPartDto Items { get; set; }
     
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class DeanMessingDto : ContentPartDto
+    public partial class FooTextDto : ContentPartDto
     {
+        [Newtonsoft.Json.JsonProperty("fooField", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TextFieldDto FooField { get; set; }
+    
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class DeanMessingItemDto : ContentItemDto
+    public partial class FooTextItemDto : ContentItemDto
     {
-        [Newtonsoft.Json.JsonProperty("deanMessing", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public DeanMessingDto DeanMessing { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("samples", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public BagPartDto Samples { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("bagNumber2", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public BagPartDto BagNumber2 { get; set; }
+        [Newtonsoft.Json.JsonProperty("fooText", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public FooTextDto FooText { get; set; }
     
     
     }

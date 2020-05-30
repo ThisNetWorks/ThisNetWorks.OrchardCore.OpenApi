@@ -14,18 +14,18 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
     {
         public static async Task<ContentItem> CreateBagItem()
         {
-            var fooItem = await TestContentManager.ContentManager.NewAsync("SampleFoo");
+            var fooItem = await TestContentManager.ContentManager.NewAsync("Foo");
 
             fooItem.Alter<MarkdownBodyPart>(x => x.Markdown = "markdown");
 
-            var barItem = await TestContentManager.ContentManager.NewAsync("SampleBar");
+            var barItem = await TestContentManager.ContentManager.NewAsync("Bar");
             barItem.Alter<HtmlBodyPart>(x => x.Html = "html");
 
-            var contentItem = await TestContentManager.ContentManager.NewAsync("SampleBag");
+            var contentItem = await TestContentManager.ContentManager.NewAsync("Bag");
             contentItem.DisplayText = "bag";
 
             // This is just a creator
-            contentItem.Alter<BagPart>("Samples", x =>
+            contentItem.Alter<BagPart>("Items", x =>
             {
                 x.ContentItems = new List<ContentItem>
                 {

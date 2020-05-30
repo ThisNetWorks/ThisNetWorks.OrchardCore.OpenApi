@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\ThisNetWorks.OrchardCore.OpenApi.Abstractions\ThisNetWorks.OrchardCore.OpenApi.Abstractions.csproj" />
+    <ProjectReference Include="..\ThisNetWorks.OrchardCore.OpenApi.SampleModels\ThisNetWorks.OrchardCore.OpenApi.SampleModels.csproj" />
   </ItemGroup>
 
 </Project>

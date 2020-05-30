@@ -18,12 +18,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         {
             var bagItem = await BagItemHelper.CreateBagItem();
 
-            var bagItems = bagItem.Content.Samples.ContentItems.ToObject<List<ContentItem>>() as List<ContentItem>;
-            var fooItem = bagItems.FirstOrDefault(x => x.ContentType == "SampleFoo");
+            var bagItems = bagItem.Content.Items.ContentItems.ToObject<List<ContentItem>>() as List<ContentItem>;
+            var fooItem = bagItems.FirstOrDefault(x => x.ContentType == "Foo");
             var html = fooItem.Content.MarkdownBodyPart.Markdown.ToString();
             Assert.Equal("markdown", html);
 
-            var barItem = bagItems.FirstOrDefault(x => x.ContentType == "SampleBar");
+            var barItem = bagItems.FirstOrDefault(x => x.ContentType == "Bar");
             var markdown = barItem.Content.HtmlBodyPart.Html.ToString();
             Assert.Equal("html", markdown);
         }
@@ -32,18 +32,18 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         public async Task ShouldConvertBagToDto()
         {
             var bagItem = await BagItemHelper.CreateBagItem();
-            var bagDto = bagItem.ToDto<SampleBagItemDto>();
+            var bagItemDto = bagItem.ToDto<BagItemDto>();
 
-            Assert.Equal(2, bagDto.Samples.ContentItems.Count);
+            Assert.Equal(2, bagItemDto.Items.ContentItems.Count);
         }
 
         [Fact]
         public async Task ShouldConvertBarToDto()
         {
             var bagItem = await BagItemHelper.CreateBagItem();
-            var bagDto = bagItem.ToDto<SampleBagItemDto>();
-            var contentItemDto = bagDto.Samples.ContentItems.FirstOrDefault(x => x.ContentType == "SampleBar");
-            var barItemDto = contentItemDto.ToDto<SampleBarItemDto>();
+            var bagItemDto = bagItem.ToDto<BagItemDto>();
+            var contentItemDto = bagItemDto.Items.ContentItems.FirstOrDefault(x => x.ContentType == "Bar");
+            var barItemDto = contentItemDto.ToDto<BarItemDto>();
             Assert.Equal("html", barItemDto.HtmlBodyPart.Html);
         }
 
@@ -51,8 +51,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         public async Task ShouldConvertBarsToDtos()
         {
             var bagItem = await BagItemHelper.CreateBagItem();
-            var bagDto = bagItem.ToDto<SampleBagItemDto>();
-            var barItems = bagDto.Samples.ContentItems.OfDtoType<SampleBarItemDto>();
+            var bagItemDto = bagItem.ToDto<BagItemDto>();
+            var barItems = bagItemDto.Items.ContentItems.OfDtoType<BarItemDto>();
             Assert.Single(barItems);
         }
 
@@ -60,13 +60,13 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         public async Task ShouldAlterBarItemFromDto()
         {
             var bagItem = await BagItemHelper.CreateBagItem();
-            var bagDto = bagItem.ToDto<SampleBagItemDto>();
-            var barItem = bagDto.Samples.ContentItems.OfDtoType<SampleBarItemDto>().FirstOrDefault();
-            barItem.HtmlBodyPart.Html = "altered";
+            var bagItemDto = bagItem.ToDto<BagItemDto>();
+            var barItemDto = bagItemDto.Items.ContentItems.OfDtoType<BarItemDto>().FirstOrDefault();
+            barItemDto.HtmlBodyPart.Html = "altered";
 
-            bagItem.FromDto(bagDto);
+            bagItem.FromDto(bagItemDto);
 
-            var html = bagItem.Content.Samples.ContentItems[0].HtmlBodyPart.Html.ToString();
+            var html = bagItem.Content.Items.ContentItems[0].HtmlBodyPart.Html.ToString();
             Assert.Equal("altered", html);
         }
 
@@ -74,11 +74,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         public async Task ShouldAlterBarItemAsSameObjectReference()
         {
             var bagItem = await BagItemHelper.CreateBagItem();
-            var bagDto = bagItem.ToDto<SampleBagItemDto>();
-            var barItem = bagDto.Samples.ContentItems.OfDtoType<SampleBarItemDto>().FirstOrDefault();
-            barItem.HtmlBodyPart.Html = "altered";
-            bagItem.FromDto(bagDto);
-            var html = bagItem.Content.Samples.ContentItems[0].HtmlBodyPart.Html.ToString();
+            var bagItemDto = bagItem.ToDto<BagItemDto>();
+            var barItemDto = bagItemDto.Items.ContentItems.OfDtoType<BarItemDto>().FirstOrDefault();
+            barItemDto.HtmlBodyPart.Html = "altered";
+            bagItem.FromDto(bagItemDto);
+            var html = bagItem.Content.Items.ContentItems[0].HtmlBodyPart.Html.ToString();
             Assert.Equal("altered", html);
         }
 
@@ -86,16 +86,16 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         public async Task ShouldCreateBagFromDto()
         {
             // Never do this. Always use ContentManager.NewAsync();
-            var bagItem = await TestContentManager.ContentManager.NewAsync("SampleBag");
+            var bagItem = await TestContentManager.ContentManager.NewAsync("Bag");
 
-            var bagItemDto = new SampleBagItemDto
+            var bagItemDto = new BagItemDto
             {
-                Samples = new BagPartDto
+                Items = new BagPartDto
                 {
                     ContentItems = new List<ContentItemDto>
                     {
                         await TestContentManager.ContentManager
-                            .NewDtoAsync<SampleBarItemDto>("SampleBar", ci =>
+                            .NewDtoAsync<BarItemDto>("Bar", ci =>
                             {
                                 ci.HtmlBodyPart = new HtmlBodyPartDto
                                 {
@@ -103,7 +103,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
                                 };
                             }),
                         await TestContentManager.ContentManager
-                            .NewDtoAsync<SampleFooItemDto>("SampleFoo", ci =>
+                            .NewDtoAsync<FooItemDto>("Foo", ci =>
                             {
                                 ci.MarkdownBodyPart = new MarkdownBodyPartDto
                                 {
@@ -116,10 +116,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
 
             bagItem.FromDto(bagItemDto);
 
-            var html = bagItem.Content.Samples.ContentItems[0].HtmlBodyPart.Html.ToString();
+            var html = bagItem.Content.Items.ContentItems[0].HtmlBodyPart.Html.ToString();
             Assert.Equal("html", html);
 
-            var markdown = bagItem.Content.Samples.ContentItems[1].MarkdownBodyPart.Markdown.ToString();
+            var markdown = bagItem.Content.Items.ContentItems[1].MarkdownBodyPart.Markdown.ToString();
             Assert.Equal("markdown", markdown);
         }
 
@@ -128,10 +128,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
         {
             // Never do this. Always use ContentManager.NewAsync();
             var bagItem = await BagItemHelper.CreateBagItem();
-            var bagItemDto = bagItem.ToDto<SampleBagItemDto>();
-            bagItemDto.Samples.ContentItems.Add(
+            var bagItemDto = bagItem.ToDto<BagItemDto>();
+            bagItemDto.Items.ContentItems.Add(
                 await TestContentManager.ContentManager
-                    .NewDtoAsync<SampleFooItemDto>("SampleFoo", ci =>
+                    .NewDtoAsync<FooItemDto>("Foo", ci =>
                     {
                         ci.MarkdownBodyPart = new MarkdownBodyPartDto
                         {
@@ -142,7 +142,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.GeneratedModelsTests
 
             bagItem.FromDto(bagItemDto);
 
-            var markdown = bagItem.Content.Samples.ContentItems[2].MarkdownBodyPart.Markdown.ToString();
+            var markdown = bagItem.Content.Items.ContentItems[2].MarkdownBodyPart.Markdown.ToString();
             Assert.Equal("markdown", markdown);
         }
     }
