@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using NJsonSchema.Converters;
+using System;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.Models
 {
@@ -7,6 +9,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Models
     // It could. We could json ignore it
     // Which might be useful if this is being passed between services, and needs to be converted back to a content item.
     // Worht thinking about.
+    //[JsonConverter(typeof(JsonInheritanceConverter), "contentType")]
     public class ContentItemDto : ContentElementDto
     {        
         /// <summary>

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using ThisNetWorks.OrchardCore.OpenApi.SampleModels;
+using ThisNetWorks.OrchardCore.OpenApi.SampleModels.Models;
 using ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager;
 using Xunit;
 using ContentItem = OrchardCore.ContentManagement.ContentItem;

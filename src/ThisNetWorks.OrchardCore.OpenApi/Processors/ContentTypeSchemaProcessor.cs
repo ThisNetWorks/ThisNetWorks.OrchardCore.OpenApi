@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
+using NJsonSchema.Converters;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 using OrchardCore.ContentManagement;
@@ -203,6 +204,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
             // Content Types
             var typeDtoSchema = context.SchemaGenerator.Generate(typeof(ContentItemDto), context.SchemaResolver);
             typeDtoSchema.AllowAdditionalProperties = false;
+            typeDtoSchema.ActualTypeSchema.DiscriminatorObject = new OpenApiDiscriminator
+            {
+                PropertyName = "contentType",
+                // TODO a custom one of these might help create types automatically.
+                // Particularly useful for Flow.ContentItems etc.
+                JsonInheritanceConverter = new JsonInheritanceConverter("contentType")
+            }; 
+
             foreach (var ctd in ctds)
             {
                 if (_openApiOptions.ExcludedTypes.Any(x => string.Equals(x, ctd.Name)))
@@ -304,7 +313,17 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                     }
                 }
 
+                // Add final definition.
                 context.Document.Definitions[ctd.Name + _openApiOptions.SchemaTypeNameExtension + _openApiOptions.SchemaNameExtension] = typeSchema;
+
+                // Add discriminator mappings to actual type schema
+                typeDtoSchema.ActualTypeSchema.DiscriminatorObject.Mapping.Add(
+                    ctd.Name + _openApiOptions.SchemaTypeNameExtension + _openApiOptions.SchemaNameExtension,
+                    new JsonSchema
+                    {
+                        Reference = typeSchema
+                    }
+                );
             }
         }
 

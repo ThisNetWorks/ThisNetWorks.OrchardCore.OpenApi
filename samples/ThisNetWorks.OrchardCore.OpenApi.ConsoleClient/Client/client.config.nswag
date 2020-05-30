@@ -115,7 +115,7 @@
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
-      "namespace": "ThisNetWorks.OrchardCore.OpenApi.SampleModels.Models",
+      "namespace": "ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client",
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTime",
       "jsonConverters": null,
@@ -149,13 +149,13 @@
       "inlineNamedAny": false,
       "generateDtoTypes": true,
       "generateOptionalPropertiesAsNullable": false,
-      "templateDirectory": "../Templates",
+      "templateDirectory": null,
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "Models.cs"
+      "output": "Client.cs"
     }
   }
 }

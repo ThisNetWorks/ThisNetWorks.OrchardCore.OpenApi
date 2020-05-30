@@ -7,7 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using ThisNetWorks.OrchardCore.OpenApi.SampleModels;
+using ThisNetWorks.OrchardCore.OpenApi.SampleModels.Models;
+using ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models;
+using CreateFooDto = ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models.CreateFooDto;
+using UpdateFooDto = ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models.UpdateFooDto;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Controllers
 {
@@ -24,17 +27,33 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string textField)
+        public async Task<IActionResult> Post(CreateFooDto createDto)
         {
             var newContentItem = await _contentManager.NewAsync("FooText");
             var dto = newContentItem.ToDto<FooTextItemDto>();
             dto.FooText.FooField = new TextFieldDto
             {
-                Text = textField
+                Text = createDto.Text
             };
 
             newContentItem.FromDto(dto);
             await _contentManager.UpdateValidateAndCreateAsync(newContentItem, VersionOptions.Published);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult Put(UpdateFooDto updateDto)
+        {
+            //var newContentItem = await _contentManager.NewAsync("FooText");
+            //var dto = newContentItem.ToDto<FooTextItemDto>();
+            //dto.FooText.FooField = new TextFieldDto
+            //{
+            //    Text = createDto.Text
+            //};
+
+            //newContentItem.FromDto(dto);
+            //await _contentManager.UpdateValidateAndCreateAsync(newContentItem, VersionOptions.Published);
 
             return Ok();
         }

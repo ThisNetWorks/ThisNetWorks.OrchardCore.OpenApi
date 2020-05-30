@@ -19,8 +19,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi
             services.Configure<OpenApiOptions>(o =>
             {
                 o.IncludeAllFields = false;
+                o.PathsToRemove.Add("api/lucene");
+                o.PathsToRemove.Add("api/queries");
+                //o.PathsToRemove.Add("content");
             });
 
+            services.AddSingleton<IDocumentProcessor, ControllerSchemaProcessor>();
             services.AddSingleton<IDocumentProcessor, ContentTypeSchemaProcessor>();
             services.AddOpenApiDocument(config =>
             {
