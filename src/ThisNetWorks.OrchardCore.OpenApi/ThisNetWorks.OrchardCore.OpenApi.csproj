@@ -4,18 +4,24 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>ThisNetWorks.OrchardCore.OpenApi</PackageId>
+    <Title>OpenApi for Orchard Core</Title>
+    <Description>Open Api for Orchard Core</Description>
+  </PropertyGroup>
+  
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSwag.AspNetCore" Version="13.5.0" />
-    <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.Contents.Core" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.Infrastructure" Version="1.0.0-rc1-13334" />
+    <PackageReference Include="NSwag.AspNetCore" />
+    <PackageReference Include="OrchardCore.Module.Targets"/>
+    <PackageReference Include="OrchardCore.ContentManagement" />
+    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" />
+    <PackageReference Include="OrchardCore.DisplayManagement" />
+    <PackageReference Include="OrchardCore.Contents.Core" />
+    <PackageReference Include="OrchardCore.Infrastructure" />
   </ItemGroup>
 
   <ItemGroup>

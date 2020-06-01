@@ -10,11 +10,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.Application.Cms.Core.Targets" Version="1.0.0-rc1-13334" />
+    <PackageReference Include="OrchardCore.Module.Targets" />
+    <PackageReference Include="OrchardCore.ContentFields" />
+    <PackageReference Include="OrchardCore.ContentManagement" />
+    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" />
+    <PackageReference Include="OrchardCore.DisplayManagement"  />
+    <PackageReference Include="OrchardCore.Flows" />
   </ItemGroup>
 
   <ItemGroup>

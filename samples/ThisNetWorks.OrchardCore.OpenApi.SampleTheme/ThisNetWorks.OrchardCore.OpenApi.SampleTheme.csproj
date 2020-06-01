@@ -10,11 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.ResourceManagement" Version="1.0.0-rc1-13334" />
-    <PackageReference Include="OrchardCore.Application.Cms.Core.Targets" Version="1.0.0-rc1-13334" />
+    <PackageReference Include="OrchardCore.Theme.Targets" />
+    <PackageReference Include="OrchardCore.ContentManagement" />
+    <PackageReference Include="OrchardCore.DisplayManagement" />
+    <PackageReference Include="OrchardCore.ResourceManagement" />
   </ItemGroup>
 
   <ItemGroup>
