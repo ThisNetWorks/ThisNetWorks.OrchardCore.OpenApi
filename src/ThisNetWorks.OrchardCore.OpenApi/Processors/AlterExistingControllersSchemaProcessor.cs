@@ -43,14 +43,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
 
             // This just tweaks the api/content to a more useful path segment.
             // Probably doable from nswag.config as well. Generation Mode.
-            var pathTags = context.Document.Paths.Where(x => x.Key.Contains("api/content")).Select(x => x.Value);
-            foreach(OpenApiPathItem pathItem in pathTags)
+            var contentApiPaths = context.Document.Paths.Where(x => x.Key.StartsWith("/api/content")).Select(x => x.Value);
+            foreach(var pathItem in contentApiPaths)
             {
-                foreach(var pa in pathItem)
+                foreach(var operation in pathItem)
                 {
-                    if (pa.Value.Tags.Any(x => string.Equals(x, "Api", StringComparison.OrdinalIgnoreCase)))
+                    if (operation.Value.Tags.Any(x => string.Equals(x, "Api", StringComparison.OrdinalIgnoreCase)))
                     {
-                        pa.Value.Tags.Insert(0, "Content");
+                        operation.Value.Tags.Insert(0, "Content");
                     }
                 }
             }
