@@ -52,7 +52,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi
             var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
             var swaggerPath = httpContextAccessor.HttpContext.Request.PathBase + new PathString("/swagger");
 
-            builder.UseOpenApi(); // serve OpenAPI/Swagger documents
+            builder.UseOrchardCoreOpenApi(o =>
+            {
+                //o.
+            }); // serve OpenAPI/Swagger documents
+
+            //builder.UseOpenApi(); // Use OrchardCoreOpenApi to manage content types changing dynamically.
             builder.UseSwaggerUi3(); // serve Swagger UI
         }
     }

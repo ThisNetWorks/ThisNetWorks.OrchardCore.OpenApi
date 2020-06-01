@@ -21,7 +21,7 @@
     {
       "name": "Feature",
       "enable": [
-        "ThisNetWorks.OrchardCore.OpenApi.Sample",
+        "ThisNetWorks.OrchardCore.OpenApi",
         "ThisNetWorks.OrchardCore.OpenApi.SampleModule",
         "ThisNetWorks.OrchardCore.OpenApi.SampleTheme",
         "TheTheme"
