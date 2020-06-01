@@ -1,0 +1,57 @@
+{
+  "name": "",
+  "displayName": "",
+  "description": "",
+  "author": "",
+  "website": "",
+  "version": "",
+  "issetuprecipe": false,
+  "categories": [],
+  "tags": [],
+  "steps": [
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "45kn6x1x58cg91cqrpm99f475p",
+          "ContentItemVersionId": "4np6xe6qbm2pcyc4rtja0sg8d1",
+          "ContentType": "FooTextContainer",
+          "DisplayText": null,
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2020-05-31T07:10:15.3930024Z",
+          "PublishedUtc": "2020-05-31T07:10:15.4574269Z",
+          "CreatedUtc": "2020-05-31T07:10:15.3930024Z",
+          "Owner": "admin",
+          "Author": "admin",
+          "ListPart": {
+            "FeedProxyUrl": null,
+            "FeedItemsCount": 20
+          }
+        },
+        {
+          "ContentItemId": "4qnhdhv3z54xk4fg4tdfke76c9",
+          "ContentItemVersionId": "4sgvtjcq05ny0yw90fn4f1m4x7",
+          "ContentType": "FooText",
+          "DisplayText": null,
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2020-05-31T07:10:28.7077731Z",
+          "PublishedUtc": "2020-05-31T07:10:28.7221628Z",
+          "CreatedUtc": "2020-05-31T07:10:28.7077731Z",
+          "Owner": "admin",
+          "Author": "admin",
+          "FooText": {
+            "FooField": {
+              "Text": "Foo field value"
+            }
+          },
+          "ContainedPart": {
+            "ListContentItemId": "45kn6x1x58cg91cqrpm99f475p",
+            "Order": 0
+          }
+        }
+      ]
+    }
+  ]
+}

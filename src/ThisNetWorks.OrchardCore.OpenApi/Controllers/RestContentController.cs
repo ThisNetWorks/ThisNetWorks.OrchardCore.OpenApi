@@ -107,7 +107,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Controllers
                     return this.ChallengeOrForbid();
                 }
 
-                contentItem.Merge(model);
+                contentItem.Merge(model, new Newtonsoft.Json.Linq.JsonMergeSettings
+                {
+                    MergeArrayHandling = Newtonsoft.Json.Linq.MergeArrayHandling.Replace
+                });
 
                 await _contentManager.UpdateAsync(contentItem);
                 var result = await _contentManager.ValidateAsync(contentItem);

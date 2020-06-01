@@ -18,10 +18,19 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
 
             var client = new RestContentClient(HttpClient);
 
-            var blogPost = (await client.RestContent_GetAsync("42fkrdamrpyp02jz9ye9vjtkce")) as BlogPostItemDto;
+            var fooTextItemDto = (await client.RestContent_GetAsync("4qnhdhv3z54xk4fg4tdfke76c9")) as FooTextItemDto;
 
-            Console.WriteLine(blogPost.MarkdownBodyPart.Markdown);
-            Console.WriteLine(Prettify(blogPost.ToJson()));
+            Console.WriteLine("Reading from Api");
+            Console.WriteLine(fooTextItemDto.FooText.FooField.Text);
+            //Console.WriteLine(Prettify(blogPost.ToJson()));
+
+            //blogPost.ContentType
+            fooTextItemDto.FooText.FooField.Text = "Foo field value - edited by api - " + Guid.NewGuid().ToString("n");
+
+            fooTextItemDto = (await client.RestContent_PostAsync(false, fooTextItemDto)) as FooTextItemDto;
+
+            Console.WriteLine("Written and read back from Api");
+            Console.WriteLine(fooTextItemDto.FooText.FooField.Text);
         }
 
         public static string Prettify(string jsonString)

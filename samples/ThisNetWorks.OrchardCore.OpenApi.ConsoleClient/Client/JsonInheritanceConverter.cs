@@ -116,10 +116,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
             foreach (var attribute in System.Reflection.CustomAttributeExtensions.GetCustomAttributes<JsonInheritanceAttribute>(System.Reflection.IntrospectionExtensions.GetTypeInfo(objectType), true))
             {
                 if (attribute.Type == objectType)
-                    return attribute.Key;
+                    return attribute.Key.Replace("ItemDto", "");
             }
 
-            return objectType.Name;
+            return objectType.Name.Replace("ItemDto", "");
         }
     }
 }

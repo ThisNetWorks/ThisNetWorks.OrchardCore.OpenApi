@@ -175,7 +175,7 @@ export class RestContentClient {
         return Promise.resolve<ContentItemDto>(<any>null);
     }
 
-    delete(contentItemId: string | null): Promise<FileResponse> {
+    delete(contentItemId: string | null): Promise<ContentItemDto> {
         let url_ = this.baseUrl + "/api/restcontent/{contentItemId}";
         if (contentItemId === undefined || contentItemId === null)
             throw new Error("The parameter 'contentItemId' must be defined.");
@@ -185,7 +185,7 @@ export class RestContentClient {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             }
         };
 
@@ -194,23 +194,25 @@ export class RestContentClient {
         });
     }
 
-    protected processDelete(response: Response): Promise<FileResponse> {
+    protected processDelete(response: Response): Promise<ContentItemDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ContentItemDto.fromJS(resultData200);
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(<any>null);
+        return Promise.resolve<ContentItemDto>(<any>null);
     }
 
-    post(draft: boolean | undefined, model: ContentItem): Promise<FileResponse> {
+    post(draft: boolean | undefined, model: ContentItemDto): Promise<ContentItemDto> {
         let url_ = this.baseUrl + "/api/restcontent?";
         if (draft === null)
             throw new Error("The parameter 'draft' cannot be null.");
@@ -225,7 +227,7 @@ export class RestContentClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             }
         };
 
@@ -234,20 +236,22 @@ export class RestContentClient {
         });
     }
 
-    protected processPost(response: Response): Promise<FileResponse> {
+    protected processPost(response: Response): Promise<ContentItemDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ContentItemDto.fromJS(resultData200);
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(<any>null);
+        return Promise.resolve<ContentItemDto>(<any>null);
     }
 }
 
@@ -511,34 +515,18 @@ export interface IGetFooDto {
     text?: string | undefined;
 }
 
-export class CreateFooDto implements ICreateFooDto {
-    text?: string | undefined;
-
-    protected _discriminator: string;
+export class CreateFooDto extends GetFooDto implements ICreateFooDto {
 
     constructor(data?: ICreateFooDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        this._discriminator = "CreateFooDto";
+        super(data);
     }
 
     init(_data?: any) {
-        if (_data) {
-            this.text = _data["Text"];
-        }
+        super.init(_data);
     }
 
     static fromJS(data: any): CreateFooDto {
         data = typeof data === 'object' ? data : {};
-        if (data["discriminator"] === "UpdateFooDto") {
-            let result = new UpdateFooDto();
-            result.init(data);
-            return result;
-        }
         let result = new CreateFooDto();
         result.init(data);
         return result;
@@ -546,21 +534,18 @@ export class CreateFooDto implements ICreateFooDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["discriminator"] = this._discriminator; 
-        data["Text"] = this.text;
+        super.toJSON(data);
         return data; 
     }
 }
 
-export interface ICreateFooDto {
-    text?: string | undefined;
+export interface ICreateFooDto extends IGetFooDto {
 }
 
-export class UpdateFooDto extends CreateFooDto implements IUpdateFooDto {
+export class UpdateFooDto extends GetFooDto implements IUpdateFooDto {
 
     constructor(data?: IUpdateFooDto) {
         super(data);
-        this._discriminator = "UpdateFooDto";
     }
 
     init(_data?: any) {
@@ -581,7 +566,7 @@ export class UpdateFooDto extends CreateFooDto implements IUpdateFooDto {
     }
 }
 
-export interface IUpdateFooDto extends ICreateFooDto {
+export interface IUpdateFooDto extends IGetFooDto {
 }
 
 export abstract class ContentElementDto implements IContentElementDto {
@@ -1005,6 +990,11 @@ export class ContentItemDto extends ContentElementDto implements IContentItemDto
         }
         if (data["ContentType"] === "FooTextItemDto") {
             let result = new FooTextItemDto();
+            result.init(data);
+            return result;
+        }
+        if (data["ContentType"] === "FooTextContainerItemDto") {
+            let result = new FooTextContainerItemDto();
             result.init(data);
             return result;
         }
@@ -3308,6 +3298,40 @@ export class FooTextItemDto extends ContentItemDto implements IFooTextItemDto {
 
 export interface IFooTextItemDto extends IContentItemDto {
     fooText?: FooTextDto | undefined;
+}
+
+export class FooTextContainerItemDto extends ContentItemDto implements IFooTextContainerItemDto {
+    listPart?: ListPartDto | undefined;
+
+    constructor(data?: IFooTextContainerItemDto) {
+        super(data);
+        this._discriminator = "FooTextContainerItemDto";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.listPart = _data["ListPart"] ? ListPartDto.fromJS(_data["ListPart"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): FooTextContainerItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FooTextContainerItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["ListPart"] = this.listPart ? this.listPart.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IFooTextContainerItemDto extends IContentItemDto {
+    listPart?: ListPartDto | undefined;
 }
 
 export interface FileResponse {

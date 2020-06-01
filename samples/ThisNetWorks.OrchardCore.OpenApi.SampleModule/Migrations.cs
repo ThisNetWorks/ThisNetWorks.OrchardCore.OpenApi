@@ -4,16 +4,21 @@ using OrchardCore.Data.Migration;
 using OrchardCore.Flows.Models;
 using OrchardCore.Lists.Models;
 using System.Threading.Tasks;
+using OrchardCore.Recipes.Services;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
 {
     public class Migrations : DataMigration
     {
         private readonly IContentDefinitionManager _contentDefinitionManager;
+        private readonly IRecipeMigrator _recipeMigrator;
 
-        public Migrations(IContentDefinitionManager contentDefinitionManager)
+        public Migrations(IContentDefinitionManager contentDefinitionManager,
+            IRecipeMigrator recipeMigrator
+            )
         {
             _contentDefinitionManager = contentDefinitionManager;
+            _recipeMigrator = recipeMigrator;
         }
 
         public int Create()
@@ -73,6 +78,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
         public int UpdateFrom3()
         {
             _contentDefinitionManager.AlterTypeDefinition("FooText", type => type
+                .Securable()
+                .Versionable()
                 .DisplayedAs("Foo text")
                 .WithPart("FooText")
             );
@@ -87,29 +94,45 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
             return 4;
         }
 
-        //public int UpdateFrom4()
-        //{
-        //    _contentDefinitionManager.AlterTypeDefinition("FooTextContainer", type => type
-        //        .DisplayedAs("Foot text container")
-        //        .Listable()
-        //        .Securable()
-        //        .Draftable()
-        //        .Versionable()
-        //        .WithPart("ListPart", part =>
-        //        {
-        //            part.WithSettings(new ListPartSettings
-        //            {
-        //                ContainedContentTypes = new string[]
-        //                {
-        //                    "FooText"
-        //                }
-        //            });
-        //        })
-        //    );
+        public int UpdateFrom4()
+        {
+            _contentDefinitionManager.AlterTypeDefinition("FooTextContainer", type => type
+                .DisplayedAs("Foo text container")
+                .Listable()
+                .Securable()
+                .Draftable()
+                .Versionable()
+                .WithPart("ListPart", part =>
+                {
+                    part.WithSettings(new ListPartSettings
+                    {
+                        ContainedContentTypes = new string[]
+                        {
+                            "FooText"
+                        }
+                    });
+                })
+            );
 
-        //    return 5;
-        //}
+            return 5;
+        }
 
+        public async Task<int> UpdateFrom5Async()
+        {
+            // Creates some default content so the console app can use hard coded ids.
+            await _recipeMigrator.ExecuteAsync("foo-text-container-content.json", this);
+
+            return 6;
+        }
+
+        public async Task<int> UpdateFrom6Async()
+        {
+            // Gives edit and publish permission to the anonymous role
+            // only for foo text content type.
+            await _recipeMigrator.ExecuteAsync("anonymous-role.json", this);
+
+            return 7;
+        }
         // TODO recipe migrator for a sample text container creation, and a custom settings to pick it.
     }
 }

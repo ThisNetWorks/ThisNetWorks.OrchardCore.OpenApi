@@ -457,14 +457,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> RestContent_DeleteAsync(string contentItemId)
+        public System.Threading.Tasks.Task<ContentItemDto> RestContent_DeleteAsync(string contentItemId)
         {
             return RestContent_DeleteAsync(contentItemId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> RestContent_DeleteAsync(string contentItemId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<ContentItemDto> RestContent_DeleteAsync(string contentItemId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/restcontent/{contentItemId}");
@@ -476,7 +476,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
@@ -496,12 +496,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                         ProcessResponse(client_, response_);
     
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206") 
+                        if (status_ == "200") 
                         {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
-                            client_ = null; response_ = null; // response and client are disposed by FileResponse
-                            return fileResponse_;
+                            var objectResponse_ = await ReadObjectResponseAsync<ContentItemDto>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -510,7 +508,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(FileResponse);
+                        return default(ContentItemDto);
                     }
                     finally
                     {
@@ -525,14 +523,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> RestContent_PostAsync(bool? draft, ContentItem model)
+        public System.Threading.Tasks.Task<ContentItemDto> RestContent_PostAsync(bool? draft, ContentItemDto model)
         {
             return RestContent_PostAsync(draft, model, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> RestContent_PostAsync(bool? draft, ContentItem model, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<ContentItemDto> RestContent_PostAsync(bool? draft, ContentItemDto model, System.Threading.CancellationToken cancellationToken)
         {
             if (model == null)
                 throw new System.ArgumentNullException("model");
@@ -554,7 +552,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
@@ -574,12 +572,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                         ProcessResponse(client_, response_);
     
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206") 
+                        if (status_ == "200") 
                         {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
-                            client_ = null; response_ = null; // response and client are disposed by FileResponse
-                            return fileResponse_;
+                            var objectResponse_ = await ReadObjectResponseAsync<ContentItemDto>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -588,7 +584,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(FileResponse);
+                        return default(ContentItemDto);
                     }
                     finally
                     {
@@ -1318,6 +1314,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     [JsonInheritanceAttribute("FooItemDto", typeof(FooItemDto))]
     [JsonInheritanceAttribute("BagItemDto", typeof(BagItemDto))]
     [JsonInheritanceAttribute("FooTextItemDto", typeof(FooTextItemDto))]
+    [JsonInheritanceAttribute("FooTextContainerItemDto", typeof(FooTextContainerItemDto))]
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class ContentItemDto : ContentElementDto
     {
@@ -2623,6 +2620,24 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         public static FooTextItemDto FromJson(string data)
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<FooTextItemDto>(data);
+        }
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class FooTextContainerItemDto : ContentItemDto
+    {
+        [Newtonsoft.Json.JsonProperty("ListPart", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ListPartDto ListPart { get; set; }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+    
+        public static FooTextContainerItemDto FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<FooTextContainerItemDto>(data);
         }
     
     }

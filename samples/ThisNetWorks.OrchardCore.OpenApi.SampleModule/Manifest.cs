@@ -6,6 +6,6 @@ using OrchardCore.Modules.Manifest;
     Website = "https://orchardcore.net",
     Version = "0.0.1",
     Description = "ThisNetWorks.OrchardCore.OpenApi.SampleModule",
-    Dependencies = new[] { "OrchardCore.Contents" },
+    Dependencies = new[] { "OrchardCore.ContentTypes" },
     Category = "Content Management"
 )]

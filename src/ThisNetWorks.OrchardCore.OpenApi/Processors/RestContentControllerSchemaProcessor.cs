@@ -42,22 +42,36 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 JsonSchema rGetSchema = rGetResponse.Schema;
             }
 
-            OpenApiPathItem rest = context.Document.Paths["/api/restcontent/{contentItemId}"];
-            OpenApiOperation restGet = rest["get"];
-            OpenApiResponse restGetResponse = restGet.Responses["200"];
-            var firstContent = restGetResponse.Content.FirstOrDefault();
-
             var contentItemDtoSchema = context.Document.Definitions["ContentItemDto"];
 
-            if (!String.IsNullOrEmpty(firstContent.Key)) 
-            {
-                restGetResponse.Content.Remove(firstContent.Key);
-                //restGetResponse.Content["application/json"] = new OpenApiMediaType
-                //{
-                //    Schema = contentItemDtoSchema.ActualTypeSchema
-                //};
+            var path = context.Document.Paths["/api/restcontent/{contentItemId}"];
+            OpenApiOperation restGet = path["get"];
+            OpenApiResponse restGetResponse = restGet.Responses["200"];
+            ApplyContentItemDtoToContent(contentItemDtoSchema, restGetResponse.Content);
 
-                restGetResponse.Content["application/json"] = new OpenApiMediaType
+            OpenApiOperation restDelete = path["delete"];
+            OpenApiResponse restDeleteResponse = restDelete.Responses["200"];
+            ApplyContentItemDtoToContent(contentItemDtoSchema, restDeleteResponse.Content);
+
+            path = context.Document.Paths["/api/restcontent"];
+            OpenApiOperation restPost = path["post"];
+            OpenApiResponse restPostResponse = restPost.Responses["200"];
+            ApplyContentItemDtoToContent(contentItemDtoSchema, restPostResponse.Content);
+
+            //var body = restPost.RequestBody.Content
+
+
+            ApplyContentItemDtoToContent(contentItemDtoSchema, restPost.RequestBody.Content);
+        }
+
+        private static void ApplyContentItemDtoToContent(JsonSchema contentItemDtoSchema, IDictionary<string, OpenApiMediaType> content)
+        {
+            var firstContentMediaType = content.FirstOrDefault();
+
+            if (!String.IsNullOrEmpty(firstContentMediaType.Key))
+            {
+                content.Remove(firstContentMediaType.Key);
+                content["application/json"] = new OpenApiMediaType
                 {
                     Schema = new JsonSchema
                     {
@@ -65,29 +79,6 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                     }
                 };
             };
-            JsonSchema restGetSchema = restGetResponse.Schema;
-
-            var ctds = _contentDefinitionManager.ListTypeDefinitions();
-            // Goal.
-            // Change return operation to a multiple / allof 
-            // so for this we need every content type definition created.
-            //foreach (var ctd in ctds)
-            //{
-            //    if (_openApiOptions.ExcludedTypes.Any(x => string.Equals(x, ctd.Name)))
-            //    {
-            //        continue;
-            //    }
-            //    if (context.Document.Definitions.TryGetValue(ctd.Name + _openApiOptions.SchemaTypeNameExtension + _openApiOptions.SchemaNameExtension, out var typeSchema))
-            //    {
-            //        var referenceSchema = new JsonSchema
-            //        {
-            //            Reference = typeSchema
-            //        };
-            //        restGetSchema.AnyOf.Add(referenceSchema);
-
-            //    }
-
-            //}
         }
     }
 }
