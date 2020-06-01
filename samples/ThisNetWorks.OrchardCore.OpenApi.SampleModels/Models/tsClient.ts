@@ -17,129 +17,8 @@ export class ApiClient {
         this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
     }
 
-    get(contentItemId: string | null): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/content/{contentItemId}";
-        if (contentItemId === undefined || contentItemId === null)
-            throw new Error("The parameter 'contentItemId' must be defined.");
-        url_ = url_.replace("{contentItemId}", encodeURIComponent("" + contentItemId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGet(_response);
-        });
-    }
-
-    protected processGet(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
-    }
-
-    delete(contentItemId: string | null): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/content/{contentItemId}";
-        if (contentItemId === undefined || contentItemId === null)
-            throw new Error("The parameter 'contentItemId' must be defined.");
-        url_ = url_.replace("{contentItemId}", encodeURIComponent("" + contentItemId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "DELETE",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDelete(_response);
-        });
-    }
-
-    protected processDelete(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
-    }
-
-    post(draft: boolean | undefined, model: ContentItem): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/content?";
-        if (draft === null)
-            throw new Error("The parameter 'draft' cannot be null.");
-        else if (draft !== undefined)
-            url_ += "draft=" + encodeURIComponent("" + draft) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(model);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPost(_response);
-        });
-    }
-
-    protected processPost(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
-    }
-}
-
-export class RestContentClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
-    }
-
     get(contentItemId: string | null): Promise<ContentItemDto> {
-        let url_ = this.baseUrl + "/api/restcontent/{contentItemId}";
+        let url_ = this.baseUrl + "/api/content/{contentItemId}";
         if (contentItemId === undefined || contentItemId === null)
             throw new Error("The parameter 'contentItemId' must be defined.");
         url_ = url_.replace("{contentItemId}", encodeURIComponent("" + contentItemId));
@@ -176,7 +55,7 @@ export class RestContentClient {
     }
 
     delete(contentItemId: string | null): Promise<ContentItemDto> {
-        let url_ = this.baseUrl + "/api/restcontent/{contentItemId}";
+        let url_ = this.baseUrl + "/api/content/{contentItemId}";
         if (contentItemId === undefined || contentItemId === null)
             throw new Error("The parameter 'contentItemId' must be defined.");
         url_ = url_.replace("{contentItemId}", encodeURIComponent("" + contentItemId));
@@ -213,7 +92,7 @@ export class RestContentClient {
     }
 
     post(draft: boolean | undefined, model: ContentItemDto): Promise<ContentItemDto> {
-        let url_ = this.baseUrl + "/api/restcontent?";
+        let url_ = this.baseUrl + "/api/content?";
         if (draft === null)
             throw new Error("The parameter 'draft' cannot be null.");
         else if (draft !== undefined)
@@ -335,8 +214,11 @@ export class FooClient {
         return Promise.resolve<FileResponse>(<any>null);
     }
 
-    put(updateDto: UpdateFooDto): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/foo";
+    put(reference: string | null, updateDto: UpdateFooDto): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/api/foo/{reference}";
+        if (reference === undefined || reference === null)
+            throw new Error("The parameter 'reference' must be defined.");
+        url_ = url_.replace("{reference}", encodeURIComponent("" + reference));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateDto);
@@ -1063,60 +945,6 @@ export class ContentPartDto extends ContentElementDto implements IContentPartDto
 export interface IContentPartDto extends IContentElementDto {
 }
 
-export class CommonPartDto extends ContentPartDto implements ICommonPartDto {
-
-    constructor(data?: ICommonPartDto) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): CommonPartDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CommonPartDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ICommonPartDto extends IContentPartDto {
-}
-
-export class ContentPart extends ContentElement implements IContentPart {
-
-    constructor(data?: IContentPart) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): ContentPart {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentPart();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IContentPart extends IContentElement {
-}
-
 export class WidgetMetadataDto extends ContentPartDto implements IWidgetMetadataDto {
     renderTitle?: boolean;
     position?: string | undefined;
@@ -1152,6 +980,33 @@ export class WidgetMetadataDto extends ContentPartDto implements IWidgetMetadata
 export interface IWidgetMetadataDto extends IContentPartDto {
     renderTitle?: boolean;
     position?: string | undefined;
+}
+
+export class ContentPart extends ContentElement implements IContentPart {
+
+    constructor(data?: IContentPart) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): ContentPart {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentPart();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentPart extends IContentElement {
 }
 
 export class FlowMetadataDto extends ContentPartDto implements IFlowMetadataDto {
@@ -1399,39 +1254,6 @@ export interface ITermPartDto extends IContentPartDto {
     taxonomyContentItemId?: string | undefined;
 }
 
-export class SamplePartDto extends ContentPartDto implements ISamplePartDto {
-    show?: boolean;
-
-    constructor(data?: ISamplePartDto) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.show = _data["Show"];
-        }
-    }
-
-    static fromJS(data: any): SamplePartDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new SamplePartDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Show"] = this.show;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISamplePartDto extends IContentPartDto {
-    show?: boolean;
-}
-
 export class LiquidPartDto extends ContentPartDto implements ILiquidPartDto {
     liquid?: string | undefined;
 
@@ -1463,6 +1285,33 @@ export class LiquidPartDto extends ContentPartDto implements ILiquidPartDto {
 
 export interface ILiquidPartDto extends IContentPartDto {
     liquid?: string | undefined;
+}
+
+export class CommonPartDto extends ContentPartDto implements ICommonPartDto {
+
+    constructor(data?: ICommonPartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): CommonPartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CommonPartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICommonPartDto extends IContentPartDto {
 }
 
 export class AliasPartDto extends ContentPartDto implements IAliasPartDto {
@@ -1957,6 +1806,39 @@ export class ContentMenuItemPartDto extends ContentPartDto implements IContentMe
 export interface IContentMenuItemPartDto extends IContentPartDto {
     selectedContentItem?: ContentPickerFieldDto | undefined;
     name?: string | undefined;
+}
+
+export class SamplePartDto extends ContentPartDto implements ISamplePartDto {
+    show?: boolean;
+
+    constructor(data?: ISamplePartDto) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.show = _data["Show"];
+        }
+    }
+
+    static fromJS(data: any): SamplePartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SamplePartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Show"] = this.show;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISamplePartDto extends IContentPartDto {
+    show?: boolean;
 }
 
 export class MenuItemDto extends ContentItemDto implements IMenuItemDto {

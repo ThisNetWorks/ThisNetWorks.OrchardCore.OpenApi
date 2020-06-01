@@ -27,7 +27,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi
 
             services.AddSingleton<IDocumentProcessor, ContentTypeSchemaProcessor>();
             services.AddSingleton<IDocumentProcessor, AlterExistingControllersSchemaProcessor>();
-            services.AddSingleton<IDocumentProcessor, RestContentControllerSchemaProcessor>();
+            services.AddSingleton<IDocumentProcessor, ContentsApiControllerSchemaProcessor>();
             services.AddOpenApiDocument(config =>
             {
                 config.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings

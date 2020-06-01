@@ -16,9 +16,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
         {
             Console.WriteLine("Hello World!");
 
-            var client = new RestContentClient(HttpClient);
+            var client = new ContentClient(HttpClient);
 
-            var fooTextItemDto = (await client.RestContent_GetAsync("4qnhdhv3z54xk4fg4tdfke76c9")) as FooTextItemDto;
+            var fooTextItemDto = (await client.Api_GetAsync("4qnhdhv3z54xk4fg4tdfke76c9")) as FooTextItemDto;
 
             Console.WriteLine("Reading from Api");
             Console.WriteLine(fooTextItemDto.FooText.FooField.Text);
@@ -27,7 +27,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
             //blogPost.ContentType
             fooTextItemDto.FooText.FooField.Text = "Foo field value - edited by api - " + Guid.NewGuid().ToString("n");
 
-            fooTextItemDto = (await client.RestContent_PostAsync(false, fooTextItemDto)) as FooTextItemDto;
+            fooTextItemDto = (await client.Api_PostAsync(false, fooTextItemDto)) as FooTextItemDto;
 
             Console.WriteLine("Written and read back from Api");
             Console.WriteLine(fooTextItemDto.FooText.FooField.Text);

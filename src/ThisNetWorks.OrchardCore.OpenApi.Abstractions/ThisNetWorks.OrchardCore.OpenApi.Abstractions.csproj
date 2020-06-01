@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="NJsonSchema" Version="10.1.18" />
-    <PackageReference Include="OrchardCore.ContentManagement.Abstractions" Version="1.0.0-rc1-13293" />
+    <PackageReference Include="OrchardCore.ContentManagement.Abstractions" Version="1.0.0-rc1-13334" />
   </ItemGroup>
 
 </Project>

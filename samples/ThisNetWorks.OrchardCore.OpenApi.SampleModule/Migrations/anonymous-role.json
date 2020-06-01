@@ -29,6 +29,7 @@
             "View_Bag",
             "Edit_FooText",
             "Publish_FooText",
+            "AccessContentApi",
             "QueryLuceneSearchIndex"
           ]
         }
