@@ -1,10 +1,11 @@
 using OrchardCore.DisplayManagement.Manifest;
 
 [assembly: Theme(
-    Name = "ThisNetWorks.OrchardCore.OpenApi.SampleTheme",
-    Author = "The Orchard Core Team",
-    Website = "https://orchardcore.net",
-    Version = "0.0.1",
-    Description = "ThisNetWorks.OrchardCore.OpenApi.SampleTheme",
+    Id = "ThisNetWorks.OrchardCore.OpenApi.SampleTheme",
+    Name = "OpenAPI Sample Theme",
+    Author = "ThisNetWorks",
+    Website = "https://github.com/ThisNetWorks",
+    Version = "1.0.0",
+    Description = "OpenAPI Sample Theme",
     BaseTheme = "TheTheme"
 )]

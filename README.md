@@ -1,7 +1,7 @@
 # ThisNetWorks.OrchardCore.OpenApi
-Orchard Core Open Api Code Generation Tools based on [NSwag](https://github.com/RicoSuter/NSwag)
+Orchard Core OpenAPI Code Generation Tools based on [NSwag](https://github.com/RicoSuter/NSwag)
 
-Provides a dynamic Open Api definition for Orchard Core Content Types and REST API Controllers.
+Provides a dynamic OpenAPI definition for Orchard Core Content Types and REST API Controllers.
 
 This project is heavily based on [NSwag](https://github.com/RicoSuter/NSwag) and provides a wrapper and dynamic Content Type
 functionality for Orchard Core.
@@ -15,7 +15,9 @@ functionality for Orchard Core.
 
 ## Getting Started
 
-Install the [ThisNetWorks.OrchardCore.OpenApi] module.
+Install the [ThisNetWorks.OrchardCore.OpenApi] module to your Orchard Core Host project.
+
+Enable the `Orchard Core OpenAPI feature`.
 
 Refer the sample projects for example NSwag client.nswag and models.nswag configurations.
 

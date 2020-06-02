@@ -1,11 +1,12 @@
 using OrchardCore.Modules.Manifest;
 
 [assembly: Module(
-    Name = "ThisNetWorks.OrchardCore.OpenApi.SampleModule",
-    Author = "The Orchard Core Team",
-    Website = "https://orchardcore.net",
-    Version = "0.0.1",
-    Description = "ThisNetWorks.OrchardCore.OpenApi.SampleModule",
+    Id = "ThisNetWorks.OrchardCore.OpenApi.SampleModule",
+    Name = "OpenAPI Sample Module",
+    Author = "ThisNetWorks",
+    Website = "https://github.com/ThisNetWorks",
+    Version = "1.0.0",
+    Description = "OpenAPI Sample Module",
     Dependencies = new[] { "OrchardCore.ContentTypes" },
     Category = "Content Management"
 )]

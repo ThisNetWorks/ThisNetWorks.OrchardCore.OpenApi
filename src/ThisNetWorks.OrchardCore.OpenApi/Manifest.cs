@@ -1,10 +1,11 @@
 using OrchardCore.Modules.Manifest;
 
 [assembly: Module(
-    Name = "ThisNetWorks.OrchardCore.OpenApi",
-    Author = "The Orchard Core Team",
-    Website = "https://orchardcore.net",
-    Version = "0.0.1",
-    Description = "ThisNetWorks.OrchardCore.OpenApi",
+    Id = "ThisNetWorks.OrchardCore.OpenApi",
+    Name = "Orchard Core OpenAPI Tools",
+    Author = "ThisNetWorks",
+    Website = "https://github.com/ThisNetWorks",
+    Version = "1.0.0",
+    Description = "Provides a dynamic OpenAPI definition for Orchard Core Content Types and REST API Controllers",
     Category = "Content Management"
 )]
