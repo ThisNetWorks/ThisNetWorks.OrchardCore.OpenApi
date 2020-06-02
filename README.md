@@ -15,7 +15,7 @@ functionality for Orchard Core.
 
 ## Getting Started
 
-Install the [ThisNetWorks.OrchardCore.OpenApi] module to your Orchard Core Host project.
+Install the ThisNetWorks.OrchardCore.OpenApi module to your Orchard Core Host project.
 
 Enable the `Orchard Core OpenAPI feature`.
 
@@ -25,7 +25,7 @@ Install [NSwag Studio](https://github.com/RicoSuter/NSwag/releases).
 
 Generate your API Client.
 
-Install the [ThisNetWorks.OrchardCore.OpenApi.Abstractions] package for access to base classes
+Install the ThisNetWorks.OrchardCore.OpenApi.Abstractions package for access to base classes
 and extension methods, such as 
 - `contentItem.ToDto<BlogPostItemDto>()`
 - `contentItem.FromDto(dto)`
