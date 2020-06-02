@@ -27,5 +27,3 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore
-    - name: Pack with dotnet
-      run: dotnet pack --output artifacts --configuration Release
