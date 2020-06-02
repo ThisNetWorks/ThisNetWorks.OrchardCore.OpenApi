@@ -5,6 +5,7 @@
     <TieredCompilation>true</TieredCompilation>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
