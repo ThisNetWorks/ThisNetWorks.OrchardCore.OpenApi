@@ -5,10 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ThisNetWorks.OrchardCore.OpenApi.Processors
+namespace ThisNetWorks.OrchardCore.OpenApi.Extensions
 {
     public static class ContentHelperExtensions
     {
+        public static void TryRemoveDefinition(this DocumentProcessorContext context, string key)
+        {
+            if (context.Document.Definitions.ContainsKey(key))
+            {
+                context.Document.Definitions.Remove(key);
+            }
+        }
+
         public static void ApplySchemaToContent(this IDictionary<string, OpenApiMediaType> content, JsonSchema schema)
         {
             var firstContentMediaType = content.FirstOrDefault();

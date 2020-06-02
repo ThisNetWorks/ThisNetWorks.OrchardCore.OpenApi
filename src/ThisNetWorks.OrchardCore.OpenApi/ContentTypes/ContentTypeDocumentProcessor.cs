@@ -9,23 +9,21 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Mvc.Utilities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ThisNetWorks.OrchardCore.OpenApi.Extensions;
 using ThisNetWorks.OrchardCore.OpenApi.Models;
 using ThisNetWorks.OrchardCore.OpenApi.Options;
 
-namespace ThisNetWorks.OrchardCore.OpenApi.Processors
+namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
 {
-    public class ContentTypeSchemaProcessor : IDocumentProcessor
+    public class ContentTypeDocumentProcessor : IDocumentProcessor
     {
         private readonly OpenApiOptions _openApiOptions;
         private readonly ContentOptions _contentOptions;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private IContentDefinitionManager _contentDefinitionManager;
 
-        public ContentTypeSchemaProcessor(
+        public ContentTypeDocumentProcessor(
             IOptions<OpenApiOptions> openApiOptions,
             IOptions<ContentOptions> contentOptions,
             IHttpContextAccessor httpContentAccessor
@@ -211,7 +209,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 // TODO a custom one of these might help create types automatically.
                 // Particularly useful for Flow.ContentItems etc.
                 JsonInheritanceConverter = new JsonInheritanceConverter("ContentType")
-            }; 
+            };
 
             foreach (var ctd in ctds)
             {
@@ -344,14 +342,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
                 {
                     property.Value.Item.Reference = contentItemDtoSchema;
                 }
-                if (property.Value.Type == JsonObjectType.Object && 
+                if (property.Value.Type == JsonObjectType.Object &&
                     property.Value.AdditionalPropertiesSchema != null &&
                     property.Value.AdditionalPropertiesSchema.Type == JsonObjectType.Array &&
                     property.Value.AdditionalPropertiesSchema.Item.Reference == contentItemSchema
                     )
                 {
                     property.Value.AdditionalPropertiesSchema.Item.Reference = contentItemDtoSchema;
-                       
+
                 }
 
                 AlterArrayPropertiesToContentItemDtoSchema(property.Value.Properties, contentItemSchema, contentItemDtoSchema);

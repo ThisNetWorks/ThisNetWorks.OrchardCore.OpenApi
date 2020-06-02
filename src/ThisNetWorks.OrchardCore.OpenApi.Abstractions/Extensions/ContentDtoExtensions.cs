@@ -34,7 +34,7 @@ namespace OrchardCore.ContentManagement
                 }
             });
 
-        private static readonly JsonMergeSettings JsonMergeSettings = new JsonMergeSettings
+        private static readonly JsonMergeSettings ReplaceJsonMergeSettings = new JsonMergeSettings
         {
             MergeArrayHandling = MergeArrayHandling.Replace,
             // TODO don't need this is we are pascal casing names first.
@@ -105,7 +105,7 @@ namespace OrchardCore.ContentManagement
             var jObject = JObject.FromObject(dto);
             if (jsonMergeSettings == null)
             {
-                return contentItem.Merge(jObject, JsonMergeSettings);
+                return contentItem.Merge(jObject, ReplaceJsonMergeSettings);
             } else
             {
                 return contentItem.Merge(jObject, jsonMergeSettings);

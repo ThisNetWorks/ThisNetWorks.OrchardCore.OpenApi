@@ -1,9 +1,10 @@
 ﻿using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
+using ThisNetWorks.OrchardCore.OpenApi.Extensions;
 
-namespace ThisNetWorks.OrchardCore.OpenApi.Processors
+namespace ThisNetWorks.OrchardCore.OpenApi.ContentsApi
 {
-    public class ContentsApiControllerSchemaProcessor : IDocumentProcessor
+    public class ContentsApiControllerDocumentProcessor : IDocumentProcessor
     {
         public void Process(DocumentProcessorContext context)
         {
