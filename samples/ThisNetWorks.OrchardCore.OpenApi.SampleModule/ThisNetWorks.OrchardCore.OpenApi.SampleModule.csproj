@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.Module.Targets" />
+    <PackageReference Include="OrchardCore.ContentFields" />
+    <PackageReference Include="OrchardCore.ContentManagement" />
+    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" />
+    <PackageReference Include="OrchardCore.DisplayManagement"  />
+    <PackageReference Include="OrchardCore.Flows" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ThisNetWorks.OrchardCore.OpenApi.Abstractions\ThisNetWorks.OrchardCore.OpenApi.Abstractions.csproj" />
+    <ProjectReference Include="..\ThisNetWorks.OrchardCore.OpenApi.SampleModels\ThisNetWorks.OrchardCore.OpenApi.SampleModels.csproj" />
+  </ItemGroup>
+
+</Project>

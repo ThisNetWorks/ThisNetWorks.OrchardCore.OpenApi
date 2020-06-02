@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>ThisNetWorks.OrchardCore.OpenApi</PackageId>
+    <Title>OpenApi for Orchard Core</Title>
+    <Description>Open Api for Orchard Core</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSwag.AspNetCore" />
+    <PackageReference Include="OrchardCore.Module.Targets" />
+    <PackageReference Include="OrchardCore.ContentManagement" />
+    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" />
+    <PackageReference Include="OrchardCore.DisplayManagement" />
+    <PackageReference Include="OrchardCore.Contents.Core" />
+    <PackageReference Include="OrchardCore.Infrastructure" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ThisNetWorks.OrchardCore.OpenApi.Abstractions\ThisNetWorks.OrchardCore.OpenApi.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

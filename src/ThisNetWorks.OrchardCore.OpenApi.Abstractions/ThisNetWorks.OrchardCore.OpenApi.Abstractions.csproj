@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>ThisNetWorks.OrchardCore.OpenApi</RootNamespace>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <PackageId>ThisNetWorks.OrchardCore.OpenApi.Abstractions</PackageId>
+    <Title>OpenApi for Orchard Core Abstractions</Title>
+    <Description>Open Api for Orchard Core Abstractions</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NJsonSchema" />
+    <PackageReference Include="OrchardCore.ContentManagement.Abstractions" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,31 @@
+﻿using OrchardCore.ContentManagement;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using ThisNetWorks.OrchardCore.OpenApi.Models;
+
+namespace ThisNetWorks.OrchardCore.OpenApi.Extensions
+{
+    public static class IContentManagerExtensions
+    {
+        // What would be even nicer is to infer the content type from the discriminator.
+        public static async Task<TDto> NewDtoAsync<TDto>(this IContentManager contentManager, string contentType)
+            where TDto : ContentItemDto
+        {
+            return (await contentManager.NewAsync(contentType))
+                .ToDto<TDto>();
+        }
+
+        public static async Task<TDto> NewDtoAsync<TDto>(this IContentManager contentManager, string contentType, Action<TDto> action)
+            where TDto : ContentItemDto
+        {
+            var dto = (await contentManager.NewAsync(contentType))
+                .ToDto<TDto>();
+
+            action?.Invoke(dto);
+
+            return dto;
+        }
+    }
+}

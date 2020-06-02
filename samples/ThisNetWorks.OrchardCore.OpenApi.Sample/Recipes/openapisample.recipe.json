@@ -1,0 +1,39 @@
+{
+  "name": "OpenApiSample",
+  "displayName": "Open Api Sample",
+  "description": "Open Api Samples",
+  "author": "ThisNetWorks",
+  "website": "https://github.com/ThisNetWorks",
+  "version": "1",
+  "issetuprecipe": true,
+  "categories": [],
+  "tags": [],
+  "steps": [
+     {
+      "name": "Recipes",
+      "Values": [
+        {
+          "ExecutionId" : "",
+          "Name" : "Blog"
+        }
+      ]
+     },
+    {
+      "name": "Feature",
+      "enable": [
+        "ThisNetWorks.OrchardCore.OpenApi",
+        "ThisNetWorks.OrchardCore.OpenApi.SampleModule",
+        "ThisNetWorks.OrchardCore.OpenApi.SampleTheme",
+        "TheTheme"
+      ],
+      "disable": [
+        "TheBlogTheme"
+      ]
+    },
+    {
+      "name": "themes",
+      "admin": "TheAdmin",
+      "site": "ThisNetWorks.OrchardCore.OpenApi.SampleTheme"
+    },
+  ]
+}
