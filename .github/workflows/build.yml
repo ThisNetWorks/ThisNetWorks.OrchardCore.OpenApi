@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master ]
     paths-ignore:
-    - 'samples/**'
+    - 'docs/**'
     - 'readme.md'
 
   pull_request:
@@ -27,3 +27,5 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore
+    - name: Pack with dotnet
+      run: dotnet pack --output artifacts --configuration Release
