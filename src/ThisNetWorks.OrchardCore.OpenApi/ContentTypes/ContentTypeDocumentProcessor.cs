@@ -36,6 +36,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
 
         public void Process(DocumentProcessorContext context)
         {
+            if (!_openApiOptions.ContentTypes.ProcessContentTypes)
+            {
+                return;
+            }
+
             _contentDefinitionManager ??= _httpContextAccessor.HttpContext.RequestServices.GetRequiredService<IContentDefinitionManager>();
 
             var contentElementDtoSchema = context.SchemaGenerator.Generate(typeof(ContentElementDto), context.SchemaResolver);
@@ -54,7 +59,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
             // Process fields
             foreach (var contentFieldOption in _contentOptions.ContentFieldOptions)
             {
-                if (!_openApiOptions.IncludeAllFields)
+                if (!_openApiOptions.ContentTypes.IncludeAllFields)
                 {
                     if (!allFieldDefinitions.Contains(contentFieldOption.Type.Name))
                     {
@@ -62,7 +67,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                     }
                 }
 
-                if (_openApiOptions.ExcludedFields.Any(x => string.Equals(x, contentFieldOption.Type.Name, StringComparison.OrdinalIgnoreCase)))
+                if (_openApiOptions.ContentTypes.ExcludedFields.Any(x => string.Equals(x, contentFieldOption.Type.Name, StringComparison.OrdinalIgnoreCase)))
                 {
                     continue;
                 }
@@ -73,7 +78,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                 InsertDtoReferenceSchema(fieldSchema, fieldDtoSchema);
 
                 // Change schema regisitration name to 'TextFieldDto'               
-                AlterSchemaDefinition(context, contentFieldOption.Type.Name, _openApiOptions.SchemaNameExtension);
+                AlterSchemaDefinition(context, contentFieldOption.Type.Name, _openApiOptions.ContentTypes.SchemaNameExtension);
             }
 
             // Process Parts
@@ -108,7 +113,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                 // Use ActualProperties here, not Properties
                 AlterArrayPropertiesToContentItemDtoSchema(partSchema.ActualProperties, contentItemSchema, contentItemDtoSchema);
                 // Change schema regisitration name to 'ContainedPartDto'
-                AlterSchemaDefinition(context, registeredPartOption.Type.Name, _openApiOptions.SchemaNameExtension);
+                AlterSchemaDefinition(context, registeredPartOption.Type.Name, _openApiOptions.ContentTypes.SchemaNameExtension);
             }
 
             // Then register parts defined in the part definitions.
@@ -129,7 +134,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                     foreach (var field in partDefinition.Fields)
                     {
                         // Lookup field definition.
-                        if (context.Document.Definitions.TryGetValue(field.FieldDefinition.Name + _openApiOptions.SchemaNameExtension, out var fieldSchema))
+                        if (context.Document.Definitions.TryGetValue(field.FieldDefinition.Name + _openApiOptions.ContentTypes.SchemaNameExtension, out var fieldSchema))
                         {
                             // Add field as property.
                             var propertySchema = new JsonSchemaProperty
@@ -152,7 +157,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                         AlterArrayPropertiesToContentItemDtoSchema(allOfSchema.ActualProperties, contentItemSchema, contentItemDtoSchema);
                     }
                     // Change schema regisitration name to 'HtmlPartDto'
-                    AlterSchemaDefinition(context, contentPartOption.Type.Name, _openApiOptions.SchemaNameExtension);
+                    AlterSchemaDefinition(context, contentPartOption.Type.Name, _openApiOptions.ContentTypes.SchemaNameExtension);
 
                 }
                 else // This builds dynamic parts.
@@ -178,7 +183,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                     foreach (var field in partDefinition.Fields)
                     {
                         // Lookup field definition.
-                        if (context.Document.Definitions.TryGetValue(field.FieldDefinition.Name + _openApiOptions.SchemaNameExtension, out var fieldSchema))
+                        if (context.Document.Definitions.TryGetValue(field.FieldDefinition.Name + _openApiOptions.ContentTypes.SchemaNameExtension, out var fieldSchema))
                         {
                             // Add field as property.
                             var propertySchema = new JsonSchemaProperty
@@ -196,7 +201,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                         }
                     }
 
-                    context.Document.Definitions[partDefinition.Name + _openApiOptions.SchemaNameExtension] = partSchema;
+                    context.Document.Definitions[partDefinition.Name + _openApiOptions.ContentTypes.SchemaNameExtension] = partSchema;
                 }
             }
 
@@ -214,7 +219,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
 
             foreach (var ctd in ctds)
             {
-                if (_openApiOptions.ExcludedTypes.Any(x => string.Equals(x, ctd.Name)))
+                if (_openApiOptions.ContentTypes.ExcludedTypes.Any(x => string.Equals(x, ctd.Name)))
                 {
                     continue;
                 }
@@ -253,7 +258,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                     foreach (var field in typeFieldPartDefinition.PartDefinition.Fields)
                     {
                         // Lookup field definition.
-                        if (context.Document.Definitions.TryGetValue(field.FieldDefinition.Name + _openApiOptions.SchemaNameExtension, out var fieldSchema))
+                        if (context.Document.Definitions.TryGetValue(field.FieldDefinition.Name + _openApiOptions.ContentTypes.SchemaNameExtension, out var fieldSchema))
                         {
                             // Add field as property.
                             var propertySchema = new JsonSchemaProperty
@@ -272,7 +277,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                     }
 
                     // Don't add "Part" here because users often create their own TypePart.
-                    context.Document.Definitions[ctd.Name + _openApiOptions.SchemaNameExtension] = partSchema;
+                    context.Document.Definitions[ctd.Name + _openApiOptions.ContentTypes.SchemaNameExtension] = partSchema;
 
                     // Add fieldpart as property.
                     var typePropertySchema = new JsonSchemaProperty
@@ -294,7 +299,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                 foreach (var partDefinition in parts)
                 {
                     // Lookup part definition.
-                    if (context.Document.Definitions.TryGetValue(partDefinition.PartDefinition.Name + _openApiOptions.SchemaNameExtension,
+                    if (context.Document.Definitions.TryGetValue(partDefinition.PartDefinition.Name + _openApiOptions.ContentTypes.SchemaNameExtension,
                         out var typePartSchema))
                     {
                         // Add part as property.
@@ -314,11 +319,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                 }
 
                 // Add final definition.
-                context.Document.Definitions[ctd.Name + _openApiOptions.SchemaTypeNameExtension + _openApiOptions.SchemaNameExtension] = typeSchema;
+                context.Document.Definitions[ctd.Name + _openApiOptions.ContentTypes.SchemaTypeNameExtension + _openApiOptions.ContentTypes.SchemaNameExtension] = typeSchema;
 
                 // Add discriminator mappings to actual type schema
                 typeDtoSchema.ActualTypeSchema.DiscriminatorObject.Mapping.Add(
-                    ctd.Name + _openApiOptions.SchemaTypeNameExtension + _openApiOptions.SchemaNameExtension,
+                    ctd.Name + _openApiOptions.ContentTypes.SchemaTypeNameExtension + _openApiOptions.ContentTypes.SchemaNameExtension,
                     new JsonSchema
                     {
                         Reference = typeSchema

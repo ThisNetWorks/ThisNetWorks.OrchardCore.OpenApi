@@ -1,17 +1,17 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
-using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.ContentTypes.Editors;
 using OrchardCore.Data.Migration;
+using OrchardCore.Modules;
+using System;
+using ThisNetWorks.OrchardCore.OpenApi.Options;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModule.Drivers;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModule.Handlers;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModule.Settings;
-using OrchardCore.Modules;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
 {
@@ -25,6 +25,13 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
 
             services.AddScoped<IContentPartDefinitionDisplayDriver, SamplePartSettingsDisplayDriver>();
             services.AddScoped<IDataMigration, Migrations>();
+
+            services.Configure<OpenApiOptions>(o =>
+            {
+                o.ContentTypes.IncludeAllFields = false;
+                o.PathOptions.PathsToRemove.Add("api/lucene");
+                o.PathOptions.PathsToRemove.Add("api/queries");
+            });
         }
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)

@@ -1,30 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace ThisNetWorks.OrchardCore.OpenApi.Options
+﻿namespace ThisNetWorks.OrchardCore.OpenApi.Options
 {
     public class OpenApiOptions
     {
-        public bool IncludeAllParts { get; set; } = true;
-        public bool IncludeAllFields { get; set; } = true;
-
-        /// <summary>
-        /// Content types to exclude. Is case sensitive.
-        /// </summary>
-        public List<string> ExcludedTypes { get; } = new List<string>();
-        /// <summary>
-        /// Content fields to exclude. Is not case sensitive. 
-        /// </summary>
-        public List<string> ExcludedFields { get; } = new List<string>();
-
-        /// <summary>
-        /// Content types to exclude. Is case sensitive.
-        /// </summary>
-        public List<string> ExcludedParts { get;  } = new List<string>();
-
-        public string SchemaNameExtension { get; set; } = "Dto";
-        public string SchemaTypeNameExtension { get; set; } = "Item";
-
-        public List<string> PathsToRemove { get; } = new List<string>();
+        public OpenApiContentTypeOptions ContentTypes { get; set; } = new OpenApiContentTypeOptions();
+        public OpenApiContentsApiOptions ContentsApi { get; set; } = new OpenApiContentsApiOptions();
+        public OpenApiMiddlewareOptions Middleware { get; set; } = new OpenApiMiddlewareOptions();
+        public OpenApiPathOptions PathOptions { get; set; } = new OpenApiPathOptions();
     }
 }

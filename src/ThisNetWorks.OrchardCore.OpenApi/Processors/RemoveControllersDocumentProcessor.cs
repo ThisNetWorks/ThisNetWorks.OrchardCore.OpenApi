@@ -19,7 +19,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Processors
 
         public void Process(DocumentProcessorContext context)
         {
-            foreach (var pathToRemove in _openApiOptions.PathsToRemove)
+            foreach (var pathToRemove in _openApiOptions.PathOptions.PathsToRemove)
             {
                 var paths = context.Document.Paths.Where(x => x.Key.Contains(pathToRemove));
                 foreach (var path in paths.Select(x => x.Key))
