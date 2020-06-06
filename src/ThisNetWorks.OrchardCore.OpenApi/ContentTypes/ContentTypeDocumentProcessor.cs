@@ -105,7 +105,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                 // remove first AllOf and reinsert the partDtoSchema as the ref.
                 InsertDtoReferenceSchema(partSchema, partDtoSchema);
 
-                AlterArrayPropertiesToContentItemDtoSchema(partSchema.Properties, contentItemSchema, contentItemDtoSchema);
+                // Use ActualProperties here, not Properties
+                AlterArrayPropertiesToContentItemDtoSchema(partSchema.ActualProperties, contentItemSchema, contentItemDtoSchema);
                 // Change schema regisitration name to 'ContainedPartDto'
                 AlterSchemaDefinition(context, registeredPartOption.Type.Name, _openApiOptions.SchemaNameExtension);
             }
@@ -148,7 +149,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
 
                     foreach (var allOfSchema in partSchema.AllOf)
                     {
-                        AlterArrayPropertiesToContentItemDtoSchema(allOfSchema.Properties, contentItemSchema, contentItemDtoSchema);
+                        AlterArrayPropertiesToContentItemDtoSchema(allOfSchema.ActualProperties, contentItemSchema, contentItemDtoSchema);
                     }
                     // Change schema regisitration name to 'HtmlPartDto'
                     AlterSchemaDefinition(context, contentPartOption.Type.Name, _openApiOptions.SchemaNameExtension);
@@ -327,7 +328,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
         }
 
         private static void AlterArrayPropertiesToContentItemDtoSchema(
-            IDictionary<string, JsonSchemaProperty> properties,
+            IReadOnlyDictionary<string, JsonSchemaProperty> properties,
             JsonSchema contentItemSchema,
             JsonSchema contentItemDtoSchema)
         {
@@ -352,7 +353,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
 
                 }
 
-                AlterArrayPropertiesToContentItemDtoSchema(property.Value.Properties, contentItemSchema, contentItemDtoSchema);
+                AlterArrayPropertiesToContentItemDtoSchema(property.Value.ActualProperties, contentItemSchema, contentItemDtoSchema);
             }
         }
 

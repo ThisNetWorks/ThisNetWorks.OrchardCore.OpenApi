@@ -11,8 +11,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Extensions
     {
         public static void TryRemoveDefinition(this DocumentProcessorContext context, string key)
         {
-            if (context.Document.Definitions.ContainsKey(key))
+            if (context.Document.Definitions.TryGetValue(key, out var value))
             {
+                value.AllOf.Clear();
                 context.Document.Definitions.Remove(key);
             }
         }
