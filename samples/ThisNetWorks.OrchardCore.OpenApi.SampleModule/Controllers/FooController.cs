@@ -1,16 +1,12 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.Contents;
 using OrchardCore.Mvc.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ThisNetWorks.OrchardCore.OpenApi.SampleModels.Models;
-using ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models;
 using CreateFooDto = ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models.CreateFooDto;
 using GetFooDto = ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models.GetFooDto;
 using UpdateFooDto = ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models.UpdateFooDto;
@@ -20,7 +16,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Controllers
     [Route("api/foo")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Api"), IgnoreAntiforgeryToken, AllowAnonymous]
-    public class FooController: Controller
+    public class FooController : Controller
     {
         private readonly IContentManager _contentManager;
         private readonly IAuthorizationService _authorizationService;
@@ -33,19 +29,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Controllers
             _authorizationService = authorizationService;
         }
 
-        //[HttpGet]
-        ////TODO get an exception here when using an itemdto.
-        //public ActionResult<GetFooDto> Get()
-        //{
-        //    return Ok(new GetFooDto
-        //    {
-        //        Text = "foo"
-        //    });
-        //}
-
         [HttpGet]
-        //TODO get an exception here when using an itemdto.
-        public ActionResult<List<GetFooDto>> Get()
+        public ActionResult<List<GetFooDto>> GetAll()
         {
             return Ok(new List<GetFooDto>
             {
@@ -53,6 +38,16 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Controllers
                 {
                     Text = "foo"
                 }
+            });
+        }
+
+        [HttpGet("{fooId}")]
+        public ActionResult<GetFooDto> Get(string fooId)
+        {
+            return Ok(new GetFooDto
+            {
+                FooId = fooId,
+                Text = "foobar"
             });
         }
 

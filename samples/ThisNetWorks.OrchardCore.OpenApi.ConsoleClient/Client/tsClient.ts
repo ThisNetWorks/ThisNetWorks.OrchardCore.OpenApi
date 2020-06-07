@@ -133,158 +133,6 @@ export class ApiClient {
         return Promise.resolve<ContentItemDto>(<any>null);
     }
 
-    content(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/lucene/content?";
-        if (indexName !== undefined && indexName !== null)
-            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
-        if (query !== undefined && query !== null)
-            url_ += "query=" + encodeURIComponent("" + query) + "&";
-        if (parameters !== undefined && parameters !== null)
-            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "POST",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processContent(_response);
-        });
-    }
-
-    protected processContent(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
-    }
-
-    content2(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/lucene/content?";
-        if (indexName !== undefined && indexName !== null)
-            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
-        if (query !== undefined && query !== null)
-            url_ += "query=" + encodeURIComponent("" + query) + "&";
-        if (parameters !== undefined && parameters !== null)
-            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processContent2(_response);
-        });
-    }
-
-    protected processContent2(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
-    }
-
-    documents(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/lucene/documents?";
-        if (indexName !== undefined && indexName !== null)
-            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
-        if (query !== undefined && query !== null)
-            url_ += "query=" + encodeURIComponent("" + query) + "&";
-        if (parameters !== undefined && parameters !== null)
-            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "POST",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDocuments(_response);
-        });
-    }
-
-    protected processDocuments(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
-    }
-
-    documents2(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/lucene/documents?";
-        if (indexName !== undefined && indexName !== null)
-            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
-        if (query !== undefined && query !== null)
-            url_ += "query=" + encodeURIComponent("" + query) + "&";
-        if (parameters !== undefined && parameters !== null)
-            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDocuments2(_response);
-        });
-    }
-
-    protected processDocuments2(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
-    }
-
     create(model: CreateApiViewModel): Promise<FileResponse> {
         let url_ = this.baseUrl + "/api/tenants/create";
         url_ = url_.replace(/[?&]$/, "");
@@ -355,6 +203,196 @@ export class ApiClient {
             });
         }
         return Promise.resolve<FileResponse>(<any>null);
+    }
+}
+
+export class ContentClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+    }
+
+    post(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneItemsDto | null> {
+        let url_ = this.baseUrl + "/api/lucene/content?";
+        if (indexName !== undefined && indexName !== null)
+            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
+        if (query !== undefined && query !== null)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPost(_response);
+        });
+    }
+
+    protected processPost(response: Response): Promise<LuceneItemsDto | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LuceneItemsDto.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LuceneItemsDto | null>(<any>null);
+    }
+
+    get(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneItemsDto | null> {
+        let url_ = this.baseUrl + "/api/lucene/content?";
+        if (indexName !== undefined && indexName !== null)
+            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
+        if (query !== undefined && query !== null)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<LuceneItemsDto | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LuceneItemsDto.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LuceneItemsDto | null>(<any>null);
+    }
+}
+
+export class DocumentsClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+    }
+
+    post(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneDocumentDto[] | null> {
+        let url_ = this.baseUrl + "/api/lucene/documents?";
+        if (indexName !== undefined && indexName !== null)
+            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
+        if (query !== undefined && query !== null)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPost(_response);
+        });
+    }
+
+    protected processPost(response: Response): Promise<LuceneDocumentDto[] | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LuceneDocumentDto.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LuceneDocumentDto[] | null>(<any>null);
+    }
+
+    get(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneDocumentDto[] | null> {
+        let url_ = this.baseUrl + "/api/lucene/documents?";
+        if (indexName !== undefined && indexName !== null)
+            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
+        if (query !== undefined && query !== null)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<LuceneDocumentDto[] | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LuceneDocumentDto.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LuceneDocumentDto[] | null>(<any>null);
     }
 }
 
@@ -465,7 +503,7 @@ export class FooClient {
         this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
     }
 
-    get(): Promise<GetFooDto[]> {
+    getAll(): Promise<GetFooDto[]> {
         let url_ = this.baseUrl + "/api/foo";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -477,11 +515,11 @@ export class FooClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGet(_response);
+            return this.processGetAll(_response);
         });
     }
 
-    protected processGet(response: Response): Promise<GetFooDto[]> {
+    protected processGetAll(response: Response): Promise<GetFooDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -539,6 +577,43 @@ export class FooClient {
         return Promise.resolve<FileResponse>(<any>null);
     }
 
+    get(fooId: string | null): Promise<GetFooDto> {
+        let url_ = this.baseUrl + "/api/foo/{fooId}";
+        if (fooId === undefined || fooId === null)
+            throw new Error("The parameter 'fooId' must be defined.");
+        url_ = url_.replace("{fooId}", encodeURIComponent("" + fooId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<GetFooDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetFooDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetFooDto>(<any>null);
+    }
+
     put(reference: string | null, updateDto: UpdateFooDto): Promise<FileResponse> {
         let url_ = this.baseUrl + "/api/foo/{reference}";
         if (reference === undefined || reference === null)
@@ -577,6 +652,36 @@ export class FooClient {
         }
         return Promise.resolve<FileResponse>(<any>null);
     }
+}
+
+export class LuceneDocumentDto implements ILuceneDocumentDto {
+
+    constructor(data?: ILuceneDocumentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): LuceneDocumentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LuceneDocumentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface ILuceneDocumentDto {
 }
 
 export class CreateApiViewModel implements ICreateApiViewModel {
@@ -720,6 +825,7 @@ export interface ISetupApiViewModel {
 }
 
 export class GetFooDto implements IGetFooDto {
+    fooId?: string | undefined;
     text?: string | undefined;
 
     constructor(data?: IGetFooDto) {
@@ -733,6 +839,7 @@ export class GetFooDto implements IGetFooDto {
 
     init(_data?: any) {
         if (_data) {
+            this.fooId = _data["FooId"];
             this.text = _data["Text"];
         }
     }
@@ -746,12 +853,14 @@ export class GetFooDto implements IGetFooDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["FooId"] = this.fooId;
         data["Text"] = this.text;
         return data; 
     }
 }
 
 export interface IGetFooDto {
+    fooId?: string | undefined;
     text?: string | undefined;
 }
 
@@ -895,6 +1004,50 @@ export class TextFieldDto extends ContentFieldDto implements ITextFieldDto {
 
 export interface ITextFieldDto extends IContentFieldDto {
     text?: string | undefined;
+}
+
+export class LuceneItemsDto implements ILuceneItemsDto {
+    items?: (ContentItemDto | undefined)[] | undefined;
+
+    constructor(data?: ILuceneItemsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["Items"])) {
+                this.items = [] as any;
+                for (let item of _data["Items"])
+                    this.items!.push(ContentItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): LuceneItemsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LuceneItemsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["Items"] = [];
+            for (let item of this.items)
+                data["Items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ILuceneItemsDto {
+    items?: (ContentItemDto | undefined)[] | undefined;
 }
 
 export class HtmlFieldDto extends ContentFieldDto implements IHtmlFieldDto {

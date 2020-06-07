@@ -2,9 +2,6 @@
 using NJsonSchema;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using ThisNetWorks.OrchardCore.OpenApi.Extensions;
 using ThisNetWorks.OrchardCore.OpenApi.Options;
 

@@ -1,0 +1,25 @@
+{
+  "name": "",
+  "displayName": "",
+  "description": "",
+  "author": "",
+  "website": "",
+  "version": "",
+  "issetuprecipe": false,
+  "categories": [],
+  "tags": [],
+  "steps": [
+    {
+      "name": "Queries",
+      "Queries": [
+        {
+          "Template": "SELECT DocumentId FROM AliasPartIndex WHERE Alias = @alias",
+          "ReturnDocuments": true,
+          "Name": "AliasQuery",
+          "Source": "Sql",
+          "Schema": null
+        }
+      ]
+    }
+  ]
+}

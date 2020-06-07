@@ -133,6 +133,13 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
 
             return 7;
         }
-        // TODO recipe migrator for a sample text container creation, and a custom settings to pick it.
+
+        public async Task<int> UpdateFrom7Async()
+        {
+            // Create a sql query with paramenters
+            await _recipeMigrator.ExecuteAsync("sql-alias-query.json", this);
+
+            return 8;
+        }
     }
 }

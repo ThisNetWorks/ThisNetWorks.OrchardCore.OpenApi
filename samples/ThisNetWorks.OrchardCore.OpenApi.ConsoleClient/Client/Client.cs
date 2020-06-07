@@ -385,14 +385,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> Api_ContentAsync(string indexName, string query, string parameters)
+        public System.Threading.Tasks.Task<LuceneItemsDto> Api_Content_PostAsync(string indexName, string query, string parameters)
         {
-            return Api_ContentAsync(indexName, query, parameters, System.Threading.CancellationToken.None);
+            return Api_Content_PostAsync(indexName, query, parameters, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> Api_ContentAsync(string indexName, string query, string parameters, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<LuceneItemsDto> Api_Content_PostAsync(string indexName, string query, string parameters, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/lucene/content?");
@@ -415,9 +415,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/octet-stream");
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
@@ -437,12 +437,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                         ProcessResponse(client_, response_);
     
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206") 
+                        if (status_ == "200") 
                         {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
-                            client_ = null; response_ = null; // response and client are disposed by FileResponse
-                            return fileResponse_;
+                            var objectResponse_ = await ReadObjectResponseAsync<LuceneItemsDto>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -451,7 +449,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(FileResponse);
+                        return default(LuceneItemsDto);
                     }
                     finally
                     {
@@ -466,14 +464,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> Api_Content2Async(string indexName, string query, string parameters)
+        public System.Threading.Tasks.Task<LuceneItemsDto> Api_Content_GetAsync(string indexName, string query, string parameters)
         {
-            return Api_Content2Async(indexName, query, parameters, System.Threading.CancellationToken.None);
+            return Api_Content_GetAsync(indexName, query, parameters, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> Api_Content2Async(string indexName, string query, string parameters, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<LuceneItemsDto> Api_Content_GetAsync(string indexName, string query, string parameters, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/lucene/content?");
@@ -497,7 +495,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
@@ -517,12 +515,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                         ProcessResponse(client_, response_);
     
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206") 
+                        if (status_ == "200") 
                         {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
-                            client_ = null; response_ = null; // response and client are disposed by FileResponse
-                            return fileResponse_;
+                            var objectResponse_ = await ReadObjectResponseAsync<LuceneItemsDto>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -531,7 +527,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(FileResponse);
+                        return default(LuceneItemsDto);
                     }
                     finally
                     {
@@ -546,14 +542,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> Api_DocumentsAsync(string indexName, string query, string parameters)
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.Collection<LuceneDocumentDto>> Api_Documents_PostAsync(string indexName, string query, string parameters)
         {
-            return Api_DocumentsAsync(indexName, query, parameters, System.Threading.CancellationToken.None);
+            return Api_Documents_PostAsync(indexName, query, parameters, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> Api_DocumentsAsync(string indexName, string query, string parameters, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.Collection<LuceneDocumentDto>> Api_Documents_PostAsync(string indexName, string query, string parameters, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/lucene/documents?");
@@ -576,9 +572,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/octet-stream");
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
@@ -598,12 +594,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                         ProcessResponse(client_, response_);
     
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206") 
+                        if (status_ == "200") 
                         {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
-                            client_ = null; response_ = null; // response and client are disposed by FileResponse
-                            return fileResponse_;
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.ObjectModel.Collection<LuceneDocumentDto>>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -612,7 +606,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(FileResponse);
+                        return default(System.Collections.ObjectModel.Collection<LuceneDocumentDto>);
                     }
                     finally
                     {
@@ -627,14 +621,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         }
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<FileResponse> Api_Documents2Async(string indexName, string query, string parameters)
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.Collection<LuceneDocumentDto>> Api_Documents_GetAsync(string indexName, string query, string parameters)
         {
-            return Api_Documents2Async(indexName, query, parameters, System.Threading.CancellationToken.None);
+            return Api_Documents_GetAsync(indexName, query, parameters, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> Api_Documents2Async(string indexName, string query, string parameters, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.Collection<LuceneDocumentDto>> Api_Documents_GetAsync(string indexName, string query, string parameters, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/lucene/documents?");
@@ -658,7 +652,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
@@ -678,12 +672,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                         ProcessResponse(client_, response_);
     
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206") 
+                        if (status_ == "200") 
                         {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, null, response_); 
-                            client_ = null; response_ = null; // response and client are disposed by FileResponse
-                            return fileResponse_;
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.ObjectModel.Collection<LuceneDocumentDto>>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -692,7 +684,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(FileResponse);
+                        return default(System.Collections.ObjectModel.Collection<LuceneDocumentDto>);
                     }
                     finally
                     {
@@ -1383,14 +1375,14 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.Collection<GetFooDto>> Foo_GetAsync()
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.Collection<GetFooDto>> Foo_GetAllAsync()
         {
-            return Foo_GetAsync(System.Threading.CancellationToken.None);
+            return Foo_GetAllAsync(System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.Collection<GetFooDto>> Foo_GetAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.Collection<GetFooDto>> Foo_GetAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/foo");
@@ -1507,6 +1499,72 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
                         }
             
                         return default(FileResponse);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+    
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<GetFooDto> Foo_GetAsync(string fooId)
+        {
+            return Foo_GetAsync(fooId, System.Threading.CancellationToken.None);
+        }
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<GetFooDto> Foo_GetAsync(string fooId, System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/foo/{fooId}");
+            urlBuilder_.Replace("{fooId}", System.Uri.EscapeDataString(ConvertToString(fooId, System.Globalization.CultureInfo.InvariantCulture)));
+    
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200") 
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<GetFooDto>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
+            
+                        return default(GetFooDto);
                     }
                     finally
                     {
@@ -1691,6 +1749,45 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.18.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class LuceneDocumentDto 
+    {
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+    
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties; }
+            set { _additionalProperties = value; }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+    
+        public static LuceneDocumentDto FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<LuceneDocumentDto>(data);
+        }
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.18.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class LuceneDocumentsDto : System.Collections.ObjectModel.Collection<LuceneDocumentDto>
+    {
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+    
+        public static LuceneDocumentsDto FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<LuceneDocumentsDto>(data);
+        }
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.18.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class CreateApiViewModel 
     {
         [Newtonsoft.Json.JsonProperty("Description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1780,6 +1877,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.18.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class GetFooDto 
     {
+        [Newtonsoft.Json.JsonProperty("FooId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FooId { get; set; }
+    
         [Newtonsoft.Json.JsonProperty("Text", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Text { get; set; }
     
@@ -1869,6 +1969,33 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         public static TextFieldDto FromJson(string data)
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<TextFieldDto>(data);
+        }
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.18.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class LuceneItemsDto 
+    {
+        [Newtonsoft.Json.JsonProperty("Items", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<ContentItemDto> Items { get; set; }
+    
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+    
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties; }
+            set { _additionalProperties = value; }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+    
+        public static LuceneItemsDto FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<LuceneItemsDto>(data);
         }
     
     }

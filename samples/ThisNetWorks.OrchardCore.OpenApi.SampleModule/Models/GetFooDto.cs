@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models
+﻿namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Models
 {
     public class GetFooDto
     {
+        public string FooId { get; set; }
         public string Text { get; set; }
     }
 }
