@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
+using NSwag;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using ThisNetWorks.OrchardCore.OpenApi.Extensions;
 using ThisNetWorks.OrchardCore.OpenApi.Options;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.ContentsApi
@@ -18,24 +21,13 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentsApi
 
         public void Process(DocumentProcessorContext context)
         {
-            if (string.IsNullOrEmpty(_openApiOptions.ContentsApi.ContentsApiTag))
+            if (string.IsNullOrEmpty(_openApiOptions.ContentsApi.ApiTag))
             {
                 return;
             }
 
-            // This just tweaks the api/content to a more useful path segment.
-            var contentApiPaths = context.Document.Paths.Where(x => x.Key.StartsWith("/api/content")).Select(x => x.Value);
-            foreach (var pathItem in contentApiPaths)
-            {
-                foreach (var operation in pathItem)
-                {
-                    if (operation.Value.Tags.Any(x => string.Equals(x, "Api", StringComparison.OrdinalIgnoreCase)))
-                    {
-                        operation.Value.Tags.Clear();
-                        operation.Value.Tags.Add(_openApiOptions.ContentsApi.ContentsApiTag);
-                    }
-                }
-            }
+            // This alters the api/content path to a more useful path segment.
+            context.Document.Paths.AlterApiControllerTag("/api/content", _openApiOptions.ContentsApi.ApiTag);
         }
     }
 }

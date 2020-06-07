@@ -4,6 +4,6 @@
     {
         public bool RemoveContentElements { get; set; } = true;
         public bool AlterPathSchema { get; set; } = true;
-        public string ContentsApiTag { get; set; } = "Content";
+        public string ApiTag { get; set; } = "Content";
     }
 }

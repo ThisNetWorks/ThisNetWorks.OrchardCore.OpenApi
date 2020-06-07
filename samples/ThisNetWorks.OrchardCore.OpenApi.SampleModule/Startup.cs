@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
+using OrchardCore.ContentManagement.GraphQL.Options;
 using OrchardCore.ContentTypes.Editors;
 using OrchardCore.Data.Migration;
+using OrchardCore.Html.Models;
 using OrchardCore.Modules;
 using System;
 using ThisNetWorks.OrchardCore.OpenApi.Options;
@@ -28,9 +30,18 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
 
             services.Configure<OpenApiOptions>(o =>
             {
+                // This only includes fields that are used in parts.
                 o.ContentTypes.IncludeAllFields = false;
-                o.PathOptions.PathsToRemove.Add("api/lucene");
-                o.PathOptions.PathsToRemove.Add("api/queries");
+            });
+
+            services.Configure<GraphQLContentOptions>(o =>
+            {
+                // Because there is an extra field added to this part, and an issue with duplicate fields
+                // TODO remove when issue resolved.
+                o.ConfigurePart<HtmlBodyPart>(part =>
+                {
+                    part.Hidden = true;
+                });
             });
         }
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "runtime": "Default",
   "defaultVariables": null,
   "documentGenerator": {
@@ -107,7 +107,7 @@
       "enforceFlagEnums": false,
       "parameterArrayType": "System.Collections.Generic.IEnumerable",
       "parameterDictionaryType": "System.Collections.Generic.IDictionary",
-      "responseArrayType": "System.Collections.Generic.List",
+      "responseArrayType": "System.Collections.ObjectModel.Collection",
       "responseDictionaryType": "System.Collections.Generic.Dictionary",
       "wrapResponses": false,
       "wrapResponseMethods": [],
@@ -121,17 +121,18 @@
       "dateTimeType": "System.DateTime",
       "timeType": "System.TimeSpan",
       "timeSpanType": "System.TimeSpan",
-      "arrayType": "System.Collections.Generic.List",
-      "arrayInstanceType": null,
-      "dictionaryType": "System.Collections.Generic.Dictionary",
-      "dictionaryInstanceType": null,
-      "arrayBaseType": "System.Collections.Generic.IList",
+      "arrayType": "System.Collections.Generic.ICollection",
+      "arrayInstanceType": "System.Collections.ObjectModel.Collection",
+      "dictionaryType": "System.Collections.Generic.IDictionary",
+      "dictionaryInstanceType": "System.Collections.Generic.Dictionary",
+      "arrayBaseType": "System.Collections.ObjectModel.Collection",
       "dictionaryBaseType": "System.Collections.Generic.Dictionary",
       "classStyle": "Poco",
       "generateDefaultValues": true,
       "generateDataAnnotations": false,
       "excludedTypeNames": [
-        "JsonInheritanceConverter"
+        "JsonInheritanceConverter",
+        "QueriesItemsDto"
       ],
       "excludedParameterNames": [],
       "handleReferences": false,

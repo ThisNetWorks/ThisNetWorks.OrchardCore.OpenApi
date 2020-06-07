@@ -33,13 +33,26 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule.Controllers
             _authorizationService = authorizationService;
         }
 
+        //[HttpGet]
+        ////TODO get an exception here when using an itemdto.
+        //public ActionResult<GetFooDto> Get()
+        //{
+        //    return Ok(new GetFooDto
+        //    {
+        //        Text = "foo"
+        //    });
+        //}
+
         [HttpGet]
         //TODO get an exception here when using an itemdto.
-        public ActionResult<GetFooDto> Get()
+        public ActionResult<List<GetFooDto>> Get()
         {
-            return Ok(new GetFooDto
+            return Ok(new List<GetFooDto>
             {
-                Text = "foo"
+                new GetFooDto
+                {
+                    Text = "foo"
+                }
             });
         }
 

@@ -30,7 +30,9 @@
             "Edit_FooText",
             "Publish_FooText",
             "AccessContentApi",
-            "QueryLuceneSearchIndex"
+            "QueryLuceneSearchIndex",
+            "QueryLuceneApi",
+            "ExecuteApiAll"
           ]
         }
       ]

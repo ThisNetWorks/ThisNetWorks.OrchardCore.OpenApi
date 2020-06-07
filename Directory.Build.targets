@@ -12,6 +12,7 @@
     <PackageReference Update="OrchardCore.ContentTypes.Abstractions" Version="1.0.0-rc1-13394" />
     <PackageReference Update="OrchardCore.DisplayManagement" Version="1.0.0-rc1-13394" />
     <PackageReference Update="OrchardCore.Flows" Version="1.0.0-rc1-13394" />
+    <PackageReference Update="OrchardCore.Html" Version="1.0.0-rc1-13394" />
     <PackageReference Update="OrchardCore.Lists" Version="1.0.0-rc1-13394" />
     <PackageReference Update="OrchardCore.Infrastructure" Version="1.0.0-rc1-13394" />
     <PackageReference Update="OrchardCore.Logging.NLog" Version="1.0.0-rc1-13394" />

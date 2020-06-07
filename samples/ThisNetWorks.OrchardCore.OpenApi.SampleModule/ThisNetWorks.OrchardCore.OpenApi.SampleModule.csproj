@@ -16,6 +16,7 @@
     <PackageReference Include="OrchardCore.ContentTypes.Abstractions" />
     <PackageReference Include="OrchardCore.DisplayManagement"  />
     <PackageReference Include="OrchardCore.Flows" />
+    <PackageReference Include="OrchardCore.Html" />
   </ItemGroup>
 
   <ItemGroup>
