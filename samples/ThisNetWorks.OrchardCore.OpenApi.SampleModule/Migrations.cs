@@ -127,9 +127,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
 
         public async Task<int> UpdateFrom6Async()
         {
-            // Gives edit and publish permission to the anonymous role
-            // only for foo text content type.
-            await _recipeMigrator.ExecuteAsync("anonymous-role.json", this);
+            await _recipeMigrator.ExecuteAsync("api-role.json", this);
 
             return 7;
         }
@@ -138,6 +136,13 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
         {
             // Create a sql query with paramenters
             await _recipeMigrator.ExecuteAsync("sql-alias-query.json", this);
+
+            return 8;
+        }
+
+        public async Task<int> UpdateFrom8Async()
+        {
+            await _recipeMigrator.ExecuteAsync("openid.json", this);
 
             return 8;
         }

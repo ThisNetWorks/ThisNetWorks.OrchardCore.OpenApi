@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client;
+using ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Security;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
 {
@@ -13,9 +15,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
 
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
             var client = new ContentClient(HttpClient);
+            var token = await HttpClient.GetToken("sample_console_client", "developmentsecret", $"{client.BaseUrl}/connect/token");
+
+            HttpClient.DefaultRequestHeaders.Clear();
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
 
             var fooTextItemDto = (await client.Api_GetAsync("4qnhdhv3z54xk4fg4tdfke76c9")) as FooTextItemDto;
 
@@ -26,7 +30,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
             fooTextItemDto = (await client.Api_PostAsync(false, fooTextItemDto)) as FooTextItemDto;
 
             Console.WriteLine("Written and read back from Api: " + fooTextItemDto.FooText.FooField.Text);
-            
+
             //Console.WriteLine(JsonConvert.SerializeObject(fooTextItemDto, Formatting.Indented));
 
             var queriesClient = new QueriesClient(HttpClient);

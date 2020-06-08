@@ -36,8 +36,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi.QueriesApi
                     }
                 };
 
-                // Would be nice if this didn't have to be a dto. Or we could just ignore it?
-                // Just ignoring it for now.
+                // TODO This only works when returning content items.
+                // Consider a different path for documents?
                 context.Document.Definitions["QueriesItemsDto"] = itemSchema;
 
                 context.AlterPathSchema("/api/queries/{name}", "post", "200", itemSchema, (operation) =>
