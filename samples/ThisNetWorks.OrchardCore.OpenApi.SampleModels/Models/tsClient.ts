@@ -14,7 +14,7 @@ export class ApiClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
     get(contentItemId: string | null): Promise<ContentItemDto> {
@@ -132,20 +132,138 @@ export class ApiClient {
         }
         return Promise.resolve<ContentItemDto>(<any>null);
     }
+
+    create(model: CreateApiViewModel): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/api/tenants/create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreate(_response);
+        });
+    }
+
+    protected processCreate(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(<any>null);
+    }
+
+    setup(model: SetupApiViewModel): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/api/tenants/setup";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSetup(_response);
+        });
+    }
+
+    protected processSetup(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(<any>null);
+    }
 }
 
-export class FooClient {
+export class ContentClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
-    get(): Promise<GetFooDto> {
-        let url_ = this.baseUrl + "/api/foo";
+    post(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneItemsDto | null> {
+        let url_ = this.baseUrl + "/api/lucene/content?";
+        if (indexName !== undefined && indexName !== null)
+            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
+        if (query !== undefined && query !== null)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPost(_response);
+        });
+    }
+
+    protected processPost(response: Response): Promise<LuceneItemsDto | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LuceneItemsDto.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LuceneItemsDto | null>(<any>null);
+    }
+
+    get(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneItemsDto | null> {
+        let url_ = this.baseUrl + "/api/lucene/content?";
+        if (indexName !== undefined && indexName !== null)
+            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
+        if (query !== undefined && query !== null)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -160,14 +278,14 @@ export class FooClient {
         });
     }
 
-    protected processGet(response: Response): Promise<GetFooDto> {
+    protected processGet(response: Response): Promise<LuceneItemsDto | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetFooDto.fromJS(resultData200);
+            result200 = resultData200 ? LuceneItemsDto.fromJS(resultData200) : <any>null;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -175,7 +293,252 @@ export class FooClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GetFooDto>(<any>null);
+        return Promise.resolve<LuceneItemsDto | null>(<any>null);
+    }
+}
+
+export class DocumentsClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
+    }
+
+    post(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneDocumentDto[] | null> {
+        let url_ = this.baseUrl + "/api/lucene/documents?";
+        if (indexName !== undefined && indexName !== null)
+            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
+        if (query !== undefined && query !== null)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPost(_response);
+        });
+    }
+
+    protected processPost(response: Response): Promise<LuceneDocumentDto[] | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LuceneDocumentDto.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LuceneDocumentDto[] | null>(<any>null);
+    }
+
+    get(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneDocumentDto[] | null> {
+        let url_ = this.baseUrl + "/api/lucene/documents?";
+        if (indexName !== undefined && indexName !== null)
+            url_ += "indexName=" + encodeURIComponent("" + indexName) + "&";
+        if (query !== undefined && query !== null)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<LuceneDocumentDto[] | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LuceneDocumentDto.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LuceneDocumentDto[] | null>(<any>null);
+    }
+}
+
+export class QueryClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
+    }
+
+    post(name: string | null, parameters: string | null | undefined): Promise<ContentItemDto[] | null> {
+        let url_ = this.baseUrl + "/api/queries/{name}?";
+        if (name === undefined || name === null)
+            throw new Error("The parameter 'name' must be defined.");
+        url_ = url_.replace("{name}", encodeURIComponent("" + name));
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPost(_response);
+        });
+    }
+
+    protected processPost(response: Response): Promise<ContentItemDto[] | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ContentItemDto.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ContentItemDto[] | null>(<any>null);
+    }
+
+    get(name: string | null, parameters: string | null | undefined): Promise<ContentItemDto[] | null> {
+        let url_ = this.baseUrl + "/api/queries/{name}?";
+        if (name === undefined || name === null)
+            throw new Error("The parameter 'name' must be defined.");
+        url_ = url_.replace("{name}", encodeURIComponent("" + name));
+        if (parameters !== undefined && parameters !== null)
+            url_ += "parameters=" + encodeURIComponent("" + parameters) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<ContentItemDto[] | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ContentItemDto.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ContentItemDto[] | null>(<any>null);
+    }
+}
+
+export class FooClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
+    }
+
+    getAll(): Promise<GetFooDto[]> {
+        let url_ = this.baseUrl + "/api/foo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAll(_response);
+        });
+    }
+
+    protected processGetAll(response: Response): Promise<GetFooDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetFooDto.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetFooDto[]>(<any>null);
     }
 
     post(createDto: CreateFooDto): Promise<FileResponse> {
@@ -212,6 +575,43 @@ export class FooClient {
             });
         }
         return Promise.resolve<FileResponse>(<any>null);
+    }
+
+    get(fooId: string | null): Promise<GetFooDto> {
+        let url_ = this.baseUrl + "/api/foo/{fooId}";
+        if (fooId === undefined || fooId === null)
+            throw new Error("The parameter 'fooId' must be defined.");
+        url_ = url_.replace("{fooId}", encodeURIComponent("" + fooId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<GetFooDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetFooDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetFooDto>(<any>null);
     }
 
     put(reference: string | null, updateDto: UpdateFooDto): Promise<FileResponse> {
@@ -254,7 +654,178 @@ export class FooClient {
     }
 }
 
+export class LuceneDocumentDto implements ILuceneDocumentDto {
+
+    constructor(data?: ILuceneDocumentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): LuceneDocumentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LuceneDocumentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface ILuceneDocumentDto {
+}
+
+export class CreateApiViewModel implements ICreateApiViewModel {
+    description?: string | undefined;
+    name!: string;
+    databaseProvider?: string | undefined;
+    requestUrlPrefix?: string | undefined;
+    requestUrlHost?: string | undefined;
+    connectionString?: string | undefined;
+    tablePrefix?: string | undefined;
+    recipeName?: string | undefined;
+
+    constructor(data?: ICreateApiViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["Description"];
+            this.name = _data["Name"];
+            this.databaseProvider = _data["DatabaseProvider"];
+            this.requestUrlPrefix = _data["RequestUrlPrefix"];
+            this.requestUrlHost = _data["RequestUrlHost"];
+            this.connectionString = _data["ConnectionString"];
+            this.tablePrefix = _data["TablePrefix"];
+            this.recipeName = _data["RecipeName"];
+        }
+    }
+
+    static fromJS(data: any): CreateApiViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateApiViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Description"] = this.description;
+        data["Name"] = this.name;
+        data["DatabaseProvider"] = this.databaseProvider;
+        data["RequestUrlPrefix"] = this.requestUrlPrefix;
+        data["RequestUrlHost"] = this.requestUrlHost;
+        data["ConnectionString"] = this.connectionString;
+        data["TablePrefix"] = this.tablePrefix;
+        data["RecipeName"] = this.recipeName;
+        return data; 
+    }
+}
+
+export interface ICreateApiViewModel {
+    description?: string | undefined;
+    name: string;
+    databaseProvider?: string | undefined;
+    requestUrlPrefix?: string | undefined;
+    requestUrlHost?: string | undefined;
+    connectionString?: string | undefined;
+    tablePrefix?: string | undefined;
+    recipeName?: string | undefined;
+}
+
+export class SetupApiViewModel implements ISetupApiViewModel {
+    name!: string;
+    siteName!: string;
+    databaseProvider?: string | undefined;
+    connectionString?: string | undefined;
+    tablePrefix?: string | undefined;
+    userName!: string;
+    email!: string;
+    password?: string | undefined;
+    recipeName?: string | undefined;
+    recipe?: string | undefined;
+    siteTimeZone?: string | undefined;
+
+    constructor(data?: ISetupApiViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["Name"];
+            this.siteName = _data["SiteName"];
+            this.databaseProvider = _data["DatabaseProvider"];
+            this.connectionString = _data["ConnectionString"];
+            this.tablePrefix = _data["TablePrefix"];
+            this.userName = _data["UserName"];
+            this.email = _data["Email"];
+            this.password = _data["Password"];
+            this.recipeName = _data["RecipeName"];
+            this.recipe = _data["Recipe"];
+            this.siteTimeZone = _data["SiteTimeZone"];
+        }
+    }
+
+    static fromJS(data: any): SetupApiViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new SetupApiViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Name"] = this.name;
+        data["SiteName"] = this.siteName;
+        data["DatabaseProvider"] = this.databaseProvider;
+        data["ConnectionString"] = this.connectionString;
+        data["TablePrefix"] = this.tablePrefix;
+        data["UserName"] = this.userName;
+        data["Email"] = this.email;
+        data["Password"] = this.password;
+        data["RecipeName"] = this.recipeName;
+        data["Recipe"] = this.recipe;
+        data["SiteTimeZone"] = this.siteTimeZone;
+        return data; 
+    }
+}
+
+export interface ISetupApiViewModel {
+    name: string;
+    siteName: string;
+    databaseProvider?: string | undefined;
+    connectionString?: string | undefined;
+    tablePrefix?: string | undefined;
+    userName: string;
+    email: string;
+    password?: string | undefined;
+    recipeName?: string | undefined;
+    recipe?: string | undefined;
+    siteTimeZone?: string | undefined;
+}
+
 export class GetFooDto implements IGetFooDto {
+    fooId?: string | undefined;
     text?: string | undefined;
 
     constructor(data?: IGetFooDto) {
@@ -268,6 +839,7 @@ export class GetFooDto implements IGetFooDto {
 
     init(_data?: any) {
         if (_data) {
+            this.fooId = _data["FooId"];
             this.text = _data["Text"];
         }
     }
@@ -281,12 +853,14 @@ export class GetFooDto implements IGetFooDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["FooId"] = this.fooId;
         data["Text"] = this.text;
         return data; 
     }
 }
 
 export interface IGetFooDto {
+    fooId?: string | undefined;
     text?: string | undefined;
 }
 
@@ -430,6 +1004,50 @@ export class TextFieldDto extends ContentFieldDto implements ITextFieldDto {
 
 export interface ITextFieldDto extends IContentFieldDto {
     text?: string | undefined;
+}
+
+export class LuceneItemsDto implements ILuceneItemsDto {
+    items?: (ContentItemDto | undefined)[] | undefined;
+
+    constructor(data?: ILuceneItemsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["Items"])) {
+                this.items = [] as any;
+                for (let item of _data["Items"])
+                    this.items!.push(ContentItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): LuceneItemsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LuceneItemsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["Items"] = [];
+            for (let item of this.items)
+                data["Items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ILuceneItemsDto {
+    items?: (ContentItemDto | undefined)[] | undefined;
 }
 
 export class HtmlFieldDto extends ContentFieldDto implements IHtmlFieldDto {

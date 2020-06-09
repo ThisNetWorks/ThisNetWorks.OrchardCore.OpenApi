@@ -14,7 +14,7 @@ export class ApiClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
     get(contentItemId: string | null): Promise<ContentItemDto> {
@@ -213,7 +213,7 @@ export class ContentClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
     post(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneItemsDto | null> {
@@ -304,7 +304,7 @@ export class DocumentsClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
     post(indexName: string | null | undefined, query: string | null | undefined, parameters: string | null | undefined): Promise<LuceneDocumentDto[] | null> {
@@ -403,7 +403,7 @@ export class QueryClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
     post(name: string | null, parameters: string | null | undefined): Promise<ContentItemDto[] | null> {
@@ -500,7 +500,7 @@ export class FooClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:44300";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
     getAll(): Promise<GetFooDto[]> {

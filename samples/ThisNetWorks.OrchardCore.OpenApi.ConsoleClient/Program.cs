@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client;
 using ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Security;
 
@@ -31,7 +32,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
 
             Console.WriteLine("Written and read back from Api: " + fooTextItemDto.FooText.FooField.Text);
 
-            //Console.WriteLine(JsonConvert.SerializeObject(fooTextItemDto, Formatting.Indented));
+            Console.WriteLine(JsonConvert.SerializeObject(fooTextItemDto, Formatting.Indented));
 
             var queriesClient = new QueriesClient(HttpClient);
 
@@ -46,6 +47,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
             foreach (var item in aliasQuery)
             {
                 Console.WriteLine("Sql query for aliases: " + item.DisplayText);
+                Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
             }
 
             var luceneClient = new LuceneClient(HttpClient);
@@ -66,7 +68,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient
 
             var fooClient = new FooClient(HttpClient);
             var fooQuery = await fooClient.Foo_GetAllAsync();
-            foreach(var item in fooQuery)
+            foreach (var item in fooQuery)
             {
                 Console.WriteLine("Foo : " + item.Text);
             }

@@ -4,7 +4,7 @@
   "documentGenerator": {
     "fromDocument": {
       "json": "",
-      "url": "https://localhost:44300/swagger/v1/swagger.json",
+      "url": "https://localhost:5001/swagger/v1/swagger.json",
       "output": null
     }
   },
@@ -109,7 +109,7 @@
       "enforceFlagEnums": false,
       "parameterArrayType": "System.Collections.Generic.IEnumerable",
       "parameterDictionaryType": "System.Collections.Generic.IDictionary",
-      "responseArrayType": "System.Collections.ObjectModel.ObservableCollection",
+      "responseArrayType": "System.Collections.ObjectModel.Collection",
       "responseDictionaryType": "System.Collections.Generic.Dictionary",
       "wrapResponses": false,
       "wrapResponseMethods": [],
@@ -123,11 +123,11 @@
       "dateTimeType": "System.DateTime",
       "timeType": "System.TimeSpan",
       "timeSpanType": "System.TimeSpan",
-      "arrayType": "System.Collections.Generic.List",
-      "arrayInstanceType": null,
-      "dictionaryType": "System.Collections.Generic.Dictionary",
-      "dictionaryInstanceType": null,
-      "arrayBaseType": "System.Collections.Generic.IList",
+      "arrayType": "System.Collections.Generic.IList",
+      "arrayInstanceType": "System.Collections.Generic.List",
+      "dictionaryType": "System.Collections.Generic.IDictionary",
+      "dictionaryInstanceType": "System.Collections.Generic.Dictionary",
+      "arrayBaseType": "System.Collections.ObjectModel.Collection",
       "dictionaryBaseType": "System.Collections.Generic.Dictionary",
       "classStyle": "Poco",
       "generateDefaultValues": true,
@@ -149,7 +149,7 @@
       "inlineNamedAny": false,
       "generateDtoTypes": true,
       "generateOptionalPropertiesAsNullable": false,
-      "templateDirectory": "../Templates",
+      "templateDirectory": null,
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,
       "enumNameGeneratorType": null,

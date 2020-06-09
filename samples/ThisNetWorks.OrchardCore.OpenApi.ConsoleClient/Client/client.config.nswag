@@ -4,7 +4,7 @@
   "documentGenerator": {
     "fromDocument": {
       "json": "",
-      "url": "https://localhost:44300/swagger/v1/swagger.json",
+      "url": "https://localhost:5001/swagger/v1/swagger.json",
       "output": null
     }
   },
@@ -121,8 +121,8 @@
       "dateTimeType": "System.DateTime",
       "timeType": "System.TimeSpan",
       "timeSpanType": "System.TimeSpan",
-      "arrayType": "System.Collections.Generic.ICollection",
-      "arrayInstanceType": "System.Collections.ObjectModel.Collection",
+      "arrayType": "System.Collections.Generic.IList",
+      "arrayInstanceType": "System.Collections.Generic.List",
       "dictionaryType": "System.Collections.Generic.IDictionary",
       "dictionaryInstanceType": "System.Collections.Generic.Dictionary",
       "arrayBaseType": "System.Collections.ObjectModel.Collection",

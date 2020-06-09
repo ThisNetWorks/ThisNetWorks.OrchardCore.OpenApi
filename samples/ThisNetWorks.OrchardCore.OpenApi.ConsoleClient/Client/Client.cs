@@ -17,7 +17,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.6.0.0 (NJsonSchema v10.1.18.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class ContentClient 
     {
-        private string _baseUrl = "https://localhost:44300";
+        private string _baseUrl = "https://localhost:5001";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -354,7 +354,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.6.0.0 (NJsonSchema v10.1.18.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class LuceneClient 
     {
-        private string _baseUrl = "https://localhost:44300";
+        private string _baseUrl = "https://localhost:5001";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -797,7 +797,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.6.0.0 (NJsonSchema v10.1.18.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class QueriesClient 
     {
-        private string _baseUrl = "https://localhost:44300";
+        private string _baseUrl = "https://localhost:5001";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -1069,7 +1069,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.6.0.0 (NJsonSchema v10.1.18.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class TenantsClient 
     {
-        private string _baseUrl = "https://localhost:44300";
+        private string _baseUrl = "https://localhost:5001";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -1344,7 +1344,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.6.0.0 (NJsonSchema v10.1.18.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class FooClient 
     {
-        private string _baseUrl = "https://localhost:44300";
+        private string _baseUrl = "https://localhost:5001";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -1977,7 +1977,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     public partial class LuceneItemsDto 
     {
         [Newtonsoft.Json.JsonProperty("Items", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ContentItemDto> Items { get; set; }
+        public System.Collections.Generic.IList<ContentItemDto> Items { get; set; }
     
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
     
@@ -2022,7 +2022,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     public partial class ContentPickerFieldDto : ContentFieldDto
     {
         [Newtonsoft.Json.JsonProperty("ContentItemIds", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> ContentItemIds { get; set; }
+        public System.Collections.Generic.IList<string> ContentItemIds { get; set; }
     
         public string ToJson() 
         {
@@ -2040,7 +2040,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     public partial class MediaFieldDto : ContentFieldDto
     {
         [Newtonsoft.Json.JsonProperty("Paths", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> Paths { get; set; }
+        public System.Collections.Generic.IList<string> Paths { get; set; }
     
         public string ToJson() 
         {
@@ -2061,7 +2061,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         public string TaxonomyContentItemId { get; set; }
     
         [Newtonsoft.Json.JsonProperty("TermContentItemIds", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> TermContentItemIds { get; set; }
+        public System.Collections.Generic.IList<string> TermContentItemIds { get; set; }
     
         public string ToJson() 
         {
@@ -2278,7 +2278,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     public partial class MenuItemsListPartDto : ContentPartDto
     {
         [Newtonsoft.Json.JsonProperty("MenuItems", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ContentItemDto> MenuItems { get; set; }
+        public System.Collections.Generic.IList<ContentItemDto> MenuItems { get; set; }
     
         public string ToJson() 
         {
@@ -2299,7 +2299,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
         public string TermContentType { get; set; }
     
         [Newtonsoft.Json.JsonProperty("Terms", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ContentItemDto> Terms { get; set; }
+        public System.Collections.Generic.IList<ContentItemDto> Terms { get; set; }
     
         public string ToJson() 
         {
@@ -2431,7 +2431,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     public partial class WidgetsListPartDto : ContentPartDto
     {
         [Newtonsoft.Json.JsonProperty("Widgets", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<ContentItemDto>> Widgets { get; set; }
+        public System.Collections.Generic.IDictionary<string, System.Collections.Generic.IList<ContentItemDto>> Widgets { get; set; }
     
         public string ToJson() 
         {
@@ -2449,7 +2449,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     public partial class FlowPartDto : ContentPartDto
     {
         [Newtonsoft.Json.JsonProperty("Widgets", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ContentItemDto> Widgets { get; set; }
+        public System.Collections.Generic.IList<ContentItemDto> Widgets { get; set; }
     
         public string ToJson() 
         {
@@ -2467,7 +2467,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.Client
     public partial class BagPartDto : ContentPartDto
     {
         [Newtonsoft.Json.JsonProperty("ContentItems", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ContentItemDto> ContentItems { get; set; }
+        public System.Collections.Generic.IList<ContentItemDto> ContentItems { get; set; }
     
         public string ToJson() 
         {

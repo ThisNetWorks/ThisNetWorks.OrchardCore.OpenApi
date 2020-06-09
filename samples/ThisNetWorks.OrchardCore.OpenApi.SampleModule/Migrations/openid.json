@@ -38,7 +38,7 @@
       "ClientId": "openapi_auth_code_flow",
       "ClientSecret": "[js: variables('clientSecret')]",
       "DisplayName": "Sample OpenAPI Auth Code Flow",
-      "RedirectUris": "https://localhost:44300/swagger/oauth2-redirect.html",
+      "RedirectUris": "https://localhost:44300/swagger/oauth2-redirect.html https://localhost:5001/swagger/oauth2-redirect.html",
       "AllowAuthorizationCodeFlow": true,
       "Type": "confidential"
     }
