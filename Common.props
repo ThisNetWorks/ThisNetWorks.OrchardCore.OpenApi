@@ -4,7 +4,7 @@
     <Copyright>Dean Marcussen</Copyright>
     <Authors>Dean Marcussen</Authors>
     <PackageProjectUrl>https://github.com/ThisNetWorks/ThisNetWorks.OrchardCore.OpenApi</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <VersionSuffix Condition="'$(VersionSuffix)'!='' AND '$(GITHUB_RUN_ID)' != ''">$(VersionSuffix)-$(GITHUB_RUN_ID)</VersionSuffix>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <TargetFramework>netcoreapp3.1</TargetFramework>
