@@ -24,7 +24,13 @@
         "ThisNetWorks.OrchardCore.OpenApi",
         "ThisNetWorks.OrchardCore.OpenApi.SampleModule",
         "ThisNetWorks.OrchardCore.OpenApi.SampleTheme",
-        "TheTheme"
+        "TheTheme",
+        "OrchardCore.Tenants",
+        "OrchardCore.Queries",
+        "OrchardCore.Queries.Sql",
+        "OrchardCore.OpenId.Server",
+        "OrchardCore.OpenId.Management",
+        "OrchardCore.OpenId.Validation"
       ],
       "disable": [
         "TheBlogTheme"

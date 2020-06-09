@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ThisNetWorks.OrchardCore.OpenApi.Middleware;
+using Microsoft.AspNetCore.Http;
 
 namespace Microsoft.AspNetCore.Builder
 {

@@ -1,0 +1,46 @@
+{
+  "name": "",
+  "displayName": "",
+  "description": "",
+  "author": "",
+  "website": "",
+  "version": "",
+  "issetuprecipe": false,
+  "categories": [],
+  "tags": [],
+  "variables": {
+    "clientSecret": "[js:configuration('SwaggerUiClientSecret')]"
+  },
+  "steps": [
+    {
+      "name": "OpenIdServerSettings",
+      "AllowClientCredentialsFlow": true,
+      "AllowAuthorizationCodeFlow": true,
+      "EnableTokenEndpoint": true,
+      "EnableAuthorizationEndpoint": true
+    },
+    {
+      "name": "OpenIdApplication",
+      "ClientId": "sample_console_client",
+      "ClientSecret": "[js: variables('clientSecret')]",
+      "DisplayName": "Sample OpenAPI Console Client",
+      "AllowClientCredentialsFlow": true,
+      "RoleEntries": [
+        {
+          "Name": "API",
+          "Selected": true
+        }
+      ],
+      "Type": "confidential"
+    },
+    {
+      "name": "OpenIdApplication",
+      "ClientId": "openapi_auth_code_flow",
+      "ClientSecret": "[js: variables('clientSecret')]",
+      "DisplayName": "Sample OpenAPI Auth Code Flow",
+      "RedirectUris": "https://localhost:44300/swagger/oauth2-redirect.html https://localhost:5001/swagger/oauth2-redirect.html",
+      "AllowAuthorizationCodeFlow": true,
+      "Type": "confidential"
+    }
+  ]
+}

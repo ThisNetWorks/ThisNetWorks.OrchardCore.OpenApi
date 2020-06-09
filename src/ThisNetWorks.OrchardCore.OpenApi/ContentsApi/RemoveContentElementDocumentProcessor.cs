@@ -1,25 +1,31 @@
-﻿using NSwag.Generation.Processors;
+﻿using Microsoft.Extensions.Options;
+using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 using ThisNetWorks.OrchardCore.OpenApi.Extensions;
+using ThisNetWorks.OrchardCore.OpenApi.Options;
 
 namespace ThisNetWorks.OrchardCore.OpenApi.ContentsApi
 {
     public class RemoveContentElementDocumentProcessor : IDocumentProcessor
     {
+        private readonly OpenApiOptions _openApiOptions;
+
+        public RemoveContentElementDocumentProcessor(IOptions<OpenApiOptions> options)
+        {
+            _openApiOptions = options.Value;
+        }
+
         public void Process(DocumentProcessorContext context)
         {
-            // TODO ContentItem and ContentElement are cross referenced somewhere still.
-            // So cannot be removed (yet).
-            //context.TryRemoveDefinition("ContentElement");
-            context.TryRemoveDefinition("ContentField");
-            context.TryRemoveDefinition("ContentPart");
-
-            if (context.Document.Definitions.TryGetValue("ContentItem", out var contentItem))
+            if (!_openApiOptions.ContentsApi.RemoveContentElements)
             {
-                contentItem.AllOf.Clear();
-                contentItem.Reference = null;
+                return;
             }
 
+            context.TryRemoveDefinition("ContentElement");
+            context.TryRemoveDefinition("ContentItem");
+            context.TryRemoveDefinition("ContentField");
+            context.TryRemoveDefinition("ContentPart");
         }
     }
 }

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NSwag.Generation.Processors;
 using OrchardCore.Modules;
@@ -15,33 +16,45 @@ namespace ThisNetWorks.OrchardCore.OpenApi
     {
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions<OpenApiOptions>();
             services.Configure<OpenApiOptions>(o =>
             {
-                o.IncludeAllFields = false;
-                o.PathsToRemove.Add("api/lucene");
-                o.PathsToRemove.Add("api/queries");
+                o.Middleware.GeneratorOptions.Add((o, sp) =>
+                {
+                    // This forces Pascal Case everywhere, which resolves issues with ContentElement properties.
+                    o.SerializerSettings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new DefaultContractResolver()
+                    };
+                });
             });
 
             services.AddSingleton<IDocumentProcessor, RemoveControllersDocumentProcessor>();
-            services.AddOpenApiDocument(config =>
+
+            services.AddOpenApiDocument((o, sp) =>
             {
-                config.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings
+                var options = sp.GetRequiredService<IOptions<OpenApiOptions>>().Value;
+                foreach (var option in options.Middleware.GeneratorOptions)
                 {
-                    ContractResolver = new DefaultContractResolver()
-                };
+                    option.Invoke(o, sp);
+                }
             });
         }
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
-            // TODo not using path yet (for tenants)
-            var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
-            var swaggerPath = httpContextAccessor.HttpContext.Request.PathBase + new PathString("/swagger");
+            var options = serviceProvider.GetRequiredService<IOptions<OpenApiOptions>>().Value;
 
-            builder.UseOrchardCoreOpenApi(); // serve OpenAPI/Swagger documents with Orchard Core Content Types.
+            if (options.Middleware.UseOrchardCoreOpenApiDocumentMiddleware)
+            {
+                // serve OpenAPI/Swagger documents with Orchard Core Content Types.
+                builder.UseOrchardCoreOpenApi(options.Middleware.OpenApiDocumentMiddlewareSettings);
+            }
 
-            //builder.UseOpenApi(); // Use OrchardCoreOpenApi to manage content types changing dynamically.
-            builder.UseSwaggerUi3(); // serve Swagger UI
+            if (options.Middleware.UseOrchardCoreSwaggerUi3Middleware)
+            {
+                builder.UseSwaggerUi3(options.Middleware.SwaggerUi3Settings);
+            }
         }
     }
 }

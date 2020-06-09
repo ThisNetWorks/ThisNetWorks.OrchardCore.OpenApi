@@ -106,7 +106,8 @@ namespace OrchardCore.ContentManagement
             if (jsonMergeSettings == null)
             {
                 return contentItem.Merge(jObject, ReplaceJsonMergeSettings);
-            } else
+            }
+            else
             {
                 return contentItem.Merge(jObject, jsonMergeSettings);
             }
@@ -117,7 +118,7 @@ namespace OrchardCore.ContentManagement
             if (contentElementDto.AdditionalProperties != null && contentElementDto.AdditionalProperties.Any())
             {
                 var additionalProperties = new Dictionary<string, object>();
-                foreach(var key in contentElementDto.AdditionalProperties.Keys)
+                foreach (var key in contentElementDto.AdditionalProperties.Keys)
                 {
                     var value = contentElementDto.AdditionalProperties[key];
                     contentElementDto.AdditionalProperties.Remove(key);

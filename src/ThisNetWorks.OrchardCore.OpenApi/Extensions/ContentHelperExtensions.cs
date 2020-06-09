@@ -11,8 +11,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Extensions
     {
         public static void TryRemoveDefinition(this DocumentProcessorContext context, string key)
         {
-            if (context.Document.Definitions.ContainsKey(key))
+            if (context.Document.Definitions.TryGetValue(key, out var value))
             {
+                value.AllOf.Clear();
                 context.Document.Definitions.Remove(key);
             }
         }
@@ -34,7 +35,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Extensions
             };
         }
 
-        public static void AlterPathSchema(this DocumentProcessorContext context, string path, string operation, string response, JsonSchema contentItemDtoSchema, Action<OpenApiOperation> action = null)
+        public static void AlterPathSchema(this DocumentProcessorContext context, string path, string operation, string response, JsonSchema contentResponseSchema, Action<OpenApiOperation> action = null)
         {
             if (context.Document.Paths.TryGetValue(path, out var pathValue))
             {
@@ -42,7 +43,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Extensions
                 {
                     if (operationValue.Responses.TryGetValue(response, out var responseValue))
                     {
-                        responseValue.Content.ApplySchemaToContent(contentItemDtoSchema);
+                        responseValue.Content.ApplySchemaToContent(contentResponseSchema);
                     }
 
                     action?.Invoke(operationValue);
