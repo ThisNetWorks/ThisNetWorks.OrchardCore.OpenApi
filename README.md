@@ -15,7 +15,7 @@ functionality for Orchard Core.
 
 ## Getting Started
 
-Install the ThisNetWorks.OrchardCore.OpenApi module to your Orchard Core Host project.
+Install the [ThisNetWorks.OrchardCore.OpenApi](https://www.nuget.org/packages/ThisNetWorks.OrchardCore.OpenApi) module to your Orchard Core Host project.
 
 Enable the `Orchard Core OpenAPI feature`.
 
@@ -25,7 +25,7 @@ Install [NSwag Studio](https://github.com/RicoSuter/NSwag/releases).
 
 Generate your API Client.
 
-Install the ThisNetWorks.OrchardCore.OpenApi.Abstractions package for access to base classes
+Install the [ThisNetWorks.OrchardCore.OpenApi.Abstractions](https://www.nuget.org/packages/ThisNetWorks.OrchardCore.OpenApi.Abstractions) package for access to base classes
 and extension methods, such as 
 - `contentItem.ToDto<BlogPostItemDto>()`
 - `contentItem.FromDto(dto)`
@@ -38,9 +38,9 @@ to create your own REST API Controllers.
 ## Samples
 
 There are two sample projects included
-- [Orchard Core Sample](https://github.com/ThisNetWorks/ThisNetWorks.OrchardCore.OpenApi/blob/master/src/samples/ThisNetWorks.OrchardCore.OpenApi.Sample)
+- [Orchard Core Sample](https://github.com/ThisNetWorks/ThisNetWorks.OrchardCore.OpenApi/blob/master/samples/ThisNetWorks.OrchardCore.OpenApi.Sample)
   - Install using the Open Api recipe.
   - Includes example REST API Controller (/foo).
-- [Console Client Sample](https://github.com/ThisNetWorks/ThisNetWorks.OrchardCore.OpenApi/blob/master/src/samples/ThisNetWorks.OrchardCore.OpenApi.ConsoleClient)
+- [Console Client Sample](https://github.com/ThisNetWorks/ThisNetWorks.OrchardCore.OpenApi/blob/master/samples/ThisNetWorks.OrchardCore.OpenApi.ConsoleClient)
   - Console Client which connects to the `Orchard Core Sample` and mutates content items with the Content API Controller
   
