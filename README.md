@@ -43,4 +43,12 @@ There are two sample projects included
   - Includes example REST API Controller (/foo).
 - [Console Client Sample](https://github.com/ThisNetWorks/ThisNetWorks.OrchardCore.OpenApi/blob/master/samples/ThisNetWorks.OrchardCore.OpenApi.ConsoleClient)
   - Console Client which connects to the `Orchard Core Sample` and mutates content items with the Content API Controller
+
+## Versions
+
+Currently build against 
+
+- Orchard Core Version `1.0.0-rc2-13450`
+- NSwag Version `13.6.1`
+- NJsonSchema Version `10.1.21`
   
