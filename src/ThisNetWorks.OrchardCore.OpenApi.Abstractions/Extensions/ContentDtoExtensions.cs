@@ -50,6 +50,18 @@ namespace OrchardCore.ContentManagement
             return deserialized;
         }
 
+        /// <summary>
+        /// Returns a new instance of a content item from a dto
+        /// For use when working with items in bags.
+        /// Use with care: Will create a new instance if used and saved on a primary content item.
+        /// </summary>
+        public static ContentItem ToContentItem(this ContentItemDto content)
+        {
+            var serialized = JObject.FromObject(content);
+            var deserialized = serialized.ToObject<ContentItem>();
+            return deserialized;
+        }        
+
         //TODO a from ?
         public static TDto ToDto<TDto>(this ContentElementDto contentDto)
             where TDto : ContentElementDto
