@@ -52,5 +52,19 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ContentDtoExtensionTests
 
             Assert.Equal("test@foo.com", email);
         }
+
+        [Fact]
+        public void ToBarContentItem()
+        {
+            var contentItem = BarItemDtoHelper.CreateBarItem();
+
+            var dto = contentItem.ToDto<BarItemDto>();
+
+            var toContentItem = dto.ToContentItem();
+
+            var email = toContentItem.Content.Bar.Email.Text.ToString();
+
+            Assert.Equal("test@bar.com", email);
+        }        
     }
 }
