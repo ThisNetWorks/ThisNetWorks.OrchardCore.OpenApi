@@ -21,6 +21,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Options
         /// Content types to exclude. Is case sensitive.
         /// </summary>
         public List<string> ExcludedParts { get; } = new List<string>();
+        public List<string> TreatPartsAsDynamic { get; set; } = new List<string>();
 
         public string SchemaNameExtension { get; set; } = "Dto";
         public string SchemaTypeNameExtension { get; set; } = "Item";
