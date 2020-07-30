@@ -120,7 +120,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
             foreach (var partDefinition in allPartDefinitions)
             {
                 // check to see if it is a hard typed part.
-                if (_contentOptions.ContentPartOptionsLookup.TryGetValue(partDefinition.Name, out var contentPartOption))
+                if (_contentOptions.ContentPartOptionsLookup.TryGetValue(partDefinition.Name, out var contentPartOption) &&
+                    !_openApiOptions.ContentTypes.TreatPartsAsDynamic.Any(x => x == partDefinition.Name))
                 {
                     var partSchema = context.SchemaGenerator.Generate(contentPartOption.Type, context.SchemaResolver);
 
