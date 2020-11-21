@@ -33,6 +33,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager
             throw new NotImplementedException();
         }
 
+        public Task SaveDraftAsync(ContentItem contentItem)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ContentItem> GetAsync(string id)
         {
             throw new NotImplementedException();
