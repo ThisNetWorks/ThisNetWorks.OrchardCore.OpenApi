@@ -25,7 +25,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
         {
             _contentDefinitionManager.AlterPartDefinition("SamplePart", builder => builder
                 .Attachable()
-                .WithDescription("Provides a Sample part for your content item."));
+                .WithDescription("Provides a Sample part for your content item.")
+                .WithField("MyTextField", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("My Text Field"))
+            );
 
             return 1;
         }
