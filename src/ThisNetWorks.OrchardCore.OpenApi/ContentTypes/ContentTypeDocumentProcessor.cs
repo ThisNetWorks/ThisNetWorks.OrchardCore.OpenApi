@@ -77,7 +77,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                 // remove first AllOf and reinsert the fieldDtoSchema as the ref.
                 InsertDtoReferenceSchema(fieldSchema, fieldDtoSchema);
 
-                // Change schema regisitration name to 'TextFieldDto'               
+                // Change schema registration name to 'TextFieldDto'               
                 AlterSchemaDefinition(context, contentFieldOption.Type.Name, _openApiOptions.ContentTypes.SchemaNameExtension);
             }
 
@@ -92,6 +92,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
             //var contentItemDtoSchema = context.Document.Definitions["ContentItemDto"];
 
             var partDtoSchema = context.SchemaGenerator.Generate(typeof(ContentPartDto), context.SchemaResolver);
+
             partDtoSchema.AllowAdditionalProperties = false;
             var allPartDefinitions = _contentDefinitionManager.ListPartDefinitions();
 
@@ -124,6 +125,25 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
                     !_openApiOptions.ContentTypes.TreatPartsAsDynamic.Any(x => x == partDefinition.Name))
                 {
                     var partSchema = context.SchemaGenerator.Generate(contentPartOption.Type, context.SchemaResolver);
+ 
+                    // When a ContentField is defined on the Model, we need to remove it from the AllOf schema
+                    // It will be included by the part definition.
+                    foreach(var allOf in partSchema.AllOf)
+                    {
+                        var propertiesToRemove = new List<string>();
+                        foreach(var property in allOf.Properties)
+                        {
+                            if (property.Value.OneOf.Any())
+                            {
+                                propertiesToRemove.Add(property.Key);
+
+                            }
+                        }
+                        foreach(var property in propertiesToRemove)
+                        {
+                            allOf.Properties.Remove(property);
+                        }
+                    }
 
                     partSchema.AllOf.ElementAt(1).AllowAdditionalProperties = false;
                     // remove first AllOf and reinsert the partDtoSchema as the ref.
