@@ -7,7 +7,6 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <VersionSuffix Condition="'$(VersionSuffix)'!='' AND '$(GITHUB_RUN_ID)' != ''">$(VersionSuffix)-$(GITHUB_RUN_ID)</VersionSuffix>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>Latest</LangVersion>
     <DebugType>portable</DebugType>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
