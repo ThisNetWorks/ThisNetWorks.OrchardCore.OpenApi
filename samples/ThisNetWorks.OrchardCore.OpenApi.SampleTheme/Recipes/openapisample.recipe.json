@@ -40,6 +40,6 @@
       "name": "themes",
       "admin": "TheAdmin",
       "site": "ThisNetWorks.OrchardCore.OpenApi.SampleTheme"
-    },
+    }
   ]
 }
