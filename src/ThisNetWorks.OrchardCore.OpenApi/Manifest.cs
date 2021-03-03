@@ -2,7 +2,7 @@ using OrchardCore.Modules.Manifest;
 
 [assembly: Module(
     Id = "ThisNetWorks.OrchardCore.OpenApi",
-    Name = "Orchard Core OpenAPI Tools",
+    Name = "OpenAPI Tools",
     Author = "ThisNetWorks",
     Website = "https://github.com/ThisNetWorks",
     Version = "1.0.0",
