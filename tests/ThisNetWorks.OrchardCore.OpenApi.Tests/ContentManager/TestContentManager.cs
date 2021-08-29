@@ -12,6 +12,11 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager
     public class TestContentManager : IContentManager
     {
         public static TestContentManager ContentManager = new TestContentManager();
+       
+        public Task<ContentValidateResult> RestoreAsync(ContentItem contentItem)
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<ContentItem> CloneAsync(ContentItem contentItem)
         {
