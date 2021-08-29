@@ -44,11 +44,16 @@ There are two sample projects included
 - [Console Client Sample](https://github.com/ThisNetWorks/ThisNetWorks.OrchardCore.OpenApi/blob/master/samples/ThisNetWorks.OrchardCore.OpenApi.ConsoleClient)
   - Console Client which connects to the `Orchard Core Sample` and mutates content items with the Content API Controller
 
+
 ## Versions
 
-Currently build against 
+Version tags and pre release suffixes are based of the version of Orchard Core referenced.
 
-- Orchard Core Version `1.0.0-rc2-13450`
-- NSwag Version `13.6.1`
-- NJsonSchema Version `10.1.21`
+For version 1.0 of Orchard Core use `1.0.0`, which will use the [Orchard Core NuGet Feed](https://www.nuget.org/packages/OrchardCore/).
+
+Prerelease versions are suffixed with the CloudSmith build of Orchard Core referenced, 
+and will required a configured CloudSmith NuGet feed. Refer [Configuring a preview package source](https://docs.orchardcore.net/en/latest/docs/getting-started/preview-package-source/)
+
+e.g. `1.1.0-preview-16439` refers to the CloudSmith Orchard Core prerelease build `v1.1.0-preview-16439`
+
   

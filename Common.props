@@ -5,7 +5,8 @@
     <Authors>Dean Marcussen</Authors>
     <PackageProjectUrl>https://github.com/ThisNetWorks/ThisNetWorks.OrchardCore.OpenApi</PackageProjectUrl>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
-    <VersionSuffix Condition="'$(VersionSuffix)'!='' AND '$(GITHUB_RUN_ID)' != ''">$(VersionSuffix)-$(GITHUB_RUN_ID)</VersionSuffix>
+    <VersionSuffix>preview</VersionSuffix>
+    <VersionSuffix Condition="'$(VersionSuffix)'!='' AND '$(BuildNumber)' != ''">$(VersionSuffix)-$(BuildNumber)</VersionSuffix>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LangVersion>Latest</LangVersion>
     <DebugType>portable</DebugType>

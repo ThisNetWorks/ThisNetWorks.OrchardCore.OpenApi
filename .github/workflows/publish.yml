@@ -2,32 +2,34 @@ name: publish
 
 on:
   push:
-    branches: [ release/1.x ]
+    tags:
+      - v*
 
 jobs:
-  build:
-
+  publish:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-    - name: Install dependencies
-      run: dotnet restore 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore 
-    - name: Test
-      run: dotnet test --no-restore
-    - name: Pack with dotnet
-      run: dotnet pack --output artifacts --configuration Release
-    - name: Push open api with dotnet
-      run: dotnet nuget push artifacts/*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json     
-    - name: Push open api.abstractions with dotnet
-      run: dotnet nuget push artifacts/*Abstractions*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json              
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: artifacts
-        path: artifacts 
-     
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --no-build
+      - name: Pack
+        run: |
+          arrTag=(${GITHUB_REF//\// })
+          VERSION="${arrTag[2]}"
+          VERSION="${VERSION:1}"
+          echo "VERSION $VERSION"
+          dotnet pack --output artifacts --configuration Release --no-restore --no-build -p:Version=$VERSION -p:TreatWarningsAsErrors=false
+      - name: Push with dotnet
+        run: dotnet nuget push artifacts/*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: artifacts
+          path: artifacts
