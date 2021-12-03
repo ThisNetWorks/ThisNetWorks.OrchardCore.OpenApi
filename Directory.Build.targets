@@ -4,20 +4,20 @@
     <PackageReference Update="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Update="NJsonSchema" Version="10.5.2" />
     <PackageReference Update="NSwag.AspNetCore" Version="13.13.2" />
-    <PackageReference Update="OrchardCore.Application.Cms.Targets" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.ContentFields" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.ContentManagement" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.ContentManagement.Abstractions" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.Contents.Core" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.ContentTypes.Abstractions" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.DisplayManagement" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.Flows" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.Html" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.Lists" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.Infrastructure" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.Logging.NLog" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.Module.Targets" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.ResourceManagement" Version="1.2.0-preview-16607" />
-    <PackageReference Update="OrchardCore.Theme.Targets" Version="1.2.0-preview-16607" />
+    <PackageReference Update="OrchardCore.Application.Cms.Targets" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.ContentFields" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.ContentManagement" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.ContentManagement.Abstractions" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.Contents.Core" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.ContentTypes.Abstractions" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.DisplayManagement" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.Flows" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.Html" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.Lists" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.Infrastructure" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.Logging.NLog" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.Module.Targets" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.ResourceManagement" Version="1.2.0-preview-16608" />
+    <PackageReference Update="OrchardCore.Theme.Targets" Version="1.2.0-preview-16608" />
   </ItemGroup>
 </Project>  
