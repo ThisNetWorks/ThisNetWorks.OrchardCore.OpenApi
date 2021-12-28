@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
     <RootNamespace>ThisNetWorks.OrchardCore.OpenApi</RootNamespace>
   </PropertyGroup>
   
