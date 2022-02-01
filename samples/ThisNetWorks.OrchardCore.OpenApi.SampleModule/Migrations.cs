@@ -148,7 +148,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
         {
             await _recipeMigrator.ExecuteAsync("openid.json", this);
 
-            return 8;
+            return 9;
         }
     }
 }
