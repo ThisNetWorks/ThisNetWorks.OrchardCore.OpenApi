@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\samples\ThisNetWorks.OrchardCore.OpenApi.ConsoleClient\ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.csproj" />
     <ProjectReference Include="..\..\samples\ThisNetWorks.OrchardCore.OpenApi.Sample\ThisNetWorks.OrchardCore.OpenApi.Sample.csproj" />
   </ItemGroup>
 
