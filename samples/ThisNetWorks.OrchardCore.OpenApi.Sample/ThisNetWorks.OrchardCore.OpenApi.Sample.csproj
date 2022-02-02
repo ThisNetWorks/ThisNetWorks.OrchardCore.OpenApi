@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <TieredCompilation>true</TieredCompilation>
+    <TargetFramework>net6.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <RazorRuntimeCompilation>false</RazorRuntimeCompilation>
   </PropertyGroup>
 
   <ItemGroup>
