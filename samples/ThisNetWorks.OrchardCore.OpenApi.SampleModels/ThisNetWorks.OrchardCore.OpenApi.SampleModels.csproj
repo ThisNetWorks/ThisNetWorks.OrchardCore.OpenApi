@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="OrchardCore.Lists" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="OrchardCore.Lists" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,13 +10,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OrchardCore.Module.Targets" />
-    <PackageReference Include="OrchardCore.ContentFields" />
-    <PackageReference Include="OrchardCore.ContentManagement" />
-    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" />
-    <PackageReference Include="OrchardCore.DisplayManagement"  />
-    <PackageReference Include="OrchardCore.Flows" />
-    <PackageReference Include="OrchardCore.Html" />
+    <PackageReference Include="OrchardCore.Module.Targets" Version="1.6.0" />
+    <PackageReference Include="OrchardCore.ContentFields" Version="1.6.0" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="1.6.0" />
+    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.6.0" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.6.0" />
+    <PackageReference Include="OrchardCore.Flows" Version="1.6.0" />
+    <PackageReference Include="OrchardCore.Html" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>
