@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using NJsonSchema.Generation;
+using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.Processors;
 using OrchardCore.Modules;
 using System;
@@ -21,10 +23,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi
             {
                 o.Middleware.GeneratorOptions.Add((o, sp) =>
                 {
-                    // This forces Pascal Case everywhere, which resolves issues with ContentElement properties.
-                    o.SerializerSettings = new JsonSerializerSettings
+                    o.SchemaSettings = new NewtonsoftJsonSchemaGeneratorSettings
                     {
-                        ContractResolver = new DefaultContractResolver()
+                        SerializerSettings = new JsonSerializerSettings
+                        {
+                            ContractResolver = new DefaultContractResolver()
+                        }
                     };
                 });
             });
@@ -51,9 +55,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi
                 builder.UseOrchardCoreOpenApi(options.Middleware.OpenApiDocumentMiddlewareSettings);
             }
 
-            if (options.Middleware.UseOrchardCoreSwaggerUi3Middleware)
+            if (options.Middleware.UseOrchardCoreSwaggerMiddleware)
             {
-                builder.UseSwaggerUi3(options.Middleware.SwaggerUi3Settings);
+                builder.UseSwaggerUi(options.Middleware.SwaggerUISettings);
             }
         }
     }

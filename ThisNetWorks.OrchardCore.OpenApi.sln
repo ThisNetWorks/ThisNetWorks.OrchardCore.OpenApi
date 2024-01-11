@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThisNetWorks.OrchardCore.OpenApi", "src\ThisNetWorks.OrchardCore.OpenApi\ThisNetWorks.OrchardCore.OpenApi.csproj", "{CE8911A8-8769-4958-B9B6-873D53853ED7}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThisNetWorks.OrchardCore.OpenApi.SampleTheme", "samples\ThisNetWorks.OrchardCore.OpenApi.SampleTheme\ThisNetWorks.OrchardCore.OpenApi.SampleTheme.csproj", "{9415CCCA-F0BA-48D7-8F0B-04D81911D076}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThisNetWorks.OrchardCore.OpenApi.SampleModels", "samples\ThisNetWorks.OrchardCore.OpenApi.SampleModels\ThisNetWorks.OrchardCore.OpenApi.SampleModels.csproj", "{A1370FC8-40E2-45A3-B9D8-0810C8B2ADD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThisNetWorks.OrchardCore.OpenApi.ConsoleClient", "samples\ThisNetWorks.OrchardCore.OpenApi.ConsoleClient\ThisNetWorks.OrchardCore.OpenApi.ConsoleClient.csproj", "{FE33358F-A87E-42CA-8204-2125DA8622A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +74,12 @@ Global
 		{A1370FC8-40E2-45A3-B9D8-0810C8B2ADD6}.DebugOpenApi|Any CPU.Build.0 = Debug|Any CPU
 		{A1370FC8-40E2-45A3-B9D8-0810C8B2ADD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1370FC8-40E2-45A3-B9D8-0810C8B2ADD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE33358F-A87E-42CA-8204-2125DA8622A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE33358F-A87E-42CA-8204-2125DA8622A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE33358F-A87E-42CA-8204-2125DA8622A0}.DebugOpenApi|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE33358F-A87E-42CA-8204-2125DA8622A0}.DebugOpenApi|Any CPU.Build.0 = Debug|Any CPU
+		{FE33358F-A87E-42CA-8204-2125DA8622A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE33358F-A87E-42CA-8204-2125DA8622A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +92,7 @@ Global
 		{CFC87DD8-1FA2-42C6-B930-3796C46AFFF0} = {8C451866-7272-45C2-BA76-4248E11155EC}
 		{9415CCCA-F0BA-48D7-8F0B-04D81911D076} = {8C451866-7272-45C2-BA76-4248E11155EC}
 		{A1370FC8-40E2-45A3-B9D8-0810C8B2ADD6} = {8C451866-7272-45C2-BA76-4248E11155EC}
+		{FE33358F-A87E-42CA-8204-2125DA8622A0} = {8C451866-7272-45C2-BA76-4248E11155EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF1A5E30-9076-4572-B772-5ACD6F440A24}

@@ -13,8 +13,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Options
 
         public Action<OpenApiDocumentMiddlewareSettings> OpenApiDocumentMiddlewareSettings { get; set; } 
 
-        public bool UseOrchardCoreSwaggerUi3Middleware { get; set; } = true;
+        public bool UseOrchardCoreSwaggerMiddleware { get; set; } = true;
 
-        public Action<SwaggerUi3Settings> SwaggerUi3Settings { get; set; }
+        public Action<SwaggerUiSettings> SwaggerUISettings { get; set; }
     }
 }
