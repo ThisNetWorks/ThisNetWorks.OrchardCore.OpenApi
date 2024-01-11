@@ -75,7 +75,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
                     generator.OperationProcessors.Add(
                         new AspNetCoreOperationSecurityScopeProcessor("bearer"));
                 });
-                o.Middleware.SwaggerUi3Settings = (swagger) =>
+                o.Middleware.SwaggerUISettings = (swagger) =>
                 {
                     swagger.OAuth2Client = new OAuth2ClientSettings
                     {

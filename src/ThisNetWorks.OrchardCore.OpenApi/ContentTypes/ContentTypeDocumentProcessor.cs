@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NJsonSchema;
-using NJsonSchema.Converters;
+using NJsonSchema.NewtonsoftJson.Converters;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 using OrchardCore.ContentManagement;

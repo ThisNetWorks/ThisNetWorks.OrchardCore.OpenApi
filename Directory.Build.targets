@@ -1,9 +1,9 @@
 <Project>
 
   <ItemGroup>
-    <PackageReference Update="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Update="NJsonSchema" Version="10.8.0" />
-    <PackageReference Update="NSwag.AspNetCore" Version="13.18.0" />
+    <PackageReference Update="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Update="NJsonSchema" Version="11.0.0" />
+    <PackageReference Update="NSwag.AspNetCore" Version="14.0.0" />
     <PackageReference Update="OrchardCore.Application.Cms.Targets" Version="1.5.0" />
     <PackageReference Update="OrchardCore.ContentFields" Version="1.5.0" />
     <PackageReference Update="OrchardCore.ContentManagement" Version="1.5.0" />
