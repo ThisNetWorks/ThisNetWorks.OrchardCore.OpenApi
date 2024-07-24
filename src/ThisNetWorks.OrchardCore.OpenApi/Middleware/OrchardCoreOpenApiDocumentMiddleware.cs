@@ -19,9 +19,12 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Middleware
             // We will need a cache provider, that can handle clearing cache from Scoped events.
             //try
             //{
-            var json = (await GenerateDocumentAsync(context)).ToJson();
 
-            return json;
+            var openApiDocument = await GenerateDocumentAsync(context);
+
+            var data = openApiDocument.ToJson();
+
+            return data;
             //}
         }
     }

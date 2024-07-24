@@ -120,5 +120,10 @@ namespace ThisNetWorks.OrchardCore.OpenApi.Tests.ContentManager
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<ContentItem>> GetAsync(IEnumerable<string> contentItemIds, VersionOptions options)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
