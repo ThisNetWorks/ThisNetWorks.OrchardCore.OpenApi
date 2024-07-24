@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NJsonSchema.Generation;
+using NJsonSchema;
 using NJsonSchema.NewtonsoftJson.Generation;
 using NSwag.Generation.Processors;
 using OrchardCore.Modules;
@@ -28,7 +28,8 @@ namespace ThisNetWorks.OrchardCore.OpenApi
                         SerializerSettings = new JsonSerializerSettings
                         {
                             ContractResolver = new DefaultContractResolver()
-                        }
+                        },
+                        SchemaType = SchemaType.OpenApi3
                     };
                 });
             });

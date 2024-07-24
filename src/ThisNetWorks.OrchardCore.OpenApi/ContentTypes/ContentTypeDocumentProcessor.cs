@@ -51,7 +51,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
             var fieldDtoSchema = context.SchemaGenerator.Generate(typeof(ContentFieldDto), context.SchemaResolver);
             fieldDtoSchema.AllowAdditionalProperties = false;
 
-            var ctds = _contentDefinitionManager.ListTypeDefinitions();
+            var ctds = _contentDefinitionManager.ListTypeDefinitionsAsync().GetAwaiter().GetResult();
             var allFieldDefinitions = ctds
                 .SelectMany(x => x.Parts.SelectMany(p => p.PartDefinition.Fields))
                 .Select(x => x.FieldDefinition).ToLookup(x => x.Name, StringComparer.OrdinalIgnoreCase);
@@ -94,7 +94,7 @@ namespace ThisNetWorks.OrchardCore.OpenApi.ContentTypes
             var partDtoSchema = context.SchemaGenerator.Generate(typeof(ContentPartDto), context.SchemaResolver);
 
             partDtoSchema.AllowAdditionalProperties = false;
-            var allPartDefinitions = _contentDefinitionManager.ListPartDefinitions();
+            var allPartDefinitions = _contentDefinitionManager.ListPartDefinitionsAsync().GetAwaiter().GetResult();
 
             // Register code only parts first.
             foreach (var registeredPartOption in _contentOptions.ContentPartOptions)

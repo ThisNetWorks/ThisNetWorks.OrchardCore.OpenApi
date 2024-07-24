@@ -21,9 +21,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
             _recipeMigrator = recipeMigrator;
         }
 
-        public int Create()
+        public async Task<int> CreateAsync()
         {
-            _contentDefinitionManager.AlterPartDefinition("SamplePart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("SamplePart", builder => builder
                 .Attachable()
                 .WithDescription("Provides a Sample part for your content item.")
                 .WithField("MyTextField", field => field
@@ -35,19 +35,19 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
         }
 
         // This creates some useful type definitions for bag parts.
-        public int UpdateFrom1()
+        public async Task<int> UpdateFrom1Async()
         {
-            _contentDefinitionManager.AlterTypeDefinition("Bar", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Bar", type => type
                 .DisplayedAs("Bar")
                 .WithPart("HtmlBodyPart")
             );
 
-            _contentDefinitionManager.AlterTypeDefinition("Foo", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Foo", type => type
                 .DisplayedAs("Foo")
                 .WithPart("MarkdownBodyPart")
             );
 
-            _contentDefinitionManager.AlterTypeDefinition("Bag", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Bag", type => type
                 .DisplayedAs("Bag container")
                 .Listable()
                 .Creatable()
@@ -67,9 +67,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
         }
 
         // This adds a field to the HtmlBodyPart
-        public int UpdateFrom2()
+        public async Task<int> UpdateFrom2Async()
         {
-            _contentDefinitionManager.AlterPartDefinition("HtmlBodyPart", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("HtmlBodyPart", part => part
                 .WithField("FooField", field => field
                     .OfType("TextField")
                     .WithDisplayName("Foo Field")
@@ -79,16 +79,16 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
             return 3;
         }
 
-        public int UpdateFrom3()
+        public async Task<int> UpdateFrom3Async()
         {
-            _contentDefinitionManager.AlterTypeDefinition("FooText", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("FooText", type => type
                 .Securable()
                 .Versionable()
                 .DisplayedAs("Foo text")
                 .WithPart("FooText")
             );
 
-            _contentDefinitionManager.AlterPartDefinition("FooText", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("FooText", part => part
                 .WithField("FooField", field => field
                     .OfType("TextField")
                     .WithDisplayName("Foo Field")
@@ -98,9 +98,9 @@ namespace ThisNetWorks.OrchardCore.OpenApi.SampleModule
             return 4;
         }
 
-        public int UpdateFrom4()
+        public async Task<int> UpdateFrom4Async()
         {
-            _contentDefinitionManager.AlterTypeDefinition("FooTextContainer", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("FooTextContainer", type => type
                 .DisplayedAs("Foo text container")
                 .Listable()
                 .Securable()
